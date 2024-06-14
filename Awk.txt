@@ -1,0 +1,630 @@
+ 
+---------------------------------------------AWK---------------------------------------------------------
+Awk is a scripting language used for manipulating data and generating reports. 
+The awk command programming language requires no compiling and allows the user to use variables, 
+numeric functions, string functions, 
+and logical operators. 
+Awk is a utility that enables a programmer to write tiny but effective programs in the form of statements that define text 
+patterns that are to be searched for in each line of a document and the action that is to be taken when a match is found within a line. 
+Awk is mostly used for pattern scanning and processing. 
+It searches one or more files to see if they contain lines that matches with the specified patterns and then perform the associated actions. 
+
+1. AWK Operations: 
+(a) Scans a file line by line 
+(b) Splits each input line into fields 
+(c) Compares input line/fields to pattern 
+(d) Performs action(s) on matched lines 
+
+2. Useful For: 
+(a) Transform data files 
+(b) Produce formatted reports 
+
+3. Programming Constructs: 
+(a) Format output lines 
+(b) Arithmetic and string operations 
+(c) Conditionals and loops 
+
+
+1. Default behavior of Awk: By default Awk prints every line of data from the specified file
+$ awk '{print}' /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+2. Print the lines which match the given pattern. 
+$ awk '/binay/ {print}' /etc/passwd  # Here we want to match word binay.
+binay:x:1000:1000:binay:/home/binay:/bin/bash
+
+$awk '{print NR " "  $0 }' /etc/passwd
+1 root:x:0:0:root:/root:/bin/bash
+2 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+3 bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+
+3.Awk’s built-in variables include the field variables—$1, $2, $3, and so on ($0 is the entire line) — 
+that break a line of text into individual words or pieces called fields. 
+
+NR: NR command keeps a current count of the number of input records. Remember that records are usually lines. 
+Awk command performs the pattern/action statements once for each record in a file. 
+
+$ awk '{print NR $0 }' /etc/passwd | head -3 # it will print no of lines
+1root:x:0:0:root:/root:/bin/bash
+2daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+3bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+awk '{print NR }' /etc/passwd | head -3
+1
+2
+3
+ 
+ 
+ $ awk 'END {print NR}' /etc/passwd # to print no of lines we can use wc -l also
+53
+
+## To print line no of a blank line:
+$ awk 'NF==0{print NR}' fb
+1
+4
+6
+
+ 
+To print from line no 51 to 53
+$ awk -F ":" 'NR==51, NR==53{print NR $0 }' /etc/passwd  
+51dac1:x:1003:1003:,,,:/home/dac1:/bin/bash
+52tom:x:1004:1004:,,,:/home/tom:/bin/bash
+53alice:x:1005:1005::/home/alice:/bin/bash
+
+
+
+
+
+NF: NF command keeps a count of the number of fields within the current input record. 
+
+awk -F ":" '{print NF }' /etc/passwd | head -3  #NF WILL PRINT TOTAL NO OF FIELDS
+7
+7
+7
+
+ awk -F ":" '{print $NF }' /etc/passwd | head -3 # it will print last field.
+/bin/bash
+/usr/sbin/nologin
+/usr/sbin/nologin
+
+
+awk -F ":" '{print NR "- " $1 }' /etc/passwd | head -3
+1- root
+2- daemon
+3- bin
+
+To print length of a field
+$ awk -F ":" '{print length($0) "-" length($1) "-" length($2)} ' /etc/passwd | head -3
+31-4-1
+47-6-1
+36-3-1
+
+df | awk '/\/dev\/sda*/ {print $1"\t" $2"\t"$3" Addition of $1 & $2 is " $1+$2}'
+/dev/sda3	19946096	10398580 Addition of $1 & $2 is 19946096
+/dev/sda2	524252	5364 Addition of $1 & $2 is 524252
+
+
+###Print uid which is greater than 1000
+$ awk -F ":" '{if ($3>1000) print $3 }' /etc/passwd 
+65534
+1001
+1002
+1003
+1004
+1005
+
+
+$awk -F ":" '{if ($1=="binay") print $1 }' /etc/passwd 
+binay
+
+
+
+#______________________How to use varaible in awk _-__________________________________________
+binay@ubuntu1:~$ user=binay
+binay@ubuntu1:~$ awk -F ":" -v v=$user '{if ($1==v) print $6}' /etc/passwd
+/home/binay
+
+
+
+
+
+
+
+To run multiple commands, separate them with a semicolon like this:
+
+
+
+FS: FS command contains the field separator character which is used to divide fields on the input line. 
+The default is “white space”, meaning space and tab characters. FS can be reassigned to another character (typically in BEGIN) 
+to change the field separator. 
+
+RS: RS command stores the current record separator character. Since, by default, an input line is the input record, 
+the default record separator character is a newline. 
+
+OFS: OFS command stores the output field separator, which separates the fields when Awk prints them. The default is a blank space. 
+Whenever print has several parameters separated with commas, it will print the value of OFS in between each parameter.
+
+ORS: ORS command stores the output record separator, which separates the output lines when Awk prints them. 
+The default is a newline character. print automatically outputs the contents of ORS at the end of whatever it is given to print.
+
+
+For loop in awk:-
+
+awk 'BEGIN {for(i=0;i<=10;i++)print i;}'
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+
+
+
+While loop 
+$ awk 'BEGIN {while(i<10){i++;print "num is " i}}'
+num is 1
+num is 2
+num is 3
+num is 4
+num is 5
+num is 6
+num is 7
+num is 8
+num is 9
+num is 10
+
+----------------------------------------------------------------cut---------------------------------------------------
+When we want to perform operations at character level, we use cut.
+
+$ cat fb
+raj nac
+harry batra
+binay siddhu
+ravi binay
+binay@ubuntu1:~/Desktop$ cut -c1 fb # here we need first character
+r
+h
+b
+r
+
+Lets see we need character 1 and 5 only
+$cut -c1,5 fb
+rn
+hy
+by
+r 
+
+$ cut -c1-5 fb
+raj n
+harry
+binay
+ravi 
+
+
+$ cut -d : -f1 /etc/passwd
+root
+daemon
+bin
+sys
+sync
+games
+man
+lp
+
+
+------------------------------------------------------------sed----------------------------------------------------
+
+LINK:- https://www.youtube.com/watch?v=ETF6CapGAvc
+
+
+Sed is known as Stream Editor, which is useful while working with text files.
+
+In this shot, we will learn about the pattern buffer concept in Sed.
+
+When we execute the sed command on any text file or input it does the following things:
+
+Sed reads the input stream until it finds the new line character \n.
+Then it will take all the data it read so far and place it into a buffer without newline character \n.
+Most of the commands operate on this data present in the buffer.
+This buffer is known as pattern buffer.
+
+ SED can be invoked in the following two forms:
+
+sed [-n] [-e] 'command(s)' files  # we use command here
+sed [-n] -f scriptfile files #here we use scriptfiles
+
+
+
+
+
+
+
+--To print specific line no
+$sed -n '4p' /etc/passwd
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+
+--To print last line of any file
+$ sed -n '$p' /etc/passwd
+alice:x:1005:1005::/home/alice:/bin/bash
+Note:-n: Default printing of pattern buffer.
+
+
+--To print line 7 and line 10 only
+$ sed -n -e '7p' -e '10p' /etc/passwd  #Here we used multiple expressions.
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+
+
+--To print lines in a range
+sed -n '1,5p' /etc/passwd #here it will print from line q1 to 5
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+
+--To search a word
+sed -n '/nologin/p' /etc/passwd
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+
+--To print line no 2 and next upcoming 2 line 
+ed -n '2,+2p' data 
+2 to sed
+3 turoial
+4 by binay dubey
+
+
+--To print every second line (or you can say odd line)
+
+$ sed -n '1~2p' data
+1 welcome
+3 turoial
+
+$sed -n '2~2p' data
+2 to sed
+4 by binay dubey
+
+$sed -n '3~2p' numb1
+3
+5
+7
+9
+11
+13
+15
+17
+19
+
+
+now we will write our expressions in a file and then use sed commands.
+
+$ cat data 
+1 welcome
+2 to sed
+3 turoial
+4 by binay dubey
+binay@ubuntu1:~/Desktop/script$ cat exp_file 
+1p
+3p
+4p
+binay@ubuntu1:~/Desktop/script$ sed -n -f exp_file data 
+
+1 welcome
+3 turoial
+4 by binay dubey
+binay@ubuntu1:~/Desktop/script$ 
+
+
+--To replace a word 
+$ cat data
+1 welcome
+2 to sed
+3 turoial
+4 by binay dubey
+binay
+binaykumar
+raj nac
+rahul
+binay@ubuntu1:~/Desktop/script$ sed 's/binay/Don/g' data  # it will change all occurences.
+1 welcome
+2 to sed
+3 turoial
+4 by Don dubey
+Don
+Donkumar
+raj nac
+rahul
+
+
+----Now i want to change on specfic line like change on line 4 
+ cat data 
+1 welcome
+2 to sed
+3 turoial
+4 by binay dubey binay binay
+binay
+binaykumar
+raj nac
+rahul
+binay@ubuntu1:~/Desktop/script$ sed '4 s/binay/Don/g' data
+1 welcome
+2 to sed
+3 turoial
+4 by Don dubey Don Don
+binay
+binaykumar
+raj nac
+rahul
+
+14	Assignemnts on “sed” command
+      
+    EmpData(Sample Database)
+Create a file named data.
+ 
+1122|j.b. saxena           |g.m.        |account   |12/12/52|6000
+2233|n.k. gupta            |d.g.m      |sales        |31/12/40|9000
+4545|anil agarwal        |director   |account   |06/07/47|7500
+5656|lalit choudhury   |executive|marketing|07/09/50|5000
+1265|chanchal singhvi|g.m.         |admin      |12/09/63|6000
+0110|shyam saksena   |chairman |marketing|12/12/43|8000
+5566|jai sharma          |director    |account   |23/12/89|7000
+7733|jayant                 |d.g.m       |sales        |29/02/70|6000
+ 
+ 
+ 
+a:-	From the above database substitute the delimiter of first 3 lines with “ : “
+sed '1,3 s/|/:/' data
+
+
+b	From the above database substitute the delimiter with “ : ”
+sed 's/|/:/g data
+
+c	Insert the string “ TechM Employees” in the first line.
+$sed '3i /TechM Employees/' data
+2233|n.k. gupta            |d.g.m      |sales        |31/12/40|9000
+4545|anil agarwal        |director   |account   |06/07/47|7500
+/this is 3rd line/
+
+
+d	Store the lines pertaining to the directors, d.g.m and g.m into three separate files.
+$ sed -n '/director/w director' data 
+[binay@ditiss ~]$ cat director 
+4545|anil agarwal        |director   |account   |06/07/47|7500
+5566|jai sharma          |director    |account   |23/12/89|7000
+
+
+sed -n '/d.g.m/' data 
+sed: -e expression #1, char 7: missing command
+[binay@ditiss ~]$ sed -n '/d\.g\.m/' data  --> we escaped dot and missed p option
+sed: -e expression #1, char 9: missing command
+[binay@ditiss ~]$ sed -n '/d\.g\.m/p' data  
+2233|n.k. gupta            |d.g.m      |sales        |31/12/40|9000
+7733|jayant                 |
+
+Now we will write above result into d.g.m file using below command:-
+
+$ sed -n '/d\.g\.m/w d.g.m' data 
+$ cat d.g.m 
+2233|n.k. gupta            |d.g.m      |sales        |31/12/40|9000
+7733|jayant                 |d.g.m       |sales        |29/02/70|6000
+
+e	Using address store first 4 lines into a file Empupdate.
+f	Find the pattern “account” in the database and replaces that with “accounts”.
+g	Select those lines which do not have a pattern “g.m”.
+h	Insert a blank line after every line in the database.
+
+
+
+
+
+
+
+
+
+
+
+
+$ sed '4! s/binay/Don/g' data #it means except line no 4, change everything.
+
+Till here it will not change original file, 
+if we want to do change in original file, we use option -i means insert
+ sed -i '4! s/binay/Don/g' data
+binay@ubuntu1:~/Desktop/script$ cat data 
+1 welcome
+2 to sed
+3 turoial
+4 by binay dubey binay binay
+Don
+Donkumar
+raj nac
+rahul
+
+
+---NOW WE want to search a word andt then replace a word.
+$ cat data 
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russia
+
+4 raj 213414 sicetynine
+
+$ sed -n '/binay/ s/89090/90000/g p' data  # here we search binay then replace 89090 by 90000
+1 binay 90000 India
+
+cat swap_string.sh
+this is unix. unix is best.
+no linux is best. linux is  free
+i use linux. you use unix.
+unix and linux is not same.
+
+binay@ubuntu1:~/Documents$ sed 's/unix/temp/g;s/linux/unix/g;s/temp/linux/g' swap_string.sh
+this is linux. linux is best.
+no unix is best. unix is  free
+i use unix. you use linux.
+linux and unix is not same.
+
+---------------------------------------------------------------------
+
+https://www.gnu.org/software/sed/manual/sed.html#index-Inserting-text-before-a-line
+binay@ubuntu1:~$ sed '5i\linenumber-5' num1  #here i means insert before line no 5
+1
+2
+3
+4
+linenumber-5
+5
+6
+7
+89
+10
+11
+12
+13
+binay@ubuntu1:~$ sed '5a\linenumber-5' num1 #here i means append after line no 5
+1
+2
+3
+4
+5
+linenumber-5
+6
+7
+89
+10
+11
+12
+13
+
+
+
+
+
+
+
+
+
+
+
+---Delete Operations:-
+$ sed '1d' data   #To delete line no 1
+1 binay 89090 India
+2 nac 1234 Russian
+4 raj 213414 sicetynine
+binay@ubuntu1:~/Desktop/script$ cat data 
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russian
+4 raj 213414 sicetynine
+binay@ubuntu1:~/Desktop/script$ sed '1d' #  To delete line no 1
+1 binay 89090 India
+2 nac 1234 Russian
+4 raj 213414 sicetynine
+binay@ubuntu1:~/Desktop/script$ sed '$d' #  To delete last line 
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russian
+ 
+binay@ubuntu1:~/Desktop/script$ sed '2,3d' data # range (2-3)
+id name salary country
+4 raj 213414 sicetynine
+binay@ubuntu1:~/Desktop/script$ 
+
+
+cat data 
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russian
+4 raj 213414 sicetynine
+binay@ubuntu1:~/Desktop/script$ sed '/raj/d' data # it will delete line which 
+con raj word
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russian
+
+
+TO add content of a file to another file.
+$ cat file1
+hii this is file one
+how r u
+i am good 
+how r u  buddy
+im also good 
+binay@ubuntu1:~/Desktop/script$ cat file2
+this is file2
+this is a serious issue.
+
+
+$ sed '3 r file2' file1 #This will add content of file2 after line 3 in file1.
+hii this is file one
+how r u
+i am good 
+this is file2
+this is a serious issue.
+how r u  buddy
+im also good 
+
+--- we can add output of a command into file using sed.
+Like we want to add date on 4th  line
+
+sed '4 e date "+%d %B %Y %T"' data
+id name salary country
+1 binay 89090 India
+2 nac 1234 Russian
+17 March 2023 07:24:46
+4 raj 213414 sicetynine
+raj
+binay
+raj
+
+-----------------------------------------------------------------------------
+Question -link: https://www.tutorialsandyou.com/bash-shell-scripting/sed-command-to-swap-first-digit-with-third-digit-52.html
+
+Sed command to swap the first digit with the third digit
+
+
+cat first_d_Swap
+349 230 481
+800 456 129
+043 942 584
+901 627 874
+binay@ubuntu1:~/Documents/sed$ sed 's/\([0-9]\)\([0-9]\)\([0-9]\)/\3\2\1/g' first_d_Swap
+943 032 184
+008 654 921
+340 249 485
+109 726 478
+
+
+
+Here we are changing first number with third number
+sed 's/\([0-9]\{3\}\)\s\([0-9]\{3\}\)\s\([0-9]\{3\}\)/\3 \2 \1/' first_d_Swap
+481 230 349
+129 456 800
+584 942 043
+874 627 901
+
+
+
+
+
+
+--------------------------------------------------GREP----------------------------------------------------------------
+
+-List files with extension .py or .java
+	$ ls | egrep "java|py$"
+	one.java
+	one.py
+--For ls command
+	ls {*.java,*.py}

@@ -1,0 +1,66 @@
+________________________________Jenkins________________________________________________________________________
+Initially in centos, java's old version will be installed. either you can uninstall and install latest versio or you can usealtenative options,
+
+# yum search jdk
+java-11-openjdk.x86_64 : OpenJDK 11 Runtime Environment ----installed this version
+# yum install java-11-openjdk.x86_64
+
+ alternatives --config java
+
+There are 3 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+   1           java-1.7.0-openjdk.x86_64 (/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.261-2.6.22.2.el7_8.x86_64/jre/bin/java)
+*+ 2           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.392.b08-2.el7_9.x86_64/jre/bin/java)
+   3           java-11-openjdk.x86_64 (/usr/lib/jvm/java-11-openjdk-11.0.21.0.9-1.el7_9.x86_64/bin/java)
+
+Enter to keep the current selection[+], or type selection number: 3
+[root@master1 ~]# java -version
+openjdk version "11.0.21" 2023-10-17 LTS
+OpenJDK Runtime Environment (Red_Hat-11.0.21.0.9-1.el7_9) (build 11.0.21+9-LTS)
+OpenJDK 64-Bit Server VM (Red_Hat-11.0.21.0.9-1.el7_9) (build 11.0.21+9-LTS, mixed mode, sharing)
+
+
+=========================================================================
+Step 1>>>>>>>>>
+Download jenkins war file..........
+ mkdir /jenkins
+[root@master1 Downloads]# cp /home/binay/Downloads/jenkins.war /jenkins/
+[root@master1 Downloads]# cd /jenkins/
+[root@master1 jenkins]# ls
+jenkins.war
+
+
+Step2>>>>>>>>>>>>>>>>>>>>>
+
+jenkins]# java -jar jenkins.war 
+Running from: /jenkins/jenkins.war
+webroot: /root/.jenkins/war
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

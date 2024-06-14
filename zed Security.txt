@@ -1,0 +1,116 @@
+-------------------------------------------zed Security------------------------------------------
+
+-------------Video1-------------------------
+#ifconfig eth0 down
+#ifconfig eth0 hw ether 0a:12:23:12:34:23
+#ifconfig eth0 up
+
+TO grep MAc address:
+ifconfig | grep ether | grep -Eo '([[:alnum:]]+:){5}[[:alnum:]]+'
+
+
+----------------------Video2-------------------------
+subprocess module in python:- Allow to run system commands.
+
+import subprocess
+subprocess.call("ifconfig", shell=True)
+
+------------------------video3----------------------------
+Script to change Mac Address:-
+#!/usr/bin/python3
+import subprocess as sub
+sub.call("sudo ifconfig eth0 down",shell=True)
+sub.call("sudo ifconfig eth0 hw ether A0:2B:69:11:3C:D7",shell=True)
+sub.call("sudo ifconfig eth0 up",shell=True)
+sub.call("ifconfig",shell=True)
+
+
+----------------------------------video8Handling command line argument----------------------------
+Optparse module makes easy to write command-line tools. It allows argument parsing in the python program.
+
+optparse make it easy to handle the command-line argument.
+It comes default with python.
+It allows dynamic data input to change the output
+
+Code:
+#!/usr/bin/python3
+import subprocess as sub
+import optparse
+parser=optparse.OptionParser() #Creating object here
+parser.add_option("-i","--interface", dest="interface",help="Interface to Change Mac Address")
+parser.parse_args()
+
+
+Output:
+python3 mac_changer.py --help
+Usage: mac_changer.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -i INTERFACE, --interface=INTERFACE
+                        Interface to Change Mac Address
+
+#!/usr/bin/python3
+import subprocess as sub
+import optparse
+
+parser=optparse.OptionParser() #Creating object here
+parser.add_option("-i","--interface", dest="interface",help="Interface to Change Mac Address")
+parser.add_option("-m","--mac", dest="new_mac",help="Interface to Change Mac Address")
+
+(options,arguments)=parser.parse_args()
+print(options,arguments)
+interface=options.interface
+mac=options.new_mac
+print(mac,interface)
+
+sub.call(f"sudo ifconfig {interface} down",shell=True)
+sub.call(f"sudo ifconfig {interface} hw ether {mac}",shell=True)
+sub.call(f"sudo ifconfig {interface} up",shell=True)
+sub.call(f"ifconfig",shell=True)
+
+
+--------------------------------------------------------- 2.2. Writing a MAC Address Changer - Python Basics
+import subprocess as sub
+import optparse
+
+def get_arguments():
+    parser=optparse.OptionParser()
+    parser.add_option("-i","--interface", dest="interface", help="Interface TO Change It's Mac Address")
+    parser.add_option("-m","--mac",dest="new_mac",help="New Mac Address")
+    (options,arguments)=parser.parse_args()
+    
+    if not options.interface:
+        parser.error("[-]Please Specify an interface, use --help for more info")
+		#This part will check ANY Argument is passed or not.
+    elif not options.new_mac:
+        parser.error("[-]Please Specify New Mac address, use --help for more info")
+    else:
+        return options
+
+
+def change_mac(interface,new_mac):
+    sub.call(f"ifconfig {interface} down",shell=True)
+    sub.call(f"ifconfig {interface} hw ether {new_mac}",shell=True)
+    sub.call(f"ifconfig {interface} up",shell=True)
+
+options=get_arguments()
+print(options)
+print(options.interface)
+print(options.new_mac)
+change_mac(options.interface,options.new_mac)
+
+OUTPUT>-
+1. python3 mac_changer.py --interface eth0 -m                  
+Usage: mac_changer.py [options]
+
+mac_changer.py: error: -m option requires 1 argument
+
+2.python3 mac_changer.py --interface     
+Usage: mac_changer.py [options]
+
+mac_changer.py: error: --interface option requires 1 argument
+
+
+------------------------------------------------------------------------------------------
+30 9 ad

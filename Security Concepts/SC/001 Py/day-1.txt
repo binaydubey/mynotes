@@ -1,0 +1,466 @@
+Python:
+-------
+Install:
+
+# apt update
+# apt install python3 -y
+
+# which python
+OR
+# whereis python
+
+
+
++ Interpreter:
+```````````````
+# python3
+>>> 
+
+
+
+
++ Write the first line of code:
+```````````````````````````````
+#!/usr/bin/python3   [shabang]
+
++ Execute:
+``````````
+# python3 script.py
+OR
+# chmod u+x script.py
+# ./script.py
+================================
+# python3
+Python 3.7.3 (default, Jan 22 2021, 20:04:44)
+[GCC 8.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+>>> a = 1
+>>> a
+1
+>>> a = (1,3,5)
+>>> a[1]
+3
+>>> exit()
+=================================
+Python package Manager: [pip]
+-----------------------------
+Used to install and manage additional lib & dependencies.
+
+# apt install python3-pip -y
+
+# pip3 --version
+# pip3 --help
+# pip3 install --upgrade pip
+# pip3 list
+# pip3 show lib_name
+# pip3 install lib_name
+# pip3 install shodan==1.2.3
+# pip3 uninstall shodan
+# pip3 uninstall shodan==1.1.2
+
+Using requirements.txt file:
+---------------------------
+# cat > requirements.txt
+shodan
+requests
+
+OR
+
+shodan==1.2.3
+requests==3.4
+
+OR
+
+shodan>=2.41.2
+requests
+
+# pip3 install -r requirements.txt
+# pip3 uninstall -r requirements.txt
+# pip3 install --upgrade -r requirements.txt
+
+
+
+To search:
+
+Visit: https://pypi.org
+https://docs.python.org/
+
+
+
+
+
+===================================
++ Python is case sensitive language.
+===================================
+
+
+
+
+
+
+- Keywords:
+````````````
+
+keywords are the reserved word in python.
+We cannot use a keyword as a variable name, function name or any identifier.
+
+True
+False
+else
+import
+except
+in
+break
+finally
+is
+return
+.
+.
+.
+.
+
+Identifiers:
+`````````````
+An identifier is a name given to entities like class, variable, function, etc....
+
+=> Combinations of letters in lowercase (a to z) or uppercase like (A to Z) or digits (0 to 9) or an underscore _
+
+eg: myVar, var_1, var etc.... [valid]
+
+=> An identifier cannot start with a digit.
+
+eg: 1_var [Inavlid]
+++++++++++++++++++++++++++++++++++++++++++
+[+] Variables in Python:
+------------------------
+#!/usr/bin/python3
+target = "cdac.in"
+print(target)
+
+[ In this case python automatically decide wither it is an 'int' or str' ]
+
+___
+Single quote: “, is already taken to denote the start of a string literal
+
+Double quotes: “”, are already taken for denoting an empty string
+
+Triple quotes: “””, are not taken by anything else
+___
+
+
+Multiline String:
+-----------------
+#!/usr/bin/python3
+x="""this is sparta,
+Hella will kill you thor."""
+print(x)
+
+
+
+#!/usr/bin/python3
+x='LOL'
+print(x)
+
+x=x+"1"
+print(x)
+----------
+
+
+
+Dynamically change var value:
+`````````````````````````````
+#!/usr/bin/python3
+target = "cdac.in"
+domain = "tesla.com"
+target = domain
+print(target)
+------
+a = "ditiss"
+b = "cdac"
+
+a,b = b,a
+
+
+
+
+
+
+
+
+
+Print the value of var:
+```````````````````````
+#!/usr/bin/python3
+target = "cdac.in"
+domain = "tesla.com"
+
+target = domain
+print(target)
+
+o/p: tesla.com
+NOTE: Value of variable target is now the value of variable domain.
+````````````````````
+#!/usr/bin/python3
+target = "cdac.in"
+domain = "tesla.com"
+print("Target is", target, "Domain is", domain)
+print("Target is" + target + "Domain is" + domain)
+print("Target is: " + target + "\nDomain is: " + domain)
+print("Target is {} and Domain is {}".format(target, domain))
+
+
+>o/p
+
+Target is cdac.in Domain is tesla.com
+Target iscdac.inDomain istesla.com
+Target is: cdac.in
+Domain is: tesla.com
+++++++++++++++++++++++++++++++++++++++++++++++
+Input from user:input()
+---------------------
+#!/usr/bin/python3
+y=input("Enter the value: ")
+print("the provided info: {}".format(y))
+
+# python3 1.py
+Enter the value: UALAL
+the provided info: UALAL
+
++++++++++++++++++++++++++++++++++++++++++++++++
+Python Statements:
+-------------------
+eg: 
+# python3
+
+>>> a = 1
+
+It is an assignment statement. 
+An example for multiline statement:
+
+a = 1 + 2 + 3 + \
+    4 + 5 + 6 + \
+	  7 + 9
+
+This line continuation is implied inside parentheses (), brakets [], and braces {} ...
+
+a = (1 + 2 + 3 +
+4 + 5 + 6)
+`````````````````
+a = ['first',
+'blue',
+'dark']
+`````````````````
+a = 2; b = 3; c = 5
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Python List:
+------------
+Declaring a list in python, All the items are seperated by commas are enclosed within brackets.
+
+>>> a = [1, 2.3, 'python']
+>>> a[2]
+
+>>> a = [1,2,3,4,5,6,7,8,9]
+>>> a[0]
+1
+>>> a[0:4]
+[1, 2, 3]
+
+>>> a[0:4:2]
+
+>>> a[1:]
+++++++++++++++++++++++++++++++++++++++++++++
+Python Tuples & Strings:
+------------------------
+Tuple & string are ordered squence of items same as a list.
+
+The only difference is that tuples & strings are immutable.
+
+Tuples: It is defined within () parentheses where items are seperated by commas.
+
+Strings: We can use single quotes or double quotes to represent strings. 
+
+Tuple:eg
+---------
+
+>>> t = (2, 5, 7, 9)
+>>> t[2]
+7
+>>> t[2] = 8
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+
+Strings:
+---------
+
+>>> s = 'CDAC'
+>>> s[0]
+'C'
+>>> s[0:]
+'CDAC'
+>>> s[0] = 'L'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Virtual Env for Python projects:
+--------------------------------
+
+Install : 
+# whereis python3
+# apt search python-3.9 | grep venv
+# apt install python3.9-venv -y
+
+# mkdir pro1
+# cd pro1
+# python3 -m venv env
+# source env/bin/activate
+
+
+To deactivate :
+
+(env) root@LAPTOP-QNICI1P6:~/pro1# deactivate 
+
++++++++++++++++++++++++++++++++++++++++
+
+
+
+Arguments:
+---------
+Just like positional parameters.
+
+SYS: This lib/module used for system specific parameters.
+
+#!/usr/bin/python3
+import sys
+
+a = sys.argv[1]
+
+print("output:", a)
+++++++++++++++++++++++++++++++++++++++++
+
+Data Type [ Dict ]:
+-------------------
+
+# python3
+
+>>> d = {"user":"me_dheeraj", "role":"admin"}
+>>>
+>>>
+>>> d.keys()
+dict_keys(['user', 'role'])
+>>>
+>>>
+>>> d.values()
+dict_values(['me_dheeraj', 'admin'])
+>>>
+>>>
+>>> d['user']
+'me_dheeraj'
+>>> d['role']
+'admin'
+>>>
+>>>
+>>> d['user'],d['role']
+('me_dheeraj', 'admin')
+>>>
+>>>
+>>> d.get('role')
+'admin'
+>>>
+>>> d
+{'user': 'me_dheeraj', 'role': 'admin'}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

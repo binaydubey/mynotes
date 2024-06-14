@@ -1,0 +1,327 @@
+Functions:
+----------
+Python already have built-in function. like:
+
+range()
+print()
+len()
+int()
+input()
+str()
+.
+.
+.
+
+Write your own function:
+------------------------
+def [ Define ]
+
+def myFunc():
+	print("LOL")
+
+
+# call the function
+myFunc()
++++++++++++++++++++++++++++++++++++++
+Use 'lib/module' and some specific function from that lib:
+-------
+
+Syntax:
+
+from lib_name import fun_name
+
+Visit: https://docs.python.org
+++++++++++++++++++++++++++++++++++++++++++++++
+System Calls:
+-------------
+os: Provide OS interface
+
+#!/usr/bin/python3
+
+import os
+
+os.system("pwd")
+
+#!/usr/bin/python3
+
+import os
+os.system("sleep 100")
+------------------------------------
+PID  PPID
+401     9  \_ python3 1.py 
+402   401      \_ sh -c sleep 100 
+403   402          \_ sleep 100
++++++++++++++++++++++++++
+lib/module: subprocess
+
+#!/usr/bin/python3
+import subprocess as thor
+
+thor.call("sleep 100", shell=True)
+
+
+`shell=True`: Shell argument to a true value causes subprocess to spawn an inter,idiate shell process.
+---------------------
+PID  PPID 
+409     9  \_ python3 1.py 
+410   409      \_ /bin/sh -c sleep 100
+411   410          \_ sleep 100
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Arguments for program:
+----------------------
+
+# python3 script.py -h 
+
+# python3 script.py -d domain.tld
+
+Lib/module: argparse : it define what arguments are required, and parse it to 'sys.argv'.
+
+#!/usr/bin/python3
+
+__author__ = "WE"
+
+import argparse
+
+parser = argparse.ArgumentParser(description="This tool is to kick your dash")
+parser.add_argument("-d", type=str, help="Provide target", required=True)
+
+
+a = parser.parse_args()
+print(a.d)
+
+++++++++++++++
+create a tool to execute OS command as argument?
+
+# python3 script.py -c id
+++++++++++++++++++++++++++++++++++++++++++++++++++
+File Operation in Python:
+-------------------------
+- Open a file
+
+	f = open("file.txt")
+
+- Operation (read, write, append)
+
+	f = open("file.txt", "r")
+	f = open("file.txt", "w")
+	f = open("file.txt", "a")
+
+- close a file [without this 'f.close()' file will not clear/flush the buffer.]
+
+	f.close()
+_______________________________________________
+
+To read:
+`````````
+
+f = open("file.txt", "r")
+a = f.read()
+print(a)
+f.close()
+
+
+`````````
+To write:
+`````````
+
+f = open("file.txt", "w")
+f.write("this is sparta\n")
+f.close()
+
+`````````
+To append:
+`````````
+f = open("file.txt", "a")
+f.write("I am cool\n")
+f.close()
+--------------------------------------------
+
+readlines() : returns the list contains each line of the file.
+writelines(): write the items of a list to the file.
+``````````````````````````````````
+# cat > targets.txt
+cdac.in
+tesla.com
+
+#!/usr/bin/python3
+
+f = open("targets.txt", "r")
+
+for i in f.readlines():
+	print(i)
+
++++++++++++++++
+
+#!/usr/bin/python3
+
+f = open("targets.txt", "w")
+new = input("Enter: ")
+f.writelines(new)
+________________________________________________________________
+
+Q.
+- read a file which contains targets.
+- run OS command
+	# waybackurls domain.tld
+- use readlines()
+
+# cat targets.txt
+cdac.in
+drop.com
+
+# python3 script.py -f targets.txt
+
+[+] Target: cdac.in
+hdgfsjd
+sdf
+sgdfg
+dfs
+
+[+] Target: drop.com
+dfhgjfd
+sfdg
+gfsd
+gfd
+fdfrds
+
+___________________
+
+#!/usr/bin/python3
+
+import os
+import argparse
+
+parser = argparse.ArgumentParser(description="Wayback Tool")
+parser.add_argument("-f", type=str, help="filename", required=True)
+
+file = parser.parse_args()
+
+f = open("{}".format(file.f), "r")
+for i in f.readlines():
+	print("[+] Target: {}".format(i))
+	os.system("waybackurls {}".format(i))
+	
+______________________________________
+
+readlines()
+readline()
+``````````````````````
+
+Use stdin to provide i/p to script:
+````````````````````````````````````
+
+with readline():
+````````````````
+
+#!/usr/bin/python3
+import sys
+
+target = sys.stdin.readline()
+print("Target is given :", target)
+
+++++++++++++
+with readlines()
+``````````````
+#!/usr/bin/python3
+import sys
+
+for i in sys.stdin.readlines():
+	print("Target:", i)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+HTTP Protocol:
+--------------
+
+Port:
+
+HTTP		: 80
+HTTPs	: 443
+HTTP-alt	: 8080
+HTTPs-alt	: 8443
+
+
+HTTP methods		: GET, POST, PUT, UPDATE, PATCH, OPTIONS etc
+HTTP Response code	: 2xx, 3xx, 4xx, 5xx
+HTTP Headers		: req & res
+________________
+
+=> http.client [Lib name]
+
+>>> http.client.HTTPConnection('www.cdac.in')
+>>> http.client.HTTPConnection('www.cdac.in:80')
+>>> http.client.HTTPConnection('www.cdac.in', 80)
+>>> http.client.HTTPConnection('www.cdac.in', 80, timeout=10)
+
+
+Collaborator:
+
+https://app.interactsh.com
+
+c7x58wv2vtc0000dtw00gd61wqoyyyyyb.interact.sh
+
+# vim script.py
+
+#!/usr/bin/python3
+import http.client
+
+h = http.client.HTTPConnection("testphp.vulnweb.com")
+h.request("GET", "/")
+data = h.getresponse()
+
+print(data.code)
+print(data.headers)
+for i in data.readlines():
+   print(i.decode('utf-8'))
+______________________________________________________________________
+
+Lib: requests [Module defines functions and classes which help in opening URLs.]
+
+#!/usr/bin/python3
+import requests
+
+h = "http://32a4-49-36-239-138.ngrok.io"
+c_header = {'User-Agent':'SAMEER'}
+
+r = requests.get(h, headers=c_header, timeout=10)
+print(r.status_code)
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Lets hack something:
+---------------------
+https://k8s-staging.pactly.ai/nginx_status
+
+
+curl -ks -H 'X-Forwarded-For: 127.0.0.1' -X GET 'https://k8s-staging.pactly.ai/nginx_status' -H 'User-Agent: Mozilla/5.0'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

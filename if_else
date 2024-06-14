@@ -1,0 +1,7 @@
+#!/bin/bash
+read -p "Please enter a number: " num1
+read -p "Please enter a number: " num2
+if [[ $num1 -gt $num2 ]]
+then
+	echo "$num1 is Greater than $num2"
+fi

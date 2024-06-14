@@ -1,0 +1,1015 @@
+-======================Linux+++++++++++++++++++++++++++++
+
+https://linuxsimply.com/100-shell-script-examples/
+
+https://linuxhint.com/bash_parameter_expansion/
+
+https://www.youtube.com/watch?v=S4D9KaW3ERw
+
+RANDOM in linux:-
+To Generate any random no :-----------
+# echo $((RANDOM))
+36820
+
+To generate between two numbers:-
+
+
+
+# echo $((RANDOM%100+1))
+64
+[root@localhost json]# echo $((RANDOM%100+1))
+22
+
+
+#!/bin/bash
+
+read -p "Enter minimum range:" min
+read -p "Enter maximum range:" max
+
+r_num=$(( $RANDOM % ($max - $min + 1) + $min ))
+echo "Random Number: $r_num"
+
+
+=====================
+# cat convert.sh
+read -p "Please enter name" num
+echo $num | tr '[:upper:]' '[:lower:]'
+
+
+
+
+
+
+
+
+
+
+
+
+Script Syntax
+
+
+
+
+
+https://www.tutorialspoint.com/unix/unix-basic-operators.htm
+
+
+Refer below for string comparision
+https://linuxize.com/post/how-to-compare-strings-in-bash/ 
+
+-------------------------------------------------------------------
+String manipulation:-
+
+
+name=binay
+binay@ubuntu1:~/Desktop/script$ echo $name 
+binay
+binay@ubuntu1:~/Desktop/script$ echo ${#name} #to print length of string.
+5
+
+
+String Concatenation:
+var1=binay
+binay@ubuntu1:~/Desktop/script$ var2=kumar
+binay@ubuntu1:~/Desktop/script$ var3=dubey
+binay@ubuntu1:~/Desktop/script$ var=$var1$var2$var3
+binay@ubuntu1:~/Desktop/script$ echo $var
+binaykumardubey
+
+
+Extract a substring from a string: In Bash, a substring of characters can be extracted from a string.
+
+Syntax:
+
+${string:position}  --> returns a substring starting from $position till end
+${string:position:length} --> returns a substring of $length characters starting from $position.
+
+
+$ echo $var
+binaykumardubey
+$ echo ${var:0} #It will print all 
+binaykumardubey
+binay@ubuntu1:~/Desktop/script$ echo ${var:1} #Except first character, print all
+inaykumardubey
+
+
+
+binay@ubuntu1:~/Desktop/script$ echo ${var:5}#print from postion 6. position starts
+kumardubey
+binay@ubuntu1:~/Desktop/script$ echo ${var:5:7}# 5 is position and 7 is length of substring
+kumardu
+binay@ubuntu1:~/Desktop/script$ echo ${var:5:4}
+kuma
+binay@ubuntu1:~/Desktop/script$ echo ${var:5:3}
+kum
+
+
+
+
+
+
+
+Comparison Operators
+Comparison operators are operators that compare values and return true or false. 
+When comparing strings in Bash you can use the following operators:
+
+string1 = string2 and string1 == string2 - The equality operator returns true if the operands are equal.
+
+Use the = operator with the test [ command.
+
+Use the == operator with the [[ command for pattern matching.
+
+string1 != string2 - The inequality operator returns true if the operands are not equal.
+
+string1 =~ regex- The regex operator returns true if the left operand matches the extended regular expression on the right.
+
+string1 > string2 - The greater than operator returns true if the left operand is  greater than the right sorted by 
+			lexicographical (alphabetical) order.
+string1 < string2 - The less than operator returns true if the right operand is 
+greater than the right sorted by lexicographical (alphabetical) order.
+-z string - True if the string length is zero.
+-n string - True if the string length is non-zero.
+Following are a few points to be noted when comparing strings:
+
+A blank space must be used between the binary operator and the operands.
+Always use double quotes around the variable names to avoid any word splitting or globbing issues.
+Bash does not segregate variables by “type”, variables are treated as integer or string depending 
+on the context.
+
+
+
+'Check if a String Contains a Substring
+
+There are multiple ways to check if a string contains a substring.
+
+One approach is to use surround the substring with asterisk symbols * which 
+means match all characters.
+
+
+#!/bin/bash
+
+VAR='GNU/Linux is an operating system'
+if [[ $VAR == *"Linux"* ]]; then
+  echo "It's there."
+fi
+Copy
+The script will echo the following:
+
+It's there.
+Copy
+Another option is to use the regex operator =~ as shown below:
+
+#!/bin/bash
+
+VAR='GNU/Linux is an operating system'
+if [[ $VAR =~ .*Linux.* ]]; then
+  echo "It's there."
+fi
+Copy
+The period followed by an asterisk .* matches zero or more occurrences any character except a 
+newline character.
+
+Check if a String is Empty
+Quite often you will also need to check whether a variable is an empty string or not. 
+You can do this by using the -n and -z operators.
+
+
+#!/bin/bash
+
+VAR=''
+if [[ -z $VAR ]]; then
+  echo "String is empty."
+fi
+Copy
+String is empty.
+Copy
+#!/bin/bash
+
+VAR='Linuxize'
+if [[ -n $VAR ]]; then
+  echo "String is not empty."
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if elif
+---------------------------------------------------------
+
+#!/bin/bash                             
+read -p "Enter first Value " num1
+read -p "Enter Second Value " num2
+echo "You entered $num1 and $num2 "
+if [ $num1 = $num2 ]
+then
+        echo "$num1 and $num2 are equal "
+elif [ $num1 -gt $num2 ]
+then
+        echo "$num1 is greater than $num2 "
+else
+        echo "$num1 is less than $num2 "
+fi
+
+
+[root@localhost ~]# cat add.sh
+#!/bin/bash
+echo $1  $2 $3
+if [ "$1" -eq "add" ]
+then
+   add=$(($2+$3))
+   echo "addition of $2 and $3 is $add "
+elif [ "$1" -eq "sub" ]
+then
+   sub=$(($2-$3))
+   echo "Subtraction of $2 and $3 is $sub "
+else
+   echo "Enter right arguments"
+fi
+
+[root@localhost ~]# ./add.sh sub 5 4
+sub 5 4
+Subtraction of 5 and 4 is 1
+
+-----------------------------------------------------------
+Output:
+[root@apache ~]# bash if.sh
+Enter first Value 15
+Enter Second Value 15
+You entered 15 and 15
+15 and 15 are equal
+[root@apache ~]# bash if.sh
+Enter first Value 14
+Enter Second Value 16
+You entered 14 and 16
+14 is less than 16
+[root@apache ~]# bash if.sh
+Enter first Value 14
+Enter Second Value 12
+You entered 14 and 12
+14 is greater than 12
+[root@apache ~]#
+
+
+While Loop
+------------------------------------------------------------------------
+[root@apache ~]# cat while.sh
+#!/bin/bash
+read -p "Enter a number" num1
+count=1
+while [ $count -lt 11 ]
+do
+        echo " $num1 * $count =  `expr $count \* $num1` "
+        ((count++))
+done
+
+Here We used  "\* " becuase Some characters have a special meaning to Bash so we must escape them 
+(put a backslash in front of)to remove their special meaning.
+[root@apache ~]# ./while.sh
+Enter a number5
+ 5 * 1 =  5
+ 5 * 2 =  10
+ 5 * 3 =  15
+ 5 * 4 =  20
+ 5 * 5 =  25
+ 5 * 6 =  30
+ 5 * 7 =  35
+ 5 * 8 =  40
+ 5 * 9 =  45
+ 5 * 10 =  50
+[root@apache ~]#
+
+For Arithmatic Operations we use expr, let and  Double Parentheses
+
+
+#!/bin/bash
+# Basic arithmetic using let
+let a=5+4
+echo $a # 9
+let "a = 5 + 4"
+echo $a # 9
+let a++
+echo $a # 10
+let "a = 4 * 5"
+echo $a # 20
+let "a = $1 + 30"
+echo $a # 30 + first command line argument
+
+#!/bin/bash
+# Basic arithmetic using double parentheses
+a=$(( 4 + 5 ))
+echo $a # 9
+a=$((3+5))
+echo $a # 8
+b=$(( a + 3 ))
+echo $b # 11
+b=$(( $a + 4 ))
+echo $b # 12
+(( b++ ))
+echo $b # 13
+(( b += 3 ))
+echo $b # 16
+a=$(( 4 * 5 ))
+echo $a # 20
+
+"FOR LOOP" -------------------------
+$ for (( i=0; i<=10; i++))
+> do 
+> echo "Welcome to cdac $i times"
+> done
+Welcome to cdac 0 times
+Welcome to cdac 1 times
+Welcome to cdac 2 times
+Welcome to cdac 3 times
+Welcome to cdac 4 times
+Welcome to cdac 5 times
+Welcome to cdac 6 times
+Welcome to cdac 7 times
+Welcome to cdac 8 times
+Welcome to cdac 9 times
+Welcome to cdac 10 times
+
+
+
+
+
+#!/bin/bash
+names=$@
+for name in $names
+do
+        echo "hii , $name "
+done
+echo " for loop terminated "
+
+Note: $@ command will print all argumnets or parameters which is provided at runtime of scripts
+
+
+"BREAK" & "CONTINUE"
+-----------------------------------
+#!/bin/bash
+names=$@
+for name in $names
+do
+        if [ $name = "nac" ]
+        then
+                break
+        fi
+        echo "hii , $name "
+done
+echo " for loop terminated "
+
+[root@apache ~]# ./for.sh binay nac raj
+hii , binay
+ for loop terminated
+
+
+[root@apache ~]# cat for.sh
+#!/bin/bash
+names=$@
+for name in $names
+do
+        if [ $name = "nac" ]
+        then
+                continue
+        fi
+        echo "hii , $name "
+done
+echo " for loop terminated "
+[root@apache ~]# ./for.sh binay nac raj
+hii , binay
+hii , raj
+ for loop terminated
+
+
+CHALLENGE:-
+---------------------------------------
+c=11
+while [ $c -ge 0 ]
+> do 
+> echo $c
+> (( c-=1 ))
+> done
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+
+
+Write a scirpt named counter.sh
+It should count from 1 to the number entered by user
+Through the loop display current count value.
+Once the loop finished Display "Loop Finished"
+
+#!/bin/bash
+read -p "enter a value " num1
+count=1
+while [ $count -le $num1 ]
+do
+        echo "Count=$count"
+        (( count++ ))
+done
+echo "Loop Finished "
+
+[root@apache ~]# ./counter.sh
+enter a value 7
+Count=1
+Count=2
+Count=3
+Count=4
+Count=5
+Count=6
+Count=7
+Loop Finished
+
+
+Special Variables:
+------------------------------------------------------------
+$0 - The name of the Bash script.
+$1 - $9 - The first 9 arguments to the Bash script. (As mentioned above.)
+$# - How many arguments were passed to the Bash script.
+$@ - All the arguments supplied to the Bash script.
+$? - The exit status of the most recently run process.
+$$ - The process ID of the current script.
+
+ENVIRONMENTAL Variables
+==================================================
+$USER - The username of the user running the script.
+$HOSTNAME - The hostname of the machine the script is running on.
+$SECONDS - The number of seconds since the script was started.
+$RANDOM - Returns a different random number each time is it referred to.
+$LINENO - Returns the current line number in the Bash script.
+$SHELL - Shell that is being used
+
+CHALLENGE--------------------
+Creat a script env.sh
+Display a sentence which includes computer name, user's name and home directory
+
+[root@apache ~]# cat env.sh
+#!/bin/bash
+echo "Your Computer name is $HOSTNAME "
+echo "Username is $USER "
+echo "Home Directory is $HOME "
+[root@apache ~]# ./env.sh
+Your Computer name is apache.server.com
+Username is root
+Home Directory is /root
+[root@apache ~]#
+
+FUNCTION():
+--------------------------------
+[root@apache ~]# cat func.sh
+#!/bin/bash
+hello() {
+        echo "This is Hello Function"
+}
+goodbye() {
+        echo "This is Hello Function"
+}
+echo "Calling hello function"
+hello
+echo "Calling goodbye function"
+goodbye
+exit 0
+
+[root@apache ~]# ./fumc.sh
+Calling hello function
+This is Hello Function
+Calling goodbye function
+This is Hello Function
+
+
+Note:First Define Function then call function.
+there are two ways to define function.
+1. hello() {
+}
+2. function hello() {
+}
+Both are valid . there is no difference. its your choice.
+In other programming languages it is common to have arguments passed to the function listed inside the brackets ().
+In Bash they are there only for decoration and you never put anything inside them.
+
+We can pass aguments while calling a function 
+#!/bin/bash
+hello() {
+        local lname=$1
+        echo "Hello, $lname"
+}
+goodbye() {
+        local lname=$1
+        echo "Hello,$lname"
+}
+echo "Calling hello function"
+hello binay
+echo "Calling goodbye function"
+goodbye binay
+exit 0
+
+[root@apache ~]# ./fumc.sh
+Calling hello function
+Hello, binay
+Calling goodbye function
+Hello,binay
+
+CHALLENGE
+--------------------------------------
+Create a script pfunc.sh
+creat two function getfiles and showfiles
+getfiles should return 10 files and show all those 10 files
+through showfiles function.
+
+#!/bin/bash
+getfiles() {
+        a=`ls | head -n 10`
+}
+showfiles() {
+        local count=1
+        for file in $@
+        do
+                echo "File #$count= $file"
+                (( count++ ))
+        done
+}
+getfiles
+showfiles $a
+
+[root@apache ~]# ./pfun.sh
+File #1= 1
+File #2= anaconda-ks.cfg
+File #3= AND_OR.sh
+File #4= counter.sh
+File #5= edac
+File #6= editiss
+File #7= env.sh
+File #8= file1
+File #9= file2
+File #10= file3
+
+
+READING FILES
+--------------------------------------------------------------------
+
+[root@apache ~]# cat reader.sh
+#!/bin/bash
+count=1
+while IFS='' read -r LINE
+do
+        echo "LINE $COUNT: $LINE "
+        ((count++))
+done < name.txt
+
+Internal Field Separator (IFS). This variable indicates how the words are separated on the command line. 
+The IFS variable is, normally or by default, a white space (' '). 
+The IFS variable is used as a word separator (token) for the for command.
+In many documents, IFS can be any one of the white space, ':', '|', ': ' or any other desired character. 
+This will be useful while using commands such as read, set, for, and so on. 
+If we are going to change the default IFS, then it is a good practice to store the original IFS in a variable.
+
+the following script for_16.sh, we are using ":" as the IFS character:
+
+#/bin/bash
+cities=Delhi:Chennai:Bangaluru:Kolkata
+old_ifs="$IFS"           # Saving original value of IFS
+IFS=":"
+for place in $cities
+do
+      echo  The name of city is $place
+done
+
+
+
+
+cat name.txt
+binay
+nancy
+beyoncy
+lavdi
+hawri
+
+[root@apache ~]# ./reader.sh
+LINE : binay
+LINE : nancy
+LINE : beyoncy
+LINE : lavdi
+LINE : hawri
+
+
+Checksum
+-----------------------------------------
+cksum command in Linux is used to display a CRC(Cyclic Redundancy Check) value,
+the byte size of the file and the name of the file to standard output. 
+CRC is unique for each file and only changes if the file is edited. 
+It is used to check whether the file had accidentally corrupted while transfer. 
+If the CRC is same after the transfer, it means that the file had not accidentally corrupted.
+
+[root@apache ~]# cat read3.sh
+#!/bin/bash
+count=1
+while read line
+do
+        if [[ $count -le 3 ]]
+        then
+                echo "Line $count= $line "
+        fi
+((count++))
+done < list.txt
+[root@apache ~]# ./read3.sh
+Line 1= binay
+Line 2= nac
+Line 3= ashu
+
+
+Commands
+create group: 
+[root@cdacians ~]# groupadd cdac
+
+Create User ditiss :
+[root@cdacians ~]# useradd ditiss
+
+Changing shell of ditiss user to bash shell.
+The dafault shell of a ditiss user is bash. So i changed shell from bash to sh shell
+[root@cdacians ~]# chsh --shell /bin/bash ditiss
+Changing shell for ditiss.
+Shell changed.
+
+
+Deactivate ditiss User
+[root@cdacians ~]# usermod -L ditiss
+
+Adding user to cdac group  
+[root@cdacians ~]# usermod -a -G cdac ditiss
+
+________________________________________________________________________________
+Creating GROUP 
+binay@ubuntu1:~$ sudo groupadd cdac
+
+Created users - ditiss, dac and vlsi
+Now we will add above users in cdac group:-
+$ sudo usermod -G cdac -a dac
+
+
+ To Check account expire information we use chage command:
+ binay@ubuntu1:~$ chage -l binay
+Last password change                                    : Dec 13, 2021
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+
+Now we will learn access control list :
+let suppoase you have a direct named /var/temp/fstab
+set permission in away that user ditiss and dac can read and write but vlsi neither read or write.
+
+binay@ubuntu1:~$ setfacl -m u:ditiss:rw /var/tmp/fstab/
+binay@ubuntu1:~$ setfacl -m u:dac:rw /var/tmp/fstab/
+binay@ubuntu1:~$ setfacl -m u:vlsi:--- /var/tmp/fstab/
+binay@ubuntu1:~$ getfacl /var/tmp/fstab/
+getfacl: Removing leading '/' from absolute path names
+# file: var/tmp/fstab/
+# owner: binay
+# group: binay
+user::rwx
+user:ditiss:rw-
+user:dac:rw-
+user:vlsi:---
+group::rwx
+mask::rwx
+other::r-x
+
+NOW IF YOU WANT TO REMOVE DITISS USER FROM ACL OF FILE
+binay@ubuntu1:~$ sudo setfacl -x u:ditiss /var/tmp/fstab/
+getfacl: Removing leading '/' from absolute path names
+# file: var/tmp/fstab/
+# owner: binay
+# group: binay
+user::rwx
+user:dac:rw-
+user:vlsi:---
+group::rwx
+mask::rwx
+other::r-x
+
+
+Q. Script :::: Create a script /root/myscript.sh that should print "redhat" when user input "fedora" as argument, & vice-versa, 
+it should print "redhat|fedora" without argument.
+
+
+#!/usr/bin/bash
+
+case $1 in
+	"redhat")
+		echo "fedora"
+		;;
+	"fedora")
+		echo "redhat"
+		;;
+	"")
+		echo "redhat|fedora"
+		;;
+esac
+
+
+
+-----------------------------------------------------------
+find:-
+#find -type s #to find socket type files. Similarly we can find block(b),character(c),dirctory(d),pipe(p),link(l).
+
+sudo find / -type s -exec ls -l {} \;
+
+min hour 31 12 6
+-----------------------------------------------------------------------------------------
+Array
+
+$ arr1=(1 2 "binay") #Declaration of array
+binay@ubuntu1:~$ echo "$arr1"
+1
+binay@ubuntu1:~$ echo "$arr1[1]"
+1[1]
+binay@ubuntu1:~$ echo "${$arr1[1]}"  
+-bash: ${$arr1[1]}: bad substitution
+binay@ubuntu1:~$ echo "${arr1[1]}" # proper syntax 
+2
+binay@ubuntu1:~$ echo "${arr1[2]}"
+binay
+ 
+To access all elements:----------------------
+binay@ubuntu1:~$ echo "${arr1[@]}" 
+1 2 binay
+binay@ubuntu1:~$ echo "${arr1[*]}"
+1 2 binay
+binay@ubuntu1:~$ echo "${arr1[#]}"
+-bash: #: syntax error: operand expected (error token is "#")
+binay@ubuntu1:~$ echo "${arr1[*]:0}"
+1 2 binay
+----------------------------------------------------
+binay@ubuntu1:~$ echo "${arr1[@]:0}"
+1 2 binay
+binay@ubuntu1:~$ echo "${arr1[@]:1}"
+2 binay
+binay@ubuntu1:~$ echo "${arr1[@]:1:2}"
+2 binay
+
+
+~$ for value in "${arr1[@]}"
+> do
+> echo $value
+> done
+1
+2
+binay
+-----------------------------------
+Adding elements in array
+$ echo "${arr1[@]}"
+1 2 binay
+binay@ubuntu1:~$ arr1+=("dubey")
+binay@ubuntu1:~$ echo "${arr1[@]}"
+1 2 binay dubey
+
+------------------------------------------------------
+
+
+ cat fibonacci.sh 
+#!/bin/bash
+#Print fibonacci Series
+read -p "Please Enter number: " n
+a=0
+b=1
+for (( i=0; i<$n; i++ ))
+do
+	echo $a
+	sum=$((a+b))
+	a=$b
+	b=$sum
+done
+
+
+----Palindrome----------------------------------------
+cat palindrome.sh 
+read -p "Pleasse enter word: " var1
+l=${#var1}
+for (( i=$l; i>=0; i-- ))
+ do
+ str=$str${var1:$i:1}
+ done
+ echo $str
+if [[ "$str" == "$var1" ]]
+then
+	echo "$var1 is palindrome:"
+else
+	echo "$var1 is not palindrome:"
+fi
+
+
+$ cat leapyear.sh 
+#!%bin%bash
+read -p "Please enter Year:" y
+if [[ $((y%4)) -eq 0 && $((y%100)) -ne 0 ]]
+then
+echo "$y is leap year."
+elif [[ $((y%400)) -eq 0 ]]
+then
+	echo "$y is leap year."
+else
+	echo "$y is not leap year."
+fi
+
+
+----------------------------------------------------
+
+
+cat live_host.sh 
+#!/bin/bash
+for i in {1..254}
+do
+ping -c 1 192.168.80.$i | grep "64 bytes" | awk '{print $4}' &
+done
+
+
+
+
+-------------------------------------------------------------
+$ cat user_exists.sh 
+#!/bin/bash
+read -p "Please enter a user name: " user
+if id $user &>/dev/null 
+then 
+	echo "User exists."
+	cat /etc/passwd | grep "$user"  | awk -F ":" '{print "User id is " $3" and shell is "$7}'
+else
+	echo "User does not exist."
+	read -p "Do you want to create new user: " choice
+	if [[ $choice = "yes"  || $choice = "y" ]]
+	then
+		echo user created
+	else
+		echo Exiting........
+		exit
+	fi
+
+fi
+--------------------------------------------------------------------
+Reverse a string:-
+# cat rev_str.sh
+#!/bin/bash
+read -p "Please Enter string: " str
+rev=""
+for (( i = ${#str} -1; i >= 0; i-- ))
+do
+rev=$rev${str:i:1}
+done
+echo $rev
+
+
+or echo $str | rev 
+
+ Replace a Word in a Sentence
+You can replace the first occurrence of a word in a string with a given word using the $(../../..).
+
+#!/bin/bash
+
+read -p "Enter a sentence: " str1
+read -p "Enter the word to be replaced: " str2
+read -p "Enter the new word: " str3
+echo "Modified sentence: ${str1/$str2/$str3}"
+
+===============================================
+Print sum of digit and reverse of a digit
+
+# cat sum_of_digits
+#!/bin/bash
+read -p "Please Enter a number: " num
+sum=0
+rev=""
+while [[ $num -ne 0 ]]
+do
+dig=$((num%10))
+sum=$((sum+dig))
+rev=$rev$dig
+num=$((num/10))
+done
+echo "Sum of a no: $sum"
+echo "Rev is $rev"
+
+======================================================
+#!/bin/bash
+read -p "Please enter len of array:- " len
+for (( i=0; i<$len; i++ ))
+do
+read -p "Enter $((i+1)) element:- " arr[$i]
+done
+echo "Before sorting: ${arr[@]}"
+for (( i=0; i<$len; i++ ))
+do
+        for (( j=0; j<$((len-i)); j++ ))
+do
+        if [[ ${arr[j]} -gt ${arr[j+1]} ]]
+then
+        temp=${arr[j]}
+        arr[j]=${arr[j+1]}
+        arr[j+1]=$temp
+fi
+done
+done
+echo ${arr[@]}
+
+
+
+Associative arrays, also known as dictionaries or hash maps in other programming languages, are a data structure available in 
+Bash versions 4 and above. They allow you to store and manage collections of key-value pairs. Unlike regular indexed arrays where 
+elements are accessed by numerical positions, associative arrays use unique keys to access their corresponding values.
+
+Here's a breakdown of key concepts in associative arrays:
+
+Keys: These are unique identifiers (strings or numbers) used to access specific values within the array.
+Values: This is the actual data you want to store, which can be any data type supported by Bash (strings, numbers, booleans, etc.).
+Declaring and Initializing an Associative Array:
+
+The declare command with the -A flag is used to declare an associative array. Here's the syntax:
+Bash
+declare -A array_name
+Use code with caution.
+content_copy
+You can then assign key-value pairs to the array using the following format:
+Bash
+array_name["key"]="value"
+Use code with caution.
+content_copy
+Example:
+Bash
+fruits_basket["apple"]="red"
+fruits_basket["banana"]="yellow"
+Use code with caution.
+content_copy
+Accessing Values:
+
+To access a value associated with a specific key, use the array name followed by the key name enclosed in square brackets ([]) 
+and prefixed with a dollar sign ($).
+Bash
+apple_color=${fruits_basket["apple"]}
+echo "Apple color: $apple_color"  # Output: Apple color: red
+Use code with caution.
+content_copy
+Common Operations on Associative Arrays:
+
+Adding new elements: Use the same assignment syntax as initialization to add new key-value pairs.
+Checking if a key exists: Use the -i flag with the test command to check if a key exists.
+Bash
+if [[ -i "${fruits_basket["orange"]}" ]]; then
+  echo "Orange is present in the basket"
+fi
+Use code with caution.
+content_copy
+Removing elements: Unset a key using the unset command followed by the array name and key in square brackets.
+Bash
+unset fruits_basket["banana"]
+Use code with caution.
+content_copy
+Iterating through elements: Loop through all key-value pairs using a for loop:
+Bash
+for key in "${!fruits_basket[@]}"; do
+  value="${fruits_basket[$key]}"
+  echo "Key: $key, Value: $value"
+done
+Use code with caution.
+content_copy
+Advantages of Associative Arrays:
+
+Efficient data retrieval: Keys provide faster access to specific data compared to iterating through an indexed array.
+Improved code readability: Using meaningful keys makes your code easier to understand and maintain.
+In conclusion:
+
+Associative arrays are a powerful tool for managing collections of data in Bash scripts. 
+They offer a flexible and efficient way to store and retrieve information based on unique identifiers. 
+If you're working with Bash versions 4 or later, consider using associative arrays for scenarios 
+where you need to manage data based on key-value relationships.

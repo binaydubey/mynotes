@@ -1,0 +1,610 @@
+RegEx:
+------
+import re
+
+re: It has the collections of pre-defined functions, also used to process the input text.
+
+match() : To test the input string starts with specific pattern or not.
+
+findall(): To find the duplicates for specified pattern.
+
+
+
+
+search(): To test the specified pattern is present or not in given input.
+
+
+
+
+
+split(): How to split the input string.
+
+
+
+
+sub(): To replace the sub string.
+
+
+
+compile(): Used to create pattern object and can be re-used.
+
+
+
+
+
+
+------------
+\d : Digits
+\D : Non-digit
+\s : space, tab, newline etc...
+\S : Anything except space, tab etc....
+\w : letters ( Match alphanumeric chars, including "_")
+\W : Anything but letters ( Match non-alphanumeric chars, excluding "_")
+
+
+
+re.match():
+-----------
+-> On success, it returns the match object.
+-> On failure , it return None
+
+# cat > text.txt
+https://cdac.in/user.jsp?data=id
+https://drop.com/robots.txt
+
+
+NOTE: r [Raw Input]
+
+
+#!/usr/bin/python3
+import re
+import sys
+
+for i in sys.stdin.readlines():
+	collect = re.match(r"https\:\/\/drop", i)
+	if collect:
+		print("Found:", collect.group())
+
++++++++++++++++++++++++++
+re.search() : 
+`````````````
+#!/usr/bin/python3
+import re
+import sys
+
+for i in sys.stdin.readlines():
+	collect = re.search(r"drop", i)
+	if collect:
+		print("Found:", collect.group())
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+re.findall():
+`````````````
+
+#!/usr/bin/python3
+import re
+import sys
+
+for i in sys.stdin.readlines():
+	collect = re.findall(r"ftp", i)
+	if collect:
+		print(collect[0:])
+-----------------------------------------------
+
+compile('regex') & re.finditer(pattern, string, flags=0):
+```````````````````````````````````````
+re.finditer(pattern, string, flags=0)
+patterns: RegEx
+string: Input Text
+Flags: It refers to optional regex flags. By default, no flags are applied.
+
+`````
+
+
+
+re.A	 OR  re.ASCII	:	Perform ASCII-only matching instead of full unicode matching.
+
+re.finditer("RegEx", string, re.A)
+re.finditer("RegEx", string, re.ASCII)
+
+
+
+
+re.I	  OR  re.IGNORECASE: Perform case-insensitive matching
+
+re.finditer("RegEx", string, re.I)
+re.finditer("RegEx", string, re.IGNORECASE)
+
+
+
+
+
+re.M	  OR  re.MULTILINE:	This flag is used with metachars ^ (caret) and $ (dollar)
+
+re.finditer("RegEx", string, re.M)
+re.finditer("RegEx", string, re.MULTILINE)
+
+
+
+
+
+re.S	  OR  re.DOTALL	: Make the DOT(.) special char match any char at all, including a new line. Without this flag, DOT(.) will match anything except newline.
+
+re.finditer("RegEx", string, re.S)
+re.finditer("RegEx", string, re.DOTALL)
+
+
+
+re.X	  OR  re.VERBOSE : Allow comment in regex.
+
+re.finditer("RegEx", string, re.X)
+re.finditer("RegEx", string, re.VERBOSE)
+
+
+
+
+
+
+re.L	re.LOCALE: perform case-insensitive 
+matching depends on current locale Only works with bytes pattern.
+
+
+
+
+
+
+eg: [syntax]
+------------
+re.finditer(pattern, string, flags=re.A|re.M|re.X)
+
+
+
+
+
+
+
+
+
+
+# cat text.txt
+https://cdac.in/user.jsp?data=id
+https://drop.com/robots.txt
+ftp://localhost
+FTP://cdac.in
+
+#!/usr/bin/python3
+import sys
+import re
+
+for i in sys.stdin.readlines():
+	collect = re.finditer(r"ftp", i, re.I)
+	if collect:
+		print(collect)
+
+
+# cat text.txt | python3 1.py
+
+
+<re.Match object; span=(0, 3), match='ftp'>
+<re.Match object; span=(0, 3), match='FTP'>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/usr/bin/python3
+import re
+
+data = """https://cdac.in/user.jsp?data=id
+https://drop.com/robots.txt
+ftp://localhost
+FTP://cdac.in"""
+
+pattern = re.compile(r"=")
+result = pattern.finditer(data)
+
+for i in result:
+	print(i)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# python3 script.py -url http://domain.tld
+
+OR
+
+# python3 script.py -url https://domain.tld
+
+OR
+
+# python3 script.py -url domain.tld
+
+domain.tld ==> http://domain.tld
+
+links -> https://domain.tld [href=""]
+
+
+- try: except:
+- def func():
+
+
+
+Solution:
+
+#!/usr/bin/python3
+import argparse
+import re
+import requests
+
+parser = argparse.ArgumentParser(description="TOOL")
+parser.add_argument("-url", type=str, help="Type domain", required=True)
+opts = parser.parse_args()
+
+if "http://" in opts.url or "https://" in opts.url:
+    r = requests.get(opts.url, timeout=10)
+    result = re.findall('(?:href=")(.*?)"', str(r.content))
+    for i in result:
+        print(i)
+else:
+    response = requests.get("http://" + opts.url)
+    result = re.findall('(?:href=")(.*?)"', str(response.content))
+    for i in result:
+        print(i)
+_______________________________________________________________________________
+Classes & Objects:
+------------------
+Classes are a function in OOP. This is where we can put functions, methods etc in one place.
+
+NOTE: Till now we all are doing "Procedural programming".
+
+In Class:
+---------
++ You can define attributes, behaviour
++ attributes: Variables, Behaviour: methods(function)
+
+
+eg:
+----
+
+#!/usr/bin/python3
+
+class ditiss:
+	pass
+user = ditiss()
+______
+
+#!/usr/bin/python3
+import argparse
+import re
+import requests
+
+class Crawl:
+    def args_pass(self):
+        parser = argparse.ArgumentParser(description="TOOL")
+        parser.add_argument("-url", type=str, help="Type domain", required=True)
+        opts = parser.parse_args()
+        if not opts.url:
+            print("Please specify URL!")
+        return opts
+
+    def get_links(self, url):
+        try:
+            if "http://" in url or "https://" in url:
+                r = requests.get(url, timeout=10)
+                return re.findall('(?:href=")(.*?)"', str(r.content))
+            else:
+                r = requests.get("http://" + url)
+                return re.findall('(?:href=")(.*?)"', str(r.content))
+        except Exception as err:
+            print("Error1:", err)
+
+    def collect(self, url):
+        href = self.get_links(url)
+        if href:
+            for links in href:
+                print(links)
+
+try:
+    run = Crawl()
+    opts = run.args_pass()
+    run.collect(opts.url)
+except Exception as lol:
+    print("Error2:", lol)
+______________________________________________________________
+SOCKETS:
+--------
+
+import socket
+
+
+
+
+socket.socket()
+````````````````
+
+- Syntax for create a socket:
+
+sock = socket.socket(socket_family, socket_type)
+
+- Create a stream socket:
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
++ AF_INET [ Socket family version 4 or IPv4)
++ SOCK_STREAM [ Socket type TCP connection ]
++ SOCK_DGRAM [ Socket type UDP connection ]
+
+
+
++ Get FQDN
+	socket.getfqdn("8.8.8.8")
+
++ Return the hostname:
+	socket.gethostbyname("domain.tld")
+
++ Exception handling
+	socket.error
+
+
+===============
+1) DNS Lookup:
+--------------
+
+#!/usr/bin/python3
+import socket
+print(socket.getfqdn("8.8.8.8"))
+print(socket.gethostbyname("cdac.in"))
+print(socket.gethostbyaddr("8.8.8.8"))
+
+
+
+2) Port Scan:
+-------------
+#!/usr/bin/python3
+
+import socket
+s = socket.socket()
+host = "127.0.0.1"
+
+def scan(port):
+	try:
+		s.connect((host, port))
+		return True
+	except:
+		return False
+
+for i in range(20,26):
+	if scan(i):
+		print("Port {} is open".format(i))
+	else:
+		print("Port {} is closed".format(i))
+
+
+
+
+
+
+3) Network Client:
+``````````````````
+
+#!/usr/bin/python3
+
+import socket
+
+host='172.30.227.85'
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+addr=(host,80)
+s.connect(addr)
+
+try:
+	msg=b"ulala"
+	s.sendall(msg)
+except socket.error as ee:
+	print("Error:", ee)
+finally:
+	s.close()
+
+4) Banner Grabbing:
+-------------------
+
+-> Connect to the server "196.1.113.117" on port 25
+-> Print any data received from server
+-> close the socket
+
+#!/usr/bin/python3
+import socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+t_host = str(input("Enter the host:"))
+t_port = int(input("Enter the port:"))
+
+sock.connect((t_host, t_port))
+
+e = sock.recv(1024)
+print("Output:", str(e))
+
+_____________________________________________________________
+
+eval():
+-------
+- eval is bulti-in function in Python
+- this function parse the expression argument and evaluates its as a python expression
+- In simple words, the eval function evaluates the "Tring" line a python expression and returns the result as in integer.
+
+
+eval() Syntax:
+--------------
+eval(expression, globals=None, locals=None)
+
+
+#!/usr/bin/python3
+n = 2
+p = eval('n * n')
+print(type(p))
+print("Output: ", p)
+`````````````````````````````
+
+#!/usr/bin/python3
+
+input = eval(input("Enter any number: "))
+print(input)
+
+# python3 1.py
+Enter any number: 1 + __import__('os').system('pwd')
+/root/marvels/py
+1
+
+# python3 1.py
+Enter any number: 1 + __import__('os').system('id')
+uid=0(root) gid=0(root) groups=0(root)
+1
++++++++++++++++++++++++++++++++++++++++
+
+exec():
+-------
+
+#!/usr/bin/python3
+
+program = input("Code: ")
+exec(program)
+
+# python3 1.py
+Code: print("LOL")
+LOL
+
+# python3 1.py
+Code: import os; os.system('pwd')
+/root/marvels/py
+____________________________________________________________________
+
+Namespace:
+----------
+
+-> When you create an object in python you give them names
+eg: variables, function etcc....
+
+-> namespace is where python store name & values
+-> Each namespace is a dict datatype
+
+
+=> globals()
+
++ There are the names from the main part of code.
+
+=> locals()
+
++ The namespaces within function or the level that you are working in.
+
+````
+#!/usr/bin/python3
+
+name = "Dheeraj"
+
+def lol():
+	name = "tushin"
+````
+
+Scope route in python:
+----------------------
+
+It begins locally, if the name is not found:
+	-> It looks at enclosing functions, if still not found
+	-> It looks globally, if still not found
+	-> it looks built-ins, if still not found
+	-> it returns a NameError exception
+
+
+# cat 1.py
+#!/usr/bin/python3
+import json
+import sys
+
+config = '{"API_KEY": "kjsdhjgfu34giugfhc8734fhg3ie"}'
+data = json.loads(config)
+
+class API(object):
+    def __init__(self, apikey):
+        self.apikey = apikey
+
+    def renderHTML(self, templateHTML, text):
+        return (templateHTML.format(self=self, text=text))
+
+if __name__ == '__main__':
+    a = API(data["API_KEY"])
+    print(a.renderHTML(sys.argv[1], sys.argv[2]))
+
+# python3 1.py "<h1>{text}</h1>" LOL
+<h1>LOL</h1>
+
+# python3 1.py "<h1>{text.__init__}</h1>" LOL
+<h1><method-wrapper '__init__' of str object at 0x7fb710ca8e30></h1>
+
+# python3 1.py "<h1>{self.__init__}</h1>" LOL
+<h1><bound method API.__init__ of <__main__.API object at 0x7fb507896320>></h1>
+
+# python3 1.py "<h1>{self.__init__.__globals__}</h1>" LOL
+<h1>{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <_frozen_importlib_external.SourceFileLoader object at 0x7fa855de5c18>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '1.py', '__cached__': None, 'json': <module 'json' from '/usr/lib/python3.7/json/__init__.py'>, 'sys': <module 'sys' (built-in)>, 'config': '{"API_KEY": "kjsdhjgfu34giugfhc8734fhg3ie"}', 'data': {'API_KEY': 'kjsdhjgfu34giugfhc8734fhg3ie'}, 'API': <class '__main__.API'>, 'a': <__main__.API object at 0x7fa855d02320>}</h1>
+
+
+# python3 1.py "<h1>{self.__init__.__globals__[data][API_KEY]}</h1>" LOL
+<h1>kjsdhjgfu34giugfhc8734fhg3ie</h1>
+
+
+
+++++++++++++++
+
+
+# cat 2.py
+def get_user_pass(admin):
+        admin="secret"
+        return admin
+
+user_pass = get_user_pass("admin")
+
+if user_pass == input("Please enter the password: "):
+    print("Login successfully")
+else:
+    print("Password is incorrect!")
+
+# python2 2.py
+Please enter the password: user_pass
+Login successfully
+
+# python2 2.py
+Please enter the password: get_user_pass("admin")
+Login successfully
+
+
++++++++++++++++++++++++
+
+
+QUIC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,41 @@
+https://www.exploit-db.com/google-hacking-database/
+--------------------------------------------------
+
+intext:"© 2022 Nike, Inc. All Rights Reserved"
+site:"sony.com.*"
+site:"*.nike.com" -www -support -career
+
+site:repl.it intext:company
+site:zoom.us inurl:company
+site:atlassian.net inurl:company
+site:.s3.amazonaws.com inurl:company
+site:.s3.amazonaws.com "Sony"
+site:target.com intext:login intext:username intext:password
+site:pastebin.com inurl:company
+site:*.com ext:ppt intext:password
+site:*.com filetype:xls inurl:"email.xls"
+site:example.com filetype:php
+site:example.com intext:"index of /"
+site:example.com ext:txt
+site:gov.in inurl:forgot_password/
+
+inurl:zoom.us/j and intext:scheduled for
+inurl:show.php?id=
+inurl:example.com intitle:"index of"
+inurl:example.com intitle:"index of /" "*key.pem"
+inurl:example.com ext:log
+inurl:example.com intitle:"index of" ext:sql|xls|xml|json|csv
+inurl:example.com "MYSQL_ROOT_PASSWORD:" ext:env OR ext:yml -git
+inurl:example.com intitle:"index of" "config.db"
+inurl:example.com allintext:"API_SECRET*" ext:env | ext:yml
+inurl:example.com intext:admin ext:sql inurl:admin
+inurl:example.com allintext:username,password filetype:log
+
+intitle:"index of" 
+intitle:"index of" inurl:ftp
+intitle:"index of" inurl:ftp after:2008
+
+allintext:username filetype:log
+
+"index of" "database.sql.zip"
+

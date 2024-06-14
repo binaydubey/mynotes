@@ -1,0 +1,243 @@
+requests (Lib)
+```````````````
+Set Cookies:
+------------
+
+#!/usr/bin/python3
+import requests
+
+h = "https://example.com"
+c_header = {'Set-Cookies':'LOL'}
+r = requests.get(h, headers=c_header)
++++++++++++++++++++++++++++++++++++++++
+
+HTTP Methods:
+-------------
+Req
+
+- Req Header
+- Req body
+
+Res
+
+- Res Header
+- Res body
+``````````````````````````
+GET			requests.get
+
+
+OPTIONS		requests.options:
+``````````````````````````````
+#!/usr/bin/python3
+import requests
+
+h = "https://example.com"
+r = requests.options(h)
+print(r.headers)
+for i in r.headers:
+    print(i, ':', r.headers[i])
+
+
+POST			requests.post
+--------------------------
+
+Req: https://reqres.in
+
+
+DATA: 
+{
+    "name": "me_dheeraj",
+    "job": "fun"
+}
+
+#!/usr/bin/python3
+import requests
+
+h = "https://reqres.in/api/users"
+payload = {'name':'me_dheeraj', 'job':'fun'}
+r = requests.post(h, data=payload)
+print(r.status_code)
+print(r.json())
+
+________
+PUT			requests.put
+`````````````````````````
+Req: https://reqres.in/api/users/2
+payload:
+
+{
+    "name": "thor",
+    "job": "zion resident"
+}
+
+
+#!/usr/bin/python3
+import requests
+
+h = "https://reqres.in/api/users/2"
+payload = {'name':'me_dheeraj', 'job':'fun'}
+r = requests.put(h, data=payload)
+print(r.json())
+___________________________________________________
+
+
+Pass parameters in req [user=admin]
+`````````````````````````````````````
+URL: https://www.misrii.com/monitoring/service.php
+Method: POST
+data: email=admin%40dddd.cod&password=secret&service=login
+
+
+#!/usr/bin/python3
+import requests
+
+h = "https://www.misrii.com/monitoring/service.php"
+payload = {'email':'admin@google.com', 'password':'secret', 'service':'login'}
+
+r = requests.post(h, params=payload, timeout=10, allow_redirects=False)
+print(r.status_code)
+print(r.text)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Download file & save:
+---------------------
+Download: https://www.misrii.com/favicon.ico
+
+
+
+#!/usr/bin/python3
+import requests
+
+d = requests.get("https://www.misrii.com/favicon.ico")
+
+with open("file.ico", "wb") as f:
+	f.write(d.content)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+How to handle exceptios in Python:
+------------------------------------
+
+#!/usr/bin/python3
+
+with open("file.txt", "r") as f:
+	f.read()
+---------------------------
+
+#!/usr/bin/python3
+
+try:
+	with open("file.txt", "r") as f:
+		f.read()
+except:
+	print("BooM")
+
+But if you want to print the msg along with error:
+```````````````````````````````````````````````````
+#!/usr/bin/python3
+
+try:
+	with open("file.txt", "r") as f:
+		f.read()
+
+except Exception as a:
+	print("BooM:", a)
+
+-------------------------------------
+
+#!/usr/bin/python3
+
+try:
+	with open("file.txt", "r") as f:
+		f.read()
+
+except IOError as pop:
+	print("Its IO Error, not able to write the file:", pop)
+
+except Exception as a:
+	print("BooM:", a)
+
+else:
+	print("Its done")
+
+finally:
+	print("Kutriya sala")
+`````````````````````````
+except IOError
+except Exception
+except KeyboardInterrupt
+except requests.exceptions.ConnectionError
+except requests.exceptions.InvalidURL
+.
+.
+.
+__________________________________________________________
+
+Web Parsing:
+------------
+Lib: requests-html
+
+- Install 
+
+# pip3 install requests-html
+
+- Usage:
+
+:IMPORT 
+
+	from requests_html import HTMLSession
+
+:Start HTML Session:[ KEEP-ALIVE]
+	
+	session = HTMLSession()
+
+GET Req:
+
+	session.get()
+--------------------------
+
+=> Grab a list of all links:
+
+>>> r.html.links
+
+
+#!/usr/bin/python3
+from requests_html import HTMLSession
+
+session = HTMLSession()
+
+r = session.get('https://tesla.com')
+for i in r.html.links:
+	print(i)
+
+
+=> Grab a list of all links:[as URL]
+
+>>> r.html.absolute_links
+
+#!/usr/bin/python3
+from requests_html import HTMLSession
+
+session = HTMLSession()
+
+r = session.get('https://tesla.com')
+for i in r.html.absolute_links:
+	print(i)
+
+------------------------------
+=> Select an Element list within an Element:
+
+>>> r.html.find('a')
+>>> r.html.find('script')
+>>> r.html.find('td')
+
+
+#!/usr/bin/python3
+from requests_html import HTMLSession
+
+session = HTMLSession()
+
+r = session.get('https://tesla.com')
+for i in r.html.find('script'):
+	print(i)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+

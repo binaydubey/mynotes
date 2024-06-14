@@ -1,0 +1,404 @@
+Lec1:20220201-082015_Recording_3840
+
+Virtual Enviroment for python projects:
+-------------------------------------------
+Install :
+#apt install python3-venv -y
+
+Lets we want to create a virtual environment for a particular project.
+
+#mkdir pro1
+#cd pro1/
+#python3 -m venv env 
+$ ls -a
+.  ..  env
+
+Now we have to activate environment.
+
+$ source env/bin/activate
+(env) binay@ubuntu1:~/Desktop/pro1$ pip3 list
+ommand 'pip3' not found, but can be installed with:
+sudo apt install python3-pip
+(env) binay@ubuntu1:~/Desktop/pro1$ pip3 list
+Package    Version
+---------- -------
+pip        22.0.2
+setuptools 59.6.0
+
+To deactivate environment:
+(env) binay@ubuntu1:~/Desktop/pro1$ deactivate 
+binay@ubuntu1:~/Desktop/pro1$ 
+----------------------------------------------------------------
+Arguments: Just Like postional parameters in linux.
+SYS: this lib/module used for system specific program
+A module is a set of code or functions with the.py extension. 
+A library is a collection of related modules or packages. 
+
+
+$ cat argument.py 
+#!/usr/bin/python3
+import sys
+a=sys.argv[1]
+b=sys.argv[2]
+print("First Argument",a)
+print("Second Argument",b)
+binay@ubuntu1:~/Desktop/pro1$ python3 argument.py binay dubey
+First Argument binay
+Second Argument dubey
+
+------------------------------------------
+IOstream
+stdin(Standard input) -(file discriptor:0)
+stdout(standard output)-(file discriptor:1)
+stderr (standard error)--(file discriptor:2)
+
+'< filename' connect a file to stdin
+'> filename' redirects stdout to a file
+'2> filename' redirects stdout to a file
+
+$ cat > file1
+harry123
+harry123
+$ passwd harry < file1 
+passwd: You may not view or modify password information for harry.
+binay@ubuntu1:~/Desktop$ sudo passwd harry < file1 
+New password: BAD PASSWORD: The password contains the user name in some form
+Retype new password: passwd: password updated successfully
+
+
+----------------------------------------------------------
+OS Module:-
+#!/usr/bin/python3
+import os
+os.system("pwd")
+$ python3 os_module.py
+/home/binay
+
+cwd = os.getcwd()
+>>> print(cwd)
+/home/binay
+>>> os.system("pwd")
+/home/binay
+0
+
+----------------------------------------------
+SUBPROCESS:-
+#!/usr/bin/python3
+
+import subprocess as thor
+thor.call("pwd", shell=True)
+
+
+
+
+===================
+SYS Module:
+cat sys_module.py
+#!/usr/bin/python3
+import sys
+argumnet1=sys.argv[1]
+argumnet2=sys.argv[2]
+print(argumnet1,argumnet2)
+
+$python3 sys_module.py
+binay dubey
+
+===========================================
+argparse module:- It defines what arguments are required, and pass it to 'sys.argv'.
+ #!/usr/bin/python3
+  2 import argparse
+  3 parser=argparse.ArgumentParser(description="This is tool to kick your dash")
+  4 parser.add_argument("-d", type=str,help="Provide Target", required=True)
+  5 a=parser.parse_args()
+  6 print(a.d)
+
+
+
+
+
+
+ python3 one.py
+usage: one.py [-h] -d D
+one.py: error: the following arguments are required: -d
+binay@ubuntu1:~$ python3 one.py  -help
+usage: one.py [-h] -d D
+one.py: error: argument -h/--help: ignored explicit argument 'elp'
+binay@ubuntu1:~$ python3 one.py  -h
+usage: one.py [-h] -d D
+
+This is tool to kick your dash
+
+options:
+  -h, --help  show this help message and exit
+  -d D        Provide Target
+binay@ubuntu1:~$ python3 one.py  --help
+usage: one.py [-h] -d D
+
+This is tool to kick your dash
+
+options:
+  -h, --help  show this help message and exit
+  -d D        Provide Target
+binay@ubuntu1:~$ python3 one.py  google
+usage: one.py [-h] -d D
+one.py: error: the following arguments are required: -d
+binay@ubuntu1:~$ python3 one.py -d  google
+google
+
+
+
+$ cat script.py
+#!/usr/bin/python3
+import argparse
+import os
+parser=argparse.ArgumentParser(description="This tool is for addition.")
+parser.add_argument("-c",type=str,help="Provide Command", required=True)
+a=parser.parse_args()
+os.system(a.c)
+
+python3 script.py -c pwd
+/home/binay
+binay@ubuntu1:~$ python3 script.py -c uname -a
+usage: script.py [-h] -c C
+script.py: error: unrecognized arguments: -a
+binay@ubuntu1:~$ python3 script.py -c "uname -a" #If comand have some extra parameters 
+put all commands in double quotes.
+Linux ubuntu1 5.19.0-38-generic #39~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar 17 21:16:15 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+
+==================================================================================================================
+**************************************File Handling************************
+To Read A file:-
+~$ cat file.py
+#!/usr/bin/python3
+f=open("one.py","r") 
+a=f.read()
+print(a)
+f.close()
+
+Output:-binay@ubuntu1:~$ python3 file.py
+#!/usr/bin/python3
+import argparse
+parser=argparse.ArgumentParser(description="This is tool to kick your dash")
+parser.add_argument
+
+To write in a file:- # It will override the file.
+f=open("one.py",w)
+f.write("I am writing")
+f.close()
+
+TO append
+f=open("fb","a")
+f.write("I am cool\n") #f.write(input())To write through user input.
+
+---------------------------------vid4----------------------------------
+Waybakurls: Waybackurls is a command-line tool used for scraping URLs from the Wayback Machine.
+It is written in GO Language. 
+Waybackurls is important for cybersecurity professionals because it allows them to uncover 
+historical data about a website, identify potential vulnerabilities, and assess the security 
+posture of a target.
+
+ cat waybackurls.py
+#!/usr/bin/python3
+import argparse
+import os
+
+parser= argparse.ArgumentParser(description="Wayback Tool")
+parser.add_argument("-f",type=str, help="Filename", required=True)
+file=parser.parse_args()
+f=open("{}".format(file.f),"r")
+for i in f.readlines():
+    print("[+] Target:  {}".format(i))
+    os.system("waybackurls {}".format(i))
+
+cat file.txt
+cdac.in
+drop.
+
+python3  waybackurls.py -f file.txt
+
+
+
+-----------------------
+readline(): this will read first line of a file
+readlines(): It will read all lines of a file and we can traverse line by line.
+
+
+Use of stdin:
+
+With readline
+
+
+ cat python.py
+#!/usr/bin/python3
+import sys
+
+target=sys.stdin.readline()
+print("Target is given: ",target)
+
+─$ echo "dubey.com" | python3 python.py
+Target is given:  dubey.com
+
+─$python3 python.py < file.txt
+Target is given:  cdac.in
+
+─$ cat file.txt | python3 python.py
+Target is given:  cdac.in
+
+
+With Readlines()
+─$ cat python.py
+#!/usr/bin/python3
+import sys
+
+for i in sys.stdin.readlines():
+    print("Target is given: ",i)
+	
+─$ cat file.txt | python3 python.py
+Target is given:  cdac.in
+
+Target is given:  drop.com
+
+
+
+Http Port:  80
+Http-alt :  8080
+Https:		443
+Https-alt:	8443  (alt-alternative)
+
+htttp method
+GET is used to request data from a specified resource.
+POST-is used to send data to a server to create a resource.
+PUT is used to send data to a server to create/update a resource.
+
+The difference between POST and PUT is that PUT requests are idempotent. 
+That is, calling the same PUT request multiple times will always produce the same result. 
+In contrast, calling a POST request repeatedly have side effects of creating the same resource 
+multiple times.
+
+
+Http_Response Code:
+1xx: Informational Message
+2xx: Related to Succes Response
+3xx: Related to Redirection
+4xx: Related to client side error
+5xx: Related to Server side error
+
+Http_Headers- Request Header and Response Header
+
+Reuest header format
+			<request-line>
+			<request-haders>
+			<empty-line>
+			[<messag-body>]
+			
+			example
+			GET /doc/test.html HTTP/1.1 ------------> Request Line
+			Host: ww.tet1.com
+			Accept:
+			|
+			|
+			|
+			Content Length: 35 
+			(From host to Content is Requestmessage header)
+										A blank line seprated header & body
+			BOOKID=...........} rEQUEST MESSAGE BODY
+			
+Response Message Format
+<request-line>
+			<request-haders>
+			<empty-line>
+			[<messag-body>]
+		Example
+		HTTP/1.1 200 OK----------> Status Line
+		Date
+		|
+		|
+		Content-Type (Response messag header)
+		---------------> A blank line seprated header & body
+		<h1> My HOme Page</h1> (Response Message body)
+		
+		
+		
+		------------------
+		http.clinet -lib name: It is used to connect web servers and collecgt response accordingly
+
+Html data always encode with utf 8 So you have to always decode
+it with utf 8
+
+
+>>> http.client.HTTPConnection('cdac.in') (By default it connects to port 80
+>>> http.client.HTTPConnection('cdac.in:8080') (If port is different)
+>>> http.client.HTTPConnection('cdac.in',80)  (another way)
+>>> http.client.HTTPConnection('cdac.in',80,timeout=10)
+
+https://app.interactsh.com/#/  : we can copy this link and if some one access this link
+we can see request-haders and response headers
+Example: Request
+GET / HTTP/1.1
+Host: cjgdv9d2vtc0000vn52ggjeg7wayyyyyb.oast.fun
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.5
+Cache-Control: no-cache
+Connection: keep-alive
+Dnt: 1
+Pragma: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+
+Response:
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: text/html; charset=utf-8
+Server: oast.fun
+X-Interactsh-Version: 1.1.5
+
+<html><head></head><body>byyyyyaw7gejgg25nv0000ctv2d9vdgjc</body></html>
+
+
+ cat 1.py
+#!/usr/bin/python3
+import http.client
+
+# Now we will connect to a webserver and all information will be stored in var h
+#h = http.client.HTTPConnection("testphp.vulnweb.com")
+h = http.client.HTTPConnection("cjgdv9d2vtc0000vn52ggjeg7wayyyyyb.oast.fun")
+h.request("GET","/")
+# h.request fun tell that which method you want to connect url and which path you want to
+ connect to connect url.
+data = h.getresponse()
+print(data)
+
+┌──(kali㉿kali)-[~/Desktop/python]
+└─$ python3 1.py
+<http.client.HTTPResponse object at 0x7f5826528370>
+IN above output data is stored at this memory location
+
+
+Just add below code and run
+for i in data.readlines():
+    print(i)
+	
+ python3 1.py
+b'<html><head></head><body>byyyyyaw7gejgg25nv0000ctv2d9vdgjc</body></html>'
+All data is in bytes not in plain text.
+As we know, html data is encoded with utf- so we will decode with utf-8
+
+
+─$ cat 1.py
+#!/usr/bin/python3
+import http.client
+
+# Now we will connect to a webserver and all information will be stored in var h
+h = http.client.HTTPConnection("testphp.vulnweb.com")
+h.request("GET","/")
+data = h.getresponse()
+for i in data.readlines():
+    print(i.decode('utf-8'))
+
+print("Status code:",data.code) # It will return status code.
+print(data.headers) #it will print header 
+
+─$ python3 1.py
+Status code: 200

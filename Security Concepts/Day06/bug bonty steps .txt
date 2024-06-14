@@ -1,0 +1,161 @@
+WAPT | Recon
+-------------
+=> Subdomain Enum:
+------------------
+1) Passive [auth|unauth]
+2) Active
+
+Target: *.grofers.com
+
+
+
+app.admin.blog.example.com
+3rd  2nd  1st  rootDN  TLD
+
+
+
+admin.domain.tld
+ad.admin.domain.tld
+
+
+Target:
+-------
+Scope:
+```
+*.grofers.com
+
+
+▶ subfinder	[https://github.com/projectdiscovery/subfinder]
+
+Install:
+``````
+# go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+
+
+
+# subfinder -ls [To view the sources that require API keys]
+
+API Keys are Free Of Cost and has a Limited number of request:
+--------------------------------------------------------------
+binaryedge 			[https://app.binaryedge.io/sign-up]
+censys				[https://censys.io/register]
+certspotter			[https://sslmate.com/signup?for=certspotter_api]
+dnsdb				[https://www.farsightsecurity.com/dnsdb-community-edition/]
+github				[https://github.com/join]
+intelx				[https://intelx.io/signup]
+passivetotal			[https://community.riskiq.com/home]
+securitytrails			[https://securitytrails.com/app/signup]
+shodan				[https://account.shodan.io/login]
+spyse				[https://spyse.com/user/registration]
+urlscan				[https://urlscan.io/user/signup]
+virustotal			[https://www.virustotal.com/gui/join-us]
+zoomeye				[https://sso.telnet404.com/accounts/register/]
+
+# vim ~/.config/subfinder/provider-config.yaml
+
+ADD ALL THE APIs
+
+subfinder -d  loginradius.com -recursive -t 500 -all -config .config/subfinder/provider-config.yaml -silent | anew loginradius.txt
+
+
+ amass : https://github.com/OWASP/Amass
+````````
+Install:
+`````
+# go install -v github.com/owasp-amass/amass/v4/...@master
+--------
+# amass enum -passive -d example.com -silent -norecursive -nocolor [PASSIVE]
+OR
+# amass enum -passive -d example.com -config config.ini -silent -nocolor [PASSIVE] ??????????????????
+
+-passive: Disable DNS resolution names and dependent features.
+-d: Domain names separated by commas.
+-o: Path to the text file containing terminal stdout/stderr.
+____________________________
+▶ assetfinder:  go install -v github.com/tomnomnom/assetfinder@latest
+
+# assetfinder --subs-only example.com 
+__________________________
+▶ findomain: https://github.com/Findomain/Findomain
+
+# findomain -t example.com -q | grep -Ev "^[[:blank:]]$" 
+__________________________
+▶ https://chaos.projectdiscovery.io/#/
+
+curl -sSfL "https://chaos-data.projectdiscovery.io/index.json" | grep "URL" | sed 's/"URL": "//;s/",//' | grep "$org" | while read host do;do curl -sSfL "$host" > /dev/null;done
+for i in ls -1 | grep .zip$; do unzip $i > /dev/null; done && rm -f .zip && cat $org.txt > $target-choas_domains.txt
+
+
+# cat grofers.com.txt | grep -v "^*
+
+
+
+cat wayback.txt gauplus.txt | awk -F"/" '{print $3}' | cut -d":" -f1 | sort -u | anew all.txt
+___________________
+▶ Internet Archives:
+```````
+waybackurls 	[go install github.com/tomnomnom/waybackurls@latest]
+# waybackurls grofers.com
+-----
+gauplus 		[go install github.com/bp0lr/gauplus@latest]
+# gauplus -subs -random-agent grofers.com | tee gauplus.txt
+
+
+Using a URL list :
+
+only output urls that have query parameters e.g. http://example.com/page.php?id=
+only output urls that have no query parameters e.g. http://example.com/page.php
+only output urls that have extensions e.g. http://example.com/page.php
+only output urls that have no extensions e.g. http://example.com/page
+keep human written content e.g. blogs.
+__________________
+
+
+
+HTTPx [go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest]
+
+
+
+
+
+
+```
+# cat web_urls.txt | httpx -silent -status-code -mc 200 -nc -random-agent| anew 200_alive.txt
+# cat web_urls.txt | httpx -silent -status-code -mc 401,403 -nc -random-agent| anew 401_403_alive.txt
+# cat web_urls.txt | httpx -silent -status-code -mc 301,302 -location -nc -random-agent | anew 301_302_alive.txt
+
+Collect Status:
+````
+200 [DONE]
+301/302 [DONE]
+401/403 [DONE]
+500 [DONE]
+
+CHECK WAF/CDN:
+``
+# wafw00f -i alive-web.txt -o waf.txt
+# cat waf.txt | sed -e 's/^[ \t]*//' -e '/(None)/d' | tr -s " " ";"
+# cat waf.txt | sed 's/^[ \t]*//' | grep "None (None)" | tr -s " " ";"
+
+Collect: with or without WAF URLs
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+public DNS resolvers: [optional]
+------------------------
+a) Collect all public DNS and validate them 
+
+# git clone https://github.com/vortexau/dnsvalidator
+
+b) 
+
+# dnsvalidator -tL https://public-dns.info/nameservers.txt -t 100 -o resolvers.txt
+
+
+
+
+Web URL [ Alive ]:
+
+=> httprobe : apt install httprobe
+# cat subdomains.txt | httprobe --prefer-https -c 50 | tee alive-web.txt
+

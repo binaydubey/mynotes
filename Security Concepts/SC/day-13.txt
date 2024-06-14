@@ -1,0 +1,150 @@
+To enable root: PS C:\Users\nix> kali.exe config --default-user root
+________
+WAPT | Recon
+-------------
+1) Passive 
+2) Active
+
+
+=> Subdomain Enum:
+------------------
+admin.domain.tld
+ad.admin.domain.tld
+
+
+Target:
+-------
+Scope:
+``````
+*.apsis.com
+
+1. subfinder
+https://github.com/projectdiscovery/subfinder
+
+level-1 enum:
+`````````````
+# subfinder -d apsis.com -all --silent 
+
+free dataset:
+------------- config.yaml
+
+
+# subfinder -d apsis.com -all --config ~/.config/subfinder/config.yaml -recursive --silent | rev | cut -d"." -f1-3 | rev | anew root-level.txt
+
+
+NOTE: https://github.com/tomnomnom/anew
+
+=> amass : https://github.com/OWASP/Amass
+=> assetfinder:  go install -v github.com/tomnomnom/assetfinder@latest
+
+level-2
+--------
+# subfinder -dL root-level.txt  -all --config ~/.config/subfinder/config.yaml -recursive --silent | tee subfinder-level-two.txt
+
+# # cat root-level.txt | xargs -IX -P1000 bash -c 'assetfinder -subs-only "X"' | tee asset-level-two.txt
+
+
+=> findomain: https://github.com/Findomain/Findomain
+
+2) public DNS resolvers:
+------------------------
+a) Collect all public DNS and validate them 
+
+# git clone https://github.com/vortexau/dnsvalidator
+
+b) 
+
+# dnsvalidator -tL https://public-dns.info/nameservers.txt -t 100 -o resolvers.txt
+
+____________
+1) Web URL [ Alive ]:
+
+=> httprobe : apt install httprobe
+# cat subdomains.txt | httprobe --prefer-https -c 50 | tee alive-web.txt
+
+
+Aquatone:
+# apt install chromium -y
+# wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
+# unzip aquatone_linux_amd64_1.7.0.zip
+# cp aquatone /bin
+# cat alive_web.txt | aquaton 
+
+Add-ons: Firefox
+
+- openlist
+- wapplyzer
+
+
+2) Resolve subs:
+
+puredns -> 
+
+a)
+	# git clone https://github.com/blechschmidt/massdns.git
+	# cd massdns
+	# make && make install
+b) 
+	# go install github.com/d3mondev/puredns/v2@latest
+
+# puredns resolve subdomains.txt --resolvers ../tools/dnsvalidator/resolvers.txt  | tee resolved_subs.txt
+________________________________________________
+Discover the IP Prefix:
+-----------------------
+
+1) Identify ASN
+
+=> https://bgp.he.net/dns/apsis.com#_ipinfo
+
+Target:
+AS63949
+
+2) Identify IP range:
+----------------------
+
+# whois -h whois.radb.net -- '-i origin AS63949' | egrep -o "([0-9.]+){4}/[0-9]+" | sort -u --version-sort | tee asn-ip4-prefix.txt
+
+# go install -v github.com/projectdiscovery/mapcidr/cmd/mapcidr@latest
+
+# go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+
+# echo "185.3.92.0/22" | mapcidr -silent | dnsx -ptr -resp-only | grep apsis
+
+More IP using shodan:
+---------------------
+Favicon ICO: https://apsis.com/themes/custom/apsis/favicon.ico
+
+
+#!/bin/bash
+target=$1
+hash=$(curl -ks "${target}" | python3 -c 'import mmh3,sys,codecs; print(mmh3.hash(codecs.encode(sys.stdin.buffer.read(),"base64")))')
+shodan download favicon-data --limit -1 http.favicon.hash:${hash}
+
+# bash favicon.sh https://target.com/favicon.ico
+
+WAF:
+# wafw00f -i alive-web.txt -o waf.txt
+# cat waf.txt | sed -e 's/^[ \t]*//' -e '/(None)/d' | tr -s "\t" ";"
+
+
+
+KARMA_v2: 
+---------
+https://github.com/Dheerajmadhukar/karma_v2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

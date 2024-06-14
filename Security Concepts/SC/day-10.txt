@@ -1,0 +1,142 @@
+YAML:
+-----
+
+1. [key-value] pair:
+
+key: value
+
+eg:
+
+Fruit: Apple
+veg: carrot 
+
+2. Array/list:
+
+Fruit:
+	- orange
+	- apple
+
+3. Dict
+````````
+Its a set properties taht group together:
+
+Banana:
+	calories: 102
+Grapes:
+	calories: 99
+
+
+[+] key value/dict/list:
+----
+Fruits:
+	- Banana:
+			calories: 102
+	- grapes:
+			calories: 99
+
+
+________________________________________
+GO LANG setup:
+----------------
+
+Auto Install: # apt install golang -y
+
+Manual: 
+
+1. check the latest version of GO
+
+# curl -L -s https://golang.org/VERSION?m=text
+
+2. Download:
+
+# wget https://dl.google.com/go/VERSION.linux-arm64.tar.gz
+
+
+Setup ENV VAR:
+------
+# vim ~/.bashrc
+
+Go to end of file and add
+
+export GOPATH=~/go/bin
+export PATH=$PATH:$GOPATH
+
+# source ~/.bashrc
+____________________________________________
+# nuclei -ut
+
+[INF] Successfully downloaded nuclei-templates (v8.8.4) to /root/nuclei-templates. GoodLuck!
+
+# subfinder -d caffeine.tv --silent | httpx -t 100 --silent | nuclei -t ~/nuclei-templates/ -severity info,low,medium,high,critical --silent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

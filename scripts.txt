@@ -1,0 +1,237 @@
+
+
+
+1.
+
+#!/bin/bash
+awk -F":" '/\/bin\/bash/{print $1}' /etc/passwd > test
+rm -rf output.csv
+while read line
+do
+sudo chage -l $line | awk -v awkvar=$line -F ":" '/Password expires/{print awkvar"," $2} ' | tee -a output.csv
+echo " "
+done < test
+
+binay@ubuntu1:~$ bash chage.exe
+root, never
+
+binay, never
+
+harry, Nov 30, 2033
+
+dac1, never
+
+tom, never
+
+alice, never
+
+binay@ubuntu1:~$ cat output.csv
+root, never
+binay, never
+harry, Nov 30, 2033
+dac1, never
+tom, never
+alice, never
+
+
+var1=`curl https://attack.mitre.org/tactics/enterprise/ | egrep -o 'TA[0-9]+' | sort  -u`
+
+TA0001
+TA0002
+TA0003
+TA0004
+TA0005
+TA0006
+TA0007
+TA0008
+TA0009
+TA0010
+
+cat mitre | egrep -o 'TA[0-9]+">([A-Za-z]+\s?){2,3}\b'  | awk -F '">' '{print $1 "---->" $2}'
+TA0043---->Reconnaissance
+TA0042---->Resource Development
+TA0001---->Initial Access
+TA0002---->Execution
+TA0003---->Persistence
+TA0004---->Privilege Escalation
+TA0005---->Defense Evasion
+TA0006---->Credential Access
+TA0007---->Discovery
+TA0008---->Lateral Movement
+TA0009---->Collection
+TA0011---->Command and Control
+TA0010---->Exfiltration
+TA0040---->Impact
+
+
+
+curl https://attack.mitre.org/tactics/enterprise/ | egrep -o 'TA[0-9]+">([a-zA-Z]){3}[a-z]+(| [a-zA-Z]+(| [a-zA-Z]+))' | awk -F '">' '{print $1 " - " $2}'
+
+#For CPU
+read -p "Please Enter file: " file
+if [[ -f $file ]]
+then
+limit=`grep -n "Average" $file | head -1 | awk -F ":" '{print $1}'`
+v1=$((limit-1))
+
+read -p "Please Enter filename in which you want to save outpu: " output
+if [[ -f $output ]]
+then
+        echo "File already exist.."
+else
+awk -v v=$v1 'NR==3,NR==v{ print (NR==3)? $0 "  CPu_UTILIZATION" : $0"  " 100-$9 }' $file > $output
+fi
+awk -v v=$limit 'NR==v{ print $0 "  "  100-$8}'  $file >> $output
+avg=`awk -v v=$limit 'NR==v{ print 100-$8}'  $file`
+echo "Average cpu utilization is : $avg"
+awk -v v=$v1 'NR==4,NR==v{ print 100-$9 }' $file > sort.sh
+#min=`cat sort.sh  | sort -n | head -1`
+max=`cat sort.sh  | sort -n | tail -1`
+echo "Maximum is  : $max" | tee -a $output
+
+
+#fOR MEMORY
+strt=$((limit+3))
+end=`cat -n $file | grep -m2 "Average" | tail -1 | awk '{print $1}'`
+awk -v v1=$strt -v v2=$end 'NR==v1,NR==v2-1 {print $5}' $file | sort -n > s2.sh
+max=`tail -1 s2.sh`
+mem_avg=`cat $file | grep -m2 "Average" | tail -1 | awk '{print $4}'`
+echo "Maximu memory usage is : $max"
+echo  "Avg memory usage is : $mem_avg"
+
+else
+        echo "File does not exist."
+fi
+
+Certainly! Here's a simple example of a shell script that uses ls -Q to list files in a directory and then performs some operation on each file.
+
+Let's say you want to create a script that renames all files in a directory to lowercase. 
+This can be useful if you have a mix of uppercase and lowercase filenames and you want to standardize them.
+
+bash
+Copy code
+#!/bin/bash
+
+# Check if a directory is provided as an argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+# Navigate to the directory
+cd $1
+
+# List files, enclosed in double quotes
+files=$(ls -Q)
+
+# Loop through each file
+for file in $files; do
+    # Remove double quotes from filename
+    filename=$(echo $file | tr -d '"')
+
+    # Check if the file exists
+    if [ -f "$filename" ]; then
+        # Convert filename to lowercase
+        newname=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+
+        # Rename the file
+        mv "$filename" "$newname"
+
+        echo "Renamed $filename to $newname"
+    fi
+done
+
+
+Certainly! Here's another example of a script that uses ls -Q to list files and perform an operation. 
+This time, we'll create a script that moves all files with a specific extension (e.g., .txt) to a designated directory:
+
+bash
+Copy code
+#!/bin/bash
+
+# Check if two arguments are provided
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <source_directory> <destination_directory>"
+    exit 1
+fi
+
+source_dir=$1
+dest_dir=$2
+
+# Check if source directory exists
+if [ ! -d "$source_dir" ]; then
+    echo "Error: Source directory '$source_dir' does not exist."
+    exit 1
+fi
+
+# Check if destination directory exists, if not, create it
+if [ ! -d "$dest_dir" ]; then
+    mkdir -p "$dest_dir"
+fi
+
+# Navigate to the source directory
+cd "$source_dir"
+
+# List files with the specified extension, enclosed in double quotes
+files=$(ls -Q *.txt)
+
+# Loop through each file
+for file in $files; do
+    # Remove double quotes from filename
+    filename=$(echo $file | tr -d '"')
+
+    # Move the file to the destination directory
+    mv "$filename" "$dest_dir/"
+
+    echo "Moved $filename to $dest_dir/"
+done
+
+Certainly! Here's another example of a script that utilizes `ls -Q`. 
+This script will calculate the total size of all files in a directory and its subdirectories:
+
+```bash
+#!/bin/bash
+
+# Check if a directory is provided as an argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+# Get the directory path
+dir=$1
+
+# Check if the directory exists
+if [ ! -d "$dir" ]; then
+    echo "Error: Directory '$dir' does not exist."
+    exit 1
+fi
+
+# Navigate to the directory
+cd "$dir"
+
+# Use 'du' command to calculate total size, '-ch' for human-readable output
+total_size=$(du -ch | grep total$ | cut -f1)
+
+echo "Total size of files in $dir: $total_size"
+```
+ 
+```
+
+This script uses `ls -Q` indirectly by relying on the `du` command to calculate the size of files in the directory. 
+It's a practical example of how you can combine various Unix utilities to perform useful tasks.
+
+
+
+------------------------------------
+To check enterd input is on upper,lower or mixed .
+read -p "Please Enter a Name:- " name
+if [[ "$name" =~ ^[A-Z]+$ ]]
+then
+        echo "Upper"
+elif [[ "$name" =~ ^[a-z]+$ ]]
+then
+        echo "Lower"
+else
+        echo "Mixed..."
+fi

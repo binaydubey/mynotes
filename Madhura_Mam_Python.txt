@@ -1,0 +1,1751 @@
+Chapter 1 – Practice Set
+===================================
+1.Write a program to print Twinkle-Twinkle Little Star poem in python.
+#!/usr/bin/python3
+print("Twinkle, twinkle, little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky
+Twinkle, twinkle, little star
+How I wonder what you are") ------------------> It will give error. 
+If there are mutlitple line in string Use Tripple Single Quote----> '''  '''
+
+
+#!/usr/bin/python3
+print('''Twinkle, twinkle, little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky
+Twinkle, twinkle, little star
+How I wonder what you are''')
+
+
+A REPL (say it, “REP-UL”) is an interactive way to talk to your computer in Python. 
+To make this work, the computer does four things:
+
+Read the user input (your Python commands).
+Evaluate your code (to work out what you mean).
+Print any results (so you can see the computer’s response).
+Loop back to step 1 (to continue the conversation).
+
+2.Use REPL and print the table of 5 using it.
+[root@localhost python]# python3
+Python 3.6.8 (default, Nov 16 2020, 16:55:22) 
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 5*1
+5
+>>> 5*2
+10
+>>> 5*3
+15
+>>> 5*4
+20
+>>> 5*5
+25
+>>> 
+
+#!/usr/bin/python3
+#Arithmatic Operators
+print("The value of 3+4 is : ", 3+4)
+print("The value of 3-4 is : ", 3-4)
+print("The value of 3*4 is : ", 3*4)
+print("The value of 3/4 is : ", 3/4)
+
+
+#!/usr/bin/python3
+#Logical Operators----------->
+var1=True
+var2=False
+print("the value of var1 and var2 is: ",var1,var2)
+print("the value of var1 and var2 is: ",(var1 and var2))
+print("the value of var1 or var2 is: ",(var1 or var2))
+print("the value of not var2 is: ",(not var2))
+ 
+
+Write a Python program to find the remainder when a number is divided by Z(Integer)
+#!/usr/bin/python3
+a, b=input("Enter Two no ").split()
+print("First no  is : ",a)
+print(type(a))
+a=int(a)
+print("Second no  is : ",b)
+print(type(b))
+b=int(b)
+print("Remainder is : ", a%b)
+ when we take input from user , its data type is STRING
+ 
+ 3.Write a Python program to find the average of two numbers entered by the user.
+ #!/usr/bin/python3
+a, b=input("Enter Two no ").split()
+print("First no  is : ",a)
+print(type(a))
+a=int(a)
+print("Second no  is : ",b)
+print(type(b))
+b=int(b)
+c=(a+b)/2
+print("Average is : ", c)
+----------------------------------------------------------------------------------------------------
+Python Numbers: 1.int
+				2.float
+				3.complex
+>>> num1=2.3
+>>> num2=2
+>>> num3=3+1j
+>>> print(type(num1))
+<class 'float'>
+>>> print(type(num2))
+<class 'int'>
+>>> print(type(num3))
+<class 'complex'>
+>>> 
+
+Type Conversion()
+
+
+print(num1)
+2.3
+>>> print(num2)
+2
+>>> print(num3)
+(3+1j)
+>>> a=int(num1)
+>>> b=comp
+compile(  complex(  
+>>> b=complex(num2)
+>>> c=float(num3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: float() argument must be a string or a real number, not 'complex'
+
+NOTE:- We can not convert a complex no into another number type.
+
+>>> print(a,b)
+2 (2+0j)
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+Random Number: Python doesn’t have a random() function  but it has a 
+built -in module called random.
+ import random
+>> print(random.random())
+0.18887452278356665
+>>> print(random.random())
+0.4666619658462767
+
+>> print(random.randrange(1,50))
+40
+>>> print(random.randrange(1,50))
+20
+>>> print(random.randrange(1,50))
+2
+  Here in range (1,50), 1 is incuded and 50 is excluded.
+  
+choice(): It is a inbuilt function in python which returns a random number from list, 
+tupple And String.
+
+print(name)
+Binay Dubey
+>>> random.choice(name)
+'y'
+>>> random.choice(name)
+'e'
+
+
+
+
+
+
+
+We can primarily declare string using three ways.
+
+1.Single Quoted strings a='BINAY DON'
+2.Double quoted string  b="BINAY DON"
+3.TrippleQuoted string  c='''BINAY DON'''
+
+STRING SLICING
+We can access each character of string by index.
+a="binay"
+print(a[0])
+print(a[1])
+print(a[2])
+print(a[3])
+print(a[0:3])
+print(a[3:4])
+print(type(a))
+
+O/P---
+b
+i
+n
+a
+bin
+a
+
+In string , if we want to skip  one index ,we can do like this-
+a="binaydubey"
+d=a[1::2] ----->Here 1 represents index 1, it will start from i (in binaydubey), 
+in second field if we did not put any value it will take last value of index. 
+last field represents skip every second character.
+OUTPUT-----
+iadby 
+
+for d=a[0::2] ------>bnyue(in this following characters are skipped i,a,d,b)
+
+Chapter 3 – Practice Set
+Write a Python program to display a user-entered name followed by Good Afternoon using input() function.
+a=input("Enter Your Name :" )
+print("Very Very Good Morning ",a)
+
+
+Check string: To check if a certain phrase or char is present in a sting, we use keyword 'in'.
+>> txt="The best things in life is free !"
+>>> print("frees" in txt)
+False
+
+>> if "free" in txt:
+...     print("yes, free is present")
+... 
+yes, free is present
+
+
+Check If NOT string: To check if a certain phrase or char is  NOT present in a sting, we use keyword 'not in'.
+print("frees" not in txt)
+True
+
+>> if "mango" not in txt:
+...     print("Yes mango is not present")
+... 
+Yes mango is not present
+
+
+f-Strings:
+>> val='geeks'
+>>> print(f"{val} for {val} is a online portal")
+geeks for geeks is a online portal.
+
+>> import datetime
+>>> today=datetime.datetime.today()
+>>> print(today)
+2022-12-30 13:12:02.239611
+>>> print(f"{today:%B %d, %Y}") Here%B month name full (December),%d day of month & %Y year full version
+December 30, 2022
+
+
+Date & Time
+
+>> from datetime import date
+>>> today=date.today()
+>>> print(today)
+2022-12-30
+
+
+>> print("Current Year:" , today.year)
+Current Year: 2022
+>>> print("Current Month:" , today.month)
+Current Month: 12
+>>> print("Current Day:" , today.day)
+Current Day: 30
+
+
+String Functions
+Some of the most used functions to perform operations on or manipulate strings are:
+
+1.len() function : It returns the length of the string.
+2.len(‘harry’)               #Returns 5
+3.endswith(“rry”) : This function tells whether the variable string ends with the string “rry” or not. If string is “harry”, it returns for “rry” since harry ends with rry.
+4.count(“c”) : It counts the total number of occurrences of any character.
+5.capitalize() : This function capitalizes the first character of a given string.
+6.find(word) : This function finds a word and returns the index of first occurrence of that word in the string.
+7.replace(oldword, newword) : This function replaces the old word with the new word in the entire string.
+
+
+Escape Character:
+
+We cant use double quotes inside a string that is surrounded by double quotes. 
+but using Escape character we can do.
+txt="We are so-called "vikings" form the north."
+  File "<stdin>", line 1
+    txt="We are so-called "vikings" form the north."
+                           ^^^^^^^
+SyntaxError: invalid syntax
+>>> txt="We are so-called \"vikings\" form the north."
+>>> print(txt)
+We are so-called "vikings" form the north.
+
+
+#!/usr/bin/python3
+story="HI, I am Binay Kumar Dubey, Student of EDITISSS"
+print("end with EDITISS -  ",story.endswith("EDITISSS"))
+print("Find Index no of Binay - ",story.find("Binay"))
+print("Replace Binay with BinayDon -",story.replace("Binay","BinayDon"))
+print("Count no of occurance of char a -",story.count("a"))
+ OUTPUT ---------------
+ end with EDITISS -   True
+Find Index no of Binay -  9
+Replace Binay with BinayDon - HI, I am BinayDon Kumar Dubey, Student of EDITISSS
+Count no of occurance of char a - 3
+
+
+Write a program to detect double spaces in a string.
+story="HI,I am  Binay Kumar Dubey, Student of EDITISSS"
+print(story.find("  "))
+
+Replace the double spaces  with single spaces.
+story="HI,I am  Binay Kumar Dubey  , Student of EDITISSS"
+print(story.replace("  ","'''"))
+
+output=HI,I am'Binay Kumar Dubey', Student of EDITISSS
+-------------------------------------------------------------------------
+Write a program to format the following letter using escape sequence characters.
+letter = “Dear Harry, This Python course in nice. Thanks!!”
+
+
+
+Chapter 4 – Lists and Tuples
+Python Lists are containers to store a set of values of any data type.
+#!/usr/bin/python3
+#Create a list
+list=[1,2,3,4,5]
+print(list)
+# Access element of list using index like list[0],list[1]
+print(list[0])
+print(list[1])
+print(list[2])
+print(list[3])
+#we can change value of string--
+list[2]=23
+list[3]=69
+print(list)
+
+
+>> print(list)
+[1, 2, 3, 'binay']
+>>> print(list[2])
+3
+>>> print(len(list))
+4
+>>> print(len(list[3]))
+5
+
+List Constructor:- list()
+
+l1=list(("binay","ansh","anshika"))
+>>> print(l1)
+['binay', 'ansh', 'anshika'] ---->list expected at most 1 argument
+
+
+a=[1,2,3,4,5,6]
+print(a)
+print(a[-1])
+print(a[-2])
+print(a[-3])
+print(a[-4])
+print(a[-5])
+print(a[-6])
+print(a[1])
+print("a[0:5]",a[0:5])
+print("a[0:]",a[0:])
+print("a[4:]",a[4:])
+print("a[3:-1]",a[3:-1])
+OUTPUT ----->
+[1, 2, 3, 4, 5, 6]
+6
+5
+4
+3
+2
+1
+2
+a[0:5] [1, 2, 3, 4, 5]
+a[0:] [1, 2, 3, 4, 5, 6]
+a[4:] [5, 6]
+a[3:-1] [4, 5]
+ 
+Write a script which take a list as input from user:
+cat   
+#!/usr/bin/python3
+n=int(input("Please enter the length  of list\n"))
+l1=[]
+for i in range(0,n):
+    el=input(f"plsase enter element no {i+1}: \n")
+    l1.append(el)
+print(l1)
+
+
+
+#!/usr/bin/python3
+l1=[1,4,7,8,56,7,6]
+print(l1)
+l1.sort()
+print("After Sorting : ",l1)
+l1.reverse()
+print("Reverse of listy ",l1)
+l1.append(45)#adds 45 at the end of list
+print("Appended List",l1)
+l1.insert(2,543)#inserts 547 at index2
+print(l1)
+l1.pop(2) #removes element at index2  ---------------->list' object has no attribute 'push'
+print(l1)
+l1.remove(56) #remove 56 from list
+print(l1)
+
+
+TUPLE----------------------------------- 
+TUPLE is unchangeable.
+Empty tuple:
+>> t1=()
+>>> type(t1)
+<class 'tuple'>
+33333333333
+>> #Create one element tuple
+>>> t1=("binay")
+>>> type(t1)
+<class 'str'>
+>>> t1=("binay",)
+>>> type(t1)
+<class 'tuple'>
+ 
+Note: See the differnce in above code 
+
+
+Unpacking a tuple: When we create  a tuple, normally we assign values to it.
+this is called "packing a tuple"
+but in python, we are also allowed to to extract values back into varaibles.
+This is called unpacking.
+
+>>> fruits=("mango","banana","orange")
+>>> (green,yellow,red)=fr
+from        frozenset(  fruits      
+>>> (green,yellow,red)=fruits
+>>> print(green)
+mango
+>>> print(yellow)
+banana
+>>> print(red)
+orange
+
+To print tuple:
+>> for i in fruits:
+...     print(i)
+... 
+mango
+banana
+orange
+
+
+
+Tuple methods: Python has two built-in methods that can use on tuples
+count(1) – It will return the number of times 1 occurs in a.
+index(1) – It will return the index of the first occurrence of 1 in a.
+
+>>> t3.count(1)
+1
+>>> print(t3)
+(1, 2, 3, 4, 5, 6, 7, 8, 9)
+>>> t3.index(9)
+8
+
+
+
+
+Join Two Tuples:
+>> t1=(1,2,3,4,5)
+>>> t2=(6,7,8,9)
+>>> t3=t1+t2
+>>> print(t3)
+(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+Multiply tuple:
+>>> print(t3)
+(1, 2, 3, 4, 5, 6, 7, 8, 9)
+>>> t3*2
+(1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+>>> t3*4
+(1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+>>> 
+
+
+
+
+
+#!/usr/bin/python3
+#Creating tuple
+t1=(1,243,44,2,1,2,3,1,23)
+print(t1)
+print("Element at index 4 in tuple is ",t1[4])
+print("Element at index 0 in tuple is ",t1[0])
+#t1[0]=34 ---Can't Update values of tuple
+t2=()
+print("empty tuple",t2)
+#t2=(1)-----> error, we can't create single ctuple like this
+t3=(1,)
+print("Single tuple ",t3)
+print(t3[0])
+print("no of occurance of is  1",t1.count(1))
+print("index no of 1 is",t1.index(1))
+print("index no of 23 is",t1.index(23))
+
+----------------------------------------------------------------------------
+Chapter 4 – Practice Set
+1.Write a program to store seven fruits in a list entered by the user.
+#!/usr/bin/python3
+f1, f2, f3, f4, f5, f6, f7=input("Enter 7 fruit name ").split()
+myfruits=(f1,f2,f3, f4, f5, f6, f7)
+print("my fruit is ",myfruits)
+
+
+Tup are immutable means we cantchange. But there is a workround. you can convert the tuple into list.
+Change the list and convert back it into tuple.
+>> t1=("banana","kiwi","apple")
+>>> t2=list(t1)
+>>> print(t2)
+['banana', 'kiwi', 'apple']
+>>> print(t1)
+('banana', 'kiwi', 'apple')
+>>> t2[1]="orange"
+>>> t1=tuple(t2)
+>>> print(t1)
+('banana', 'orange', 'apple')
+
+
+Add items into tuple:
+its immutable, they dont have inbuild append() method.But there are other ways to add itema to tuple.
+1.Convert into list
+t1=("Mumbai","Latur","Pune")
+>>> t2=list(t1)
+>>> t2.append("Gorakhpur")
+>>> t1=tuple(t2)
+>>> print(t1)
+('Mumbai', 'Latur', 'Pune', 'Gorakhpur')
+
+2.Add tuple to a tuple
+>>> t1=("Mumbai","Latur","Pune")
+>>> t2=("Gorakhpur",)
+>>> t1=t1+t2
+>>> print(t1)
+('Mumbai', 'Latur', 'Pune', 'Gorakhpur')
+1
+
+
+
+
+ 
+
+2.Write a program to accept the marks of 6 students and display them in a sorted manner.
+[root@localhost python]# cat test.py
+#!/usr/bin/python3
+m1=int(input("Enter sub 1 marks"))
+m2=int(input("Enter sub 2 marks"))
+m3=int(input("Enter sub 3 marks"))
+m4=int(input("Enter sub 4 marks"))
+m5=int(input("Enter sub 5 marks"))
+m6=int(input("Enter sub 6 marks"))
+l1=[m1,m2,m3,m4,m5,m6]
+t1=(m1,m2,m3,m4,m5,m6)
+print("Before List Sorting :- ",l1)
+print("Before tuple Sorting :- ",t1)
+l1.sort()
+print("SORTED LIST ",l1)
+t2=sorted(t1)
+print("SORTED TUPLE :-",t2)
+
+3.Write a program to sum a list with 4 numbers
+t1=[23,3,45,54]
+print("Sum of list is  :",t1[0]+t1[1]+t1[2]+t1[3])
+print("using function sum is :", sum(t1))
+
+4.Write a program to count the number of zeros in the tuple
+#!/usr/bin/python3
+t1=[23,0,0,7,9,0,9,7,0,0,3,45,54]
+print("the no of zeros in tuple is :",t1.count(0))
+
+Chapter 5 – Dictionary and Sets
+Dictionary is a collection of key-value pairs
+Properties of Python Dictionaries
+It is unordered
+It is mutable
+It is indexed
+It cannot contain duplicate keys
+
+
+
+Consider the following dictionary,
+
+a = {“name”: “Harry”,
+	“from”: “India”,
+	“marks”: [92,98,96]}
+items() : returns a list of (key,value) tuple.
+keys() : returns a list containing dictionary’s keys.
+update({“friend”: “Sam”}) : updates the dictionary with supplied key-value pairs.
+get(“name”) : returns the value of the specified keys (and value is returned e.g., “Harry” is returned here)
+
+
+
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "marks":[100,80,69,35],10:"dus" }
+        print("Keys'TYPE",type(mydict.keys()))
+OUTPUT-----Keys'TYPE <class 'dict_keys'>
+
+
+
+#Creating Dictionary
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "marks":[100,80,69,35],10:"dus" }
+print("My dictionary :-",mydict)
+print(mydict.keys())    #it will print keys of dictionary
+print(mydict.values())  #it will print values of dictionary.
+print(mydict.items())  #it will print keys and values of dictionary.
+
+#To access single value of dictionary---
+print(mydict['fast'])
+print(mydict['marks'])
+
+
+#We can define dictionary inside a dictionary.
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "anotherdict":{ "nac":"friend", "robin":"friend", 10:"dus"},
+        "marks":[100,80,69,35],10:"dus" 
+		}
+print(mydict['anotherdict']['robin'])
+print(mydict['anotherdict']['nac'])
+
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "anotherdict":{ "nac":"friend", "robin":"friend"},
+        "marks":[100,80,69,35],10:"dus",
+        1:2
+          }
+print("before update",mydict)
+updatedict={3:23,"binay":"don","banana":"kela"}
+#we will add above dict into mydict using update()method
+mydict.update(updatedict)#update the dictionary by adding key-value pairs from updatedict
+print("After update",mydict)
+
+
+get() method gives value of specifed keys.
+print(mydict['fast'])
+print(mydict.get('fast'))
+#both give same output what isfifference?
+#print(mydict['fast1'])#if keys are not present it will give error
+print(mydict.get('fast1'))#if keys are not present it will return None.
+----------------------------------------------------------------------------------------------------------
+
+Sets in Python
+Set is a collection of non-repetitive elements.
+Properties of Sets
+Sets are unordered # Elements order doesn’t matter
+Sets are unindexed # Cannot access elements by index
+There is no way to change items in sets
+Sets cannot contain duplicate values
+
+Create an empty set:
+>>> set1=set()
+>>> type(set1)
+<class 'set'>
+
+
+Operations on Sets
+Consider the following set:
+
+S = {1,8,2,3}
+Len(s) : Returns 4, the length of the set
+remove(8) : Updates the set S and removes 8 from S
+pop() : Removes an arbitrary element from the set and returns the element removed.
+clear() : Empties the set S
+union({8, 11}) : Returns a new set with all items from both sets. #{1,8,2,3,11}
+intersection({8, 11}) : Returns a set which contains only items in both sets. #{8}
+
+#SETS
+a={1,2,3,4,3,2,44,5,}
+print("set",a)
+b={}#this is not consider as a set, it is dictionary
+#To create an empty set
+c=set()
+print(type(b),type(c))
+
+#Adding value to empty set
+c.add(2)
+c.add(2)
+c.add(54)
+c.add(26)
+print(c)
+>> s2.add(0)
+>>> print(s2)
+{0, 5}
+>>> s2.add(12)
+>>> s2.add(12)
+>>> print(s2)
+{0, 12, 5}
+>>> s2.add((34,56,8))
+>>> print(s2)
+{0, (34, 56, 8), 12, 5}
+>>> s2.add([34,56,8])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list' 
+l1={1,2,3,45}
+>>> l2={21,2,34,33}
+>>> l1.update(l2)
+>>> print(l1)
+{1, 2, 3, 33, 34, 45, 21}
+>>> print(l2)
+{33, 2, 34, 21}
+l2.pop() #it will remove randomly
+l2.remove(34) #it will remove 34 from the set and if value is not presetn throughs an error.
+l2.discard(32) #it will not through error if 32 is not present.
+
+#union
+a={1,2,34,56,78}
+>>> b={2,31,23,45,56}
+>>> print(a.union(b))
+{1, 2, 34, 45, 78, 23, 56, 31}
+>>> print(a|b) #both are same.
+{1, 2, 34, 45, 78, 23, 56, 31}
+
+#intersection
+>> a.intersection(b)
+{56, 2}
+>>> a&b
+{56, 2}
+
+#differnce
+#difference
+>>> a-b
+{1, 34, 78}
+
+a.difference(b)
+{1, 34, 78}
+a.difference_update((b)) #this will update set a
+>>> print(a)
+{1, 34, 78}
+>>> a=a-b #this will update set a
+
+#suppose on monday [123,345,689,907] and on tuesday [1123,11123,123,345,907] employees are present.
+
+find who are present on both day.
+>> mon=[123,345,678,123,567]
+>>> tue=[123,456,890,567]
+>>> mon=set(mon)
+>>> tue=set(tue)
+>>> #both days
+>>> print(mon&tue)
+{123, 567}
+>>> #only mon or only tue(symmetry)
+>>> print(mon^tue)
+{678, 456, 345, 890}
+>>> #total no (Union)
+>>> print(mon|tue)
+{678, 456, 567, 345, 890, 123}
+
+
+
+
+x=('a','b','c')
+>>> print(type(x))
+<class 'tuple'>
+>>> y=['a','b','c']
+>>> d1=dict.fromkeys(x) #we can create new dictionary with defalut value.
+>>> d2=dict.fromkeys(y)
+>>> print(d1)
+{'a': None, 'b': None, 'c': None}
+>>> print(d2)  
+{'a': None, 'b': None, 'c': None}
+>>> d1=dict.fromkeys(x,100)
+>>> d2=dict.fromkeys(y,200)
+>>> print(d1)
+{'a': 100, 'b': 100, 'c': 100}
+>>> print(d2)
+{'a': 200, 'b': 200, 'c': 200}
+
+
+print(courses)
+{'DBDA': 120, 'DAI': 44}
+>>> courses["DBDA"]=65 #if key is present it will update else it will add.
+>>> print(courses)
+{'DBDA': 65, 'DAI': 44}
+>>> courses["VLSI"]=65
+>>> print(courses)
+{'DBDA': 65, 'DAI': 44, 'VLSI': 65}
+
+--------------------------------------------------------------
+Function
+def fun1():
+    print("this is function1")
+    #By default this function return None
+
+def f2(a,b=3):
+    sum=10+3
+    return sum
+
+def f3(a=2,b=3,c=10):
+    sum=a+b+c
+    return sum
+'''this type of function will be not allowed ----> def f4(a,b=2,c): 
+when you assign default parameter to one parameter then all on the right side has to 
+have default parameter. '''
+fun1()
+f2(5)
+f2(5,10)
+f3(5)
+print('f3(c=5)',f3(c=5))
+
+
+
+def f1(a,b): #call by value
+    a=a+10
+    return a
+
+def  f2(lst): #call by reference
+    lst.append(20)
+    print(lst)
+
+print(f1(10,5))
+lst=[1,2,3]
+print(f2(lst))
+print(lst)
+
+
+def addition(a,b=0,c=0,*t):  #it is for tuple
+    sum=a+b+c
+    for num in t:
+        sum=sum+num
+    return sum
+
+print(addition(1,34,34,45,56,34,5,67))
+'''
+def f1(a,b,c,**karg): #it is for dictionary
+    print(a,b,c)
+    print(karg)
+    print(type(karg))
+
+f1(12,34,56)
+f1(12,32,34,x=45,y=64,z=44)
+
+276
+12 34 56
+{}
+<class 'dict'>
+12 32 34
+{'x': 45, 'y': 64, 'z': 44}
+<class 'dict'>
+
+
+def f4(a,b,c=23,*t,**karg): # it contains both tuple and dictionary both.
+    print(a,b,c)
+    print(t)
+    print(karg)
+
+f4(12,34)
+f4(12,34,23,345,56,56)
+f4(12,34,23,345,56,56,x=43,y=56,z=34)
+
+
+Day 8 - Recursive funcion __main__
+
+if we write a python program, it will consider as a module. if we run that program then it will store
+in variable __name__=__main__ 
+and if we import that module in another program then 
+variable __name__ =<module_name>
+Scenerio : Let see if we have a python program named module1.py
+it contains basic functions like addition subtraction and many more. if we want to user this funcion 
+in another program, we will import it.
+There are various way to import.
+
+import module1
+print(module1.sum(3,4) # To access other module's funcion.
+
+import module1 as m
+print(m.sum(3,4)
+
+from module1 import sum #only sum function
+sum(3,4)
+or
+from module1 import * # it will import all funcion then we can access all funcions directly by their name.
+
+if your both programs are present in same folder, the we don't need to define path.
+but if they are in different folder them 
+import sys
+sys.path.append(r"c:\mydata") or you can set PYTHONPATH varaible in environment
+
+
+
+------------------------DAY9---------------------------------------------
+
+
+lst=[1,2,3,43 ,4,33,523,2,3,233,45,67]
+lst1=[]
+for i in lst:
+    if i>5:
+        lst1.append(i)
+print(lst1)
+
+lst2=list(filter(lambda X:X>5,lst)) #using lambda
+print(lst2)
+
+lst3=[i for i in lst if i>5] #using list comprehension
+print(lst3)
+
+OUTPUT:-
+[43, 33, 523, 233, 45, 67]
+[43, 33, 523, 233, 45, 67]
+[43, 33, 523, 233, 45, 67]
+
+Watch again to learn about reduce(),map() and filter()
+
+
+
+--------------------------------------------------DAY 10-------------------------------------
+Watch again for topic mypackage.
+
+In python there are 3 scope
+1.Global
+2.Local
+3.NON Local
+
+def f1():
+    global count
+    count+=1
+    print(a)
+    b=10
+    print("Before nonlocal value of b is ",b)
+    def f2():
+        nonlocal b
+        b=33
+        print(b)
+    f2()
+    print("After nonlocal value of b is ",b)
+
+a=5
+b=5
+count=0
+f1()
+print(count)
+
+
+When we write a nested functio, then child function have own local scope and then non local scope
+of their parent function and the last one is global scope.
+
+
+-----------------------------------OOPS----------------------------------------
+class Point:
+    colour="white" #static variable
+    def __init__(self,a,b,c='white',d="binay"): #constructor When we create object, it will get automatically called.
+        print("init called")
+        self.x=a   #instance variable
+        self.y=b
+        self.__z=c 
+        self.__p=d #private variable, we can't access it directly.
+
+    def __str__(self): # When we print object then it wiil run
+        print("Self called")
+        return "x: " +str(self.x)+"  y: "+str(self.y)+"  z: "+str(self.__z)+"   p: "+self.__p 
+		#it accepts string only
+        
+    
+p=Point(10,20,30)
+#print(p)
+
+
+Watch for object addition l (Operator Overloading)
+ex. p1= Point()
+	p2= Point()
+	p1=p1+p2
+	similarly p1=p1-p2,p1=p1*p2 and so on.
+	
+	self+other
+	
+
+
+
+def __str__(self):
+        print("Self called")
+        return "x: " +str(self.x)+"  y: "+str(self.y)+"  z: "+str(self.__z)+"   p: "+self.__p
+        
+    def set(self,a,b,c):
+        self.name=a
+        self.age=b
+        self.mob=c
+
+    def getname(self):
+        return self.name
+    
+    def  getage(self):
+        return self.age
+    
+
+
+p=Point(10,20,30)
+#print(p)
+p.set("Binay",24,"8286315625")
+print(p.getage())
+print(p.getname())
+
+
+ @staticmethod #this is a decorator
+    def method1(): #if we don't pass self , it become static method.
+        print("This is a static method")
+
+ Point.method1() #We don't call staticmethod through object. we call it through class name.l
+
+
+
+
+
+---------------------------------------------------------DAY=12---------------------------------------------
+Single and Multilevel Inheritance:
+
+
+
+class Person:
+    def __init__(self,pid=0,cname='cdac'):
+        self.__pid=pid
+        self.cnmae=cname
+    def __str__(self):
+        return f"Id: {self.__pid} Company Name: {self.cnmae}"
+class Employee(Person):
+    def __init__(self, pid=0, cname='cdac',dept='',desg=''):
+        super().__init__(pid, cname)
+        self.dept=dept
+        self.desg=desg
+    def __str__(self):
+        return super().__str__()+f" Department: {self.dept} Designation:{self.desg}"
+
+p=Person(344961,"Cdac")
+print(p)
+e=Employee(344961,"Cdac","adp","PE")
+print(e)
+
+OUTPUT:
+
+PS D:\Python> & C:/Users/Binay/AppData/Local/Programs/Python/Python39/python.exe d:/Python/practice.py
+Id: 344961 Company Name: Cdac
+Id: 344961 Company Name: Cdac Department: adp Designation:PE
+
+
+Abstract Class: We don't create object of abstarct class. use an abstract class to create a blueprint for other classes.
+Similarly, an abstract method is an method without an implementation. An abstract class may or may not include abstract methods.
+
+Python doesn’t directly support abstract classes. But it does offer a module that allows you to define abstract classes.
+from abc import ABC, abstractmethod
+
+The abc module provides you with the infrastructure for defining abstract base classes.
+
+For example:
+
+from abc import ABC, abstractmethod
+class Abstract_Example(ABC):
+    def __init__(self,value):
+        super().__init__()
+        self.value=value
+    
+
+    @abstractmethod
+    def do_something(self):
+        pass
+
+class Do_add50(Abstract_Example):
+    
+    def do_something(self):
+        return self.value+50
+    
+class Do_mul10(Abstract_Example):
+    sum=0
+    def do_something(self):
+        return self.value*10
+
+:/Python/abstract.py
+60
+50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+we can add tuple into set but list cant.
+
+
+
+
+
+Chapter 5 – Practice Set
+1.Write a program to create a dictionary of Hindi words with values as their English translation. 
+Provide the user with an option to look it up!
+#!/usr/bin/python3
+hindidict={"kela":"banana", "gend":"ball","fool":"flower"}
+print("Options are :",hindidict.keys())
+a=input("Enter hindi word from above option :")
+print("Meaning of hindi word which you entered is",hindidict.get(a))
+#With the help of get() method, if user entered word which is not present in dictionary , 
+it will give error but using get it will return None.
+
+
+2.Write a program to input six numbers from the user and display all the unique numbers (once)
+#!/usr/bin/python3
+num1=int(input("Enter no 1\n"))
+num2=int(input("Enter no 2\n"))
+num3=int(input("Enter no 3\n")) 
+num4=int(input("Enter no 4\n"))
+num5=int(input("Enter no 5\n"))
+num6=int(input("Enter no 6\n"))
+s={num1,num2,num3,num4,num5,num6}
+print("Set is :",s)
+
+
+3.Can we have a set with 18(int) and “18”(str) as a value in it?
+s={18,"18"}
+print(s)
+print(type(s))
+OUTPUT====={'18', 18}
+<class 'set'>
+
+
+What will be the length of the following set S:
+S = Set()
+
+S.add(20)
+
+S.add(20.0)
+
+S.add(“20”)
+print(len(s)) //Output 2
+
+6. Create an empty dictionary. Allow 4 friends to enter their favorite language as values
+ and use keys as their names. Assume that the names are unique.
+
+
+========================================================================================
+If else and elif in Python
+If else and elif statements are a multiway decision taken by our program due to certain conditions in our code.
+
+Syntax:
+
+'''
+if (condition1):		// if condition 1 is true
+	print(“yes”)
+elif (condition2):		// if condition 2 is true
+	print(“No”)
+else:				// otherwise
+	print(“May be”)
+'''
+
+
+
+#!/usr/bin/python3
+#Write a program to prit largest no
+a=int(input("Enter a number \n"))
+b=int(input("Enter a number \n"))
+c=int(input("Enter a number \n"))
+if(a>b):
+        if(a>c):
+                print(a,"is greater than",b,"and",c)
+        else:
+                 print(c,"is greater than",a,"and",b)
+elif(b>c):
+         print(b,"is greater than",a,"and",c)
+else:
+         print(c,"is greate than",b,"and",a)
+
+
+#!/usr/bin/python3
+#in and is
+a=None
+print(a is None)#it is same like a=None, if condition is true it will return true
+l=[9,8,67,90]
+print( 8 in l)#it checks no is present or ot in list.
+print(85 in l)
+
+Chapter 6 – Practice Set
+1. Write a program to find the greatest of four numbers entered by the user.
+
+#!/usr/bin/python3
+#take 4 no from user find greatest no
+a=int(input("enter first number\n"))
+b=int(input("enter second number\n"))
+c=int(input("enter third number\n"))
+d=int(input("enter fourth number\n"))
+if(a>b):
+        f1=a
+else:
+        f1=b
+if(c>d):
+        f2=c
+else:
+        f2=d
+if(f1>f2):
+        print(f1,"is greatest")
+else:
+        print(f2,"is greatest")
+		
+		
+2.Write a program to find out whether a student is pass or fail if it requires a total of 40% and at least 33% in each subject to pass.
+ Assume 3 subjects and take marks as an input from the user.
+ 
+ #!/usr/bin/python3
+sub1=int(input("Enter first submarks out of 100\n"))
+sub2=int(input("Enter second sub marks out of 100\n"))
+sub3=int(input("Enter third sub marks out of 100\n"))
+sub4=int(input("Enter fourth sub marks out of 100\n"))
+per=((sub1+sub2+sub3+sub4)/400)*100
+print("Your % is:",per)
+if(per>40.0):
+        if((sub1>=33 and sub2>=33)and(sub3>=33 and sub4>=33)):
+                print("You are passed")
+        else:
+                print("you are failed ")
+else:
+        print("you are failed")
+		
+		
+3.A spam comment is defined as a text containing the following keywords:
+“make a lot of money”, “buy now”, “subscribe this”, . Write a program to detect these spams.
+#!/usr/bin/python3
+text=input("Enter your text\n ")
+if("make a lot of money" in text):
+        spam=True
+elif("buy now" in text):
+        spam=True
+elif("subscribe this" in text):
+        spam=True
+elif("click this" in text ):
+        spam=True
+else:
+        spam=False
+
+if(spam):
+        print("This is spam")
+else:
+        print("this is not spam")
+
+
+WHILE Loop
+#!/usr/bin/python3
+i=1
+while(i<=10):
+        print(i)
+        i=i+1
+
+print("loop is ended")
+
+"for" Loop
+#!/usr/bin/python3
+list = ['banana','orange','binay',"nac"]
+for item in list:
+        print(item)
+
+Range function in Python
+The range function in python is used to generate a sequence of numbers.
+
+We can also specify the start, stop, and step-size as follows:
+
+            range(start, stop, step_size)
+
+step size is usually not used with range()
+An example demonstrating range() function
+
+for i in range(0, 7):		#range(7) can also be used
+	print(i)		#prints 0 to 6
+	
+	
+	#!/usr/bin/python3
+for i in range(1,8):
+        if i==5:
+                continue
+        print(i)
+
+
+
+Chapter 7 – Practice Set
+1.Write a program to print the multiplication table of a given number using for loop.
+#!/usr/bin/python3
+a=int(input("enter a number\n"))
+for i in range(1,11):
+        print(a*i)
+
+
+2.Write a program to greet all the person names stored in a list l1 and which starts with S.
+l1 = [“Harry”, “Sohan”, “Sachin”, “Rahul”]
+#!/usr/bin/python3
+l1 = ["Harry", "Sohan", "Sachin", "Rahul"]
+for name in l1:
+        if(name.startswith("S")):
+                print("Hii,Very Very Good morning",name)
+				
+				
+3.Write a program to print the multiplication table of a given number using while loop.
+#!/usr/bin/python3
+a=int(input("Enter a number\n"))
+i=1
+while(i<11):
+        print(a,"*",i,"=",a*i)
+        i=i+1
+4.Write a program to find the sum of first n natural numbers using a while loop.
+a=int(input("Enter a number\n"))
+sum=0
+i=1
+while(i<=a):
+        sum=sum+i
+        i=i+1
+print("Sum of first",a,"number is ",sum)
+
+
+5.Write a program to calculate the factorial of a given number using for loop.
+
+
+FUNCTION:=
+#!/usr/bin/python3
+def greet(name):
+        print("Hello",name)
+b=input("Enter your good name\n")
+greet(b)
+
+
+Inheritance:_
+===============================================================================
+Single Inheritance:-
+class Two_D_vector:
+    def my_fun(self):
+        print("This is Two D Class")
+
+class Three_D_vector(Two_D_vector):
+    def two_d_func(self):
+        print("This is three D function")
+
+ob1 = Three_D_vector()
+ob1.my_fun()
+ob1.two_d_func()
+
+OUTPUT:-
+This is Two D Class
+This is three D function
+
+2.Multilevel Inheritance:-
+class Animals:
+    def Animal_fun(self):
+        print("This is animalclass")
+class Pet(Animals):
+    def pet_fun(self):
+        print("This is pet class")
+class Dog(Pet):
+    def bar(self):
+        print("The dog barks")
+ob1 = Dog()
+ob1.Animal_fun()
+ob1.pet_fun()
+ob1.bar()
+
+
+OUTPUT:- This is animalclass
+This is pet class
+The dog barks
+----------------------------------
+class Person:
+    country="India"
+    def breath(self):
+        print("I am breathing")
+class Employee(Person):
+    company="Honda"
+    def myfun(self):
+        print(f"My company name is {self.company}")
+class Programmer(Employee):
+    company="Cisco"
+    def myfun(self):
+        print(f"My comapny name is {self.company}")
+p1 = Person()
+e1 = Employee()
+pr = Programmer()
+print(pr.company)
+e1.breath()
+print(e1.country)
+
+
+---------------------------------------------
+Multiple Inheritance:-
+#Multiple INHERITANCE
+class Freelancer:
+    name="BINAY"
+class Company:
+    name="Nachiket"
+class Hybrid(Freelancer,Company):
+    pass
+    #name="Raju"
+ob1=Hybrid()
+print(ob1.name)
+
+OUTPUT: BINAY
+-----------------------------------------------
+
+super method: It is used to access the method of Super class .
+
+class Person:
+    country="India"
+    def __init__(self) :
+        print("Initializing Person")
+    def breath(self):
+        print("I am breathing")
+class Employee(Person):
+    company="Honda"
+    def __init__(self):
+        print("Initializing Employee")
+
+    def myfun(self):
+        super.__init__()
+        super.breath()
+        print(f"My company name is {self.company}")
+class Programmer(Employee):
+    company="Cisco"
+    def __init__(self):
+        print("Initializing Programmer")
+    def myfun(self):
+        print(f"My comapny name is binay {self.company}")
+#p1 = Person()
+#e1 = Employee()
+pr = Programmer()
+pr.myfun()
+
+When we call a method in a class, if that class doesn't have __init__ method , it will call __init__method of parent class.
+
+
+Regular Expression:
+Meta Characters
+[] A set of characters
+\ Signals a special sequence (can also be used to escape special characters)
+. Any character (except newline character)
+^ A line Starts with
+$ Ends with
+* Zero or more occurrences
++ One or more occurrences
+{} Exactly the specified number of occurrences
+| Either or
+() Capture and group
+Special Sequences
+\A Returns a match if the specified characters are at the beginning of the string
+\b Returns a match where the specified characters are at the beginning or at the end of a word r"ain\b"
+\B Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word
+
+\d Returns a match where the string contains digits (numbers from 0-9)
+\D Returns a match where the string DOES NOT contain digits
+\s Returns a match where the string contains a white space character
+\S Returns a match where the string DOES NOT contain a white space character
+\w Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character)
+\W Returns a match where the string DOES NOT contain any word characters
+\Z Returns a match if the specified characters are at the end of the string
+
+
+
+Quantifiers
+Quantifiers allow you to specify the number of occurrences of items that must be present for a match to occur. 
+The following table shows the quantifiers supported by GNU grep:
+
+
+Quantifier	Description
+*	Match the preceding item zero or more times.
+?	Match the preceding item zero or one time.
++	Match the preceding item one or more times.
+{n}	Match the preceding item exactly n times.
+{n,}	Match the preceding item at least n times.
+{,m}	Match the preceding item at most m times.
+{n,m}	Match the preceding item from n to m times.
+Practice:-
+
+
+Youtube Link :https://www.youtube.com/watch?v=K8L6KVGG-7o
+https://github.com/CoreyMSchafer/code_snippets/tree/master/Python-Regular-Expressions
+.       - Any Character Except New Line
+\d      - Digit (0-9)
+\D      - Not a Digit (0-9)
+\w      - Word Character (a-z, A-Z, 0-9, _)
+\W      - Not a Word Character
+\s      - Whitespace (space, tab, newline)
+\S      - Not Whitespace (space, tab, newline)
+
+\b      - Word Boundary
+\B      - Not a Word Boundary
+^       - Beginning of a String
+$       - End of a String
+
+[]      - Matches Characters in brackets
+[^ ]    - Matches Characters NOT in brackets
+|       - Either Or
+( )     - Group
+
+Quantifiers:
+*       - 0 or More
++       - 1 or More
+?       - 0 or One
+{3}     - Exact Number
+{3,4}   - Range of Numbers (Minimum, Maximum)
+
+
+#### Sample Regexs ####
+
+[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+
+
+
+Let a file q.txt contains following data-
+999-999-3567
+789.456.7896
+337*784*7895
+Ha HaHaHa HaHAAHa Ha
+now we have to find pattern for above moble no.
+here we can use regex like "\d\d\d.\d\d\d.\d\d\d\d"
+3 times \d mean  continue 3 digit and .(dot) means any char .
+above expression can be written also like this "\d{3}.\d{3}.d{4}"
+Code:
+import re
+f = open("D:\Python\q.txt","r")
+var = f.read()
+pattern = re.compile(r"\d{3}.\d{3}.d{4}")
+match=pattern.finditer(var)
+for i in match:
+    print(i)
+	
+Now we want to print those no which have . or - only.
+So we use set of character --: []
+We can modify pattern:
+pattern = re.compile(r"\d{3}[.-]\d{3}[.-]d{4}")
+
+Output:-
+ d:/Python/regex.py
+<re.Match object; span=(0, 11), match='999-999-356'>
+<re.Match object; span=(12, 23), match='789.456.789'>
+
+[.-] it means . or - . So  ti will leave third mon no whic contains * .
+
+
+Example of \b  - Word Boundary
+
+Ha HaHaHa HaHAAHa Ha
+pattern = re.compile(r"\bHa")
+here it will search 
+
+d:/Python/regex.py
+<re.Match object; span=(39, 41), match='Ha'>
+<re.Match object; span=(42, 44), match='Ha'>
+<re.Match object; span=(49, 51), match='Ha'>
+<re.Match object; span=(57, 59), match='Ha'>
+Here it is matching oly those who start with 'Ha'
+
+NO Word boundary:-
+pattern = re.compile(r"\BHa")
+<re.Match object; span=(44, 46), match='Ha'>
+<re.Match object; span=(46, 48), match='Ha'>
+<re.Match object; span=(54, 56), match='Ha'>
+Hereit is matching only those who ending with 'Ha'
+
+Pat
+Bat
+Rat
+Now we want to print Pat, Bat but not Rat.
+pattern = re.compile(r"[^R]at")
+============================================================================
+Mr. Schafer
+Mr Smith
+Ms Davis
+Mrs. Robinson
+Mr. T
+pattern = re.compile(r"M(r|s|rs)\.?\s[A-Z]\w*")
+
+emails = '''
+CoreyMSchafer@gmail.com
+corey.schafer@university.edu
+corey-321-schafer@my-work.net
+'''
+pattern = re.compile(r"[a-zA-z0-9.-]+@[a-z-]+\.(com|edu|net)")
+match=pattern.finditer(emails)
+for i in match:
+    print(i)
+To match any emialid:
+pattern = re.compile(r"[a-zA-z0-9-.+]+@[a-z-]+\.[a-zA-Z0-9_+-]+")
+
+Here we want to match domain name and top level domain name.so first we matchh whole website and in expression we add domain name in one group 
+and top domain name in another group. In regex we create groups by paranthesis().And we will print this group by group method
+urls = '''
+https://www.google.com
+http://coreyms.com
+https://youtube.com
+https://www.nasa.gov
+'''
+pattern = re.compile(r"https?://(www\.)?([a-z]+)\.([a-z]+)")
+match=pattern.finditer(urls)
+print(match)
+for i in match:
+    print(i.group(0))
+
+Here group(0) will print whole link.
+group 1 will print www or none
+group 2 will print domain name
+aroup 3 will print toplevel domain name.
+
+pattern = re.compile(r"https?://(www\.)?([a-z]+)(\.[a-z]+)")
+subbed_urls=pattern.sub(r"\2\3",urls)
+print(subbed_urls)
+here \2 means 2nd group and \3 means 3rd Group.
+OUTPUT:
+google.com
+coreyms.com
+youtube.com
+nasa.gov
+
+If you want to match any word after a certain word , you can use \K :
+
+
+
+Function	Description
+findall	Returns a list containing all matches
+search	Returns a Match object if there is a match anywhere in the string
+split	Returns a list where the string has been split at each match
+sub	Replaces one or many matches with a string
+
+
+
+
+
+
+
+
+
+1. Factorial Program:
+var1= int(input("Please Enter a number:"))
+fact=1
+for i in range(1,var1+1):
+    fact=fact*i
+print(fact)
+OUTPU:
+Please Enter a number:5
+120
+
+2. Palindrome:-
+name=input("Please enter a word: ")
+lenght=len(name)
+w=""
+for i in range(lenght-1,-1,-1):
+    w=w+name[i]
+print(w)
+if name == w :
+    print(f"{name} is palindrome")
+else:
+    print(f"{name} is not a palindrome")
+	
+OUTPUT:
+Please enter a word: radar
+radar is palindrome
+
+
+
+
+
+===============================================================================================
+
+
+Socket Programming:-
+link: https://www.tutorialspoint.com/python/python_socket_programming.htm#:~:text=To%20write%20Internet%20servers%2C%20we,service%20on%20the%20given%20host.
+
+
+The socket module in the standard library included functionality required for communication between server and client at hardware level.
+This module provides access to the BSD socket interface. It is available on all operating systems such as Linux, Windows, MacOS.
+What are Sockets?
+Sockets are the endpoints of a bidirectional communications channel. Sockets may communicate within a process, between processes on the same machine, or between processes on different continents.
+A socket is identified by the combination of IP address and the port number. It should be properly configured at both ends to begin communication.
+
+
+
+There are two types of communication protocols −
+connection-oriented protocol
+connection-less protocol
+
+
+
+
+Python The socket Module
+This module includes Socket class. A socket object represents the psir of hostname and port number. The constructor method has the following signature −
+Syntax
+socket.socket (socket_family, socket_type, protocol=0)
+Parameters
+family − AF_INET by default. Other values - AF_INET6 (eight groups of four hexadecimal digits), AF_UNIX, AF_CAN (Controller Area Network) or AF_RDS (Reliable Datagram Sockets).
+socket_type − should be SOCK_STREAM (the default), SOCK_DGRAM, SOCK_RAW or perhaps one of the other SOCK_ constants.
+protocol − number is usually zero and may be omitted.
+
+Return Type
+This method returns a socket object.
+Once you have the socket object, then you can use the required methods to create your client or server program.
+
+Server Socket Methods
+bind() method − This method binds the socket to specified IP address and port number.
+
+listen() method − This method starts server and runs into a listen loop looking for connection request from client.
+
+accept() method − When connection request is intercepted by server, this method accepts it and identifies the client socket with its address.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

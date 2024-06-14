@@ -1,0 +1,183 @@
+Testing:
+--------
+Static AST
+Dynamic AST
+
+Tools: SonarQube
+_______________________
+Its a part of SDLC, its used to ensure that the code to be deployed with no bug and no logic errors.
+
+Developer ------(code)--------> Tester ---------------> Deploy
+
+If error found:-
+~~~~~~~~~~~~~~~~
+
+Developer --------------> Tester
+	^								         |
+	|________________________|
+
+Software Testing Classifications:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) Testing Types:
+	- Manual
+	- Automated
+
+2) Testing Methods:
+	- Static
+	- Dynamic
+
+3) Testing Approach:
+	- Black Box
+	- White Box
+	- Gray box
+
+4) Testing Levels:
+	- Unit testing				[ Where each module tested separately ]
+	- Integration testing	[ Set of mudules ]
+	- System testing			[ Whole system ]
+	- Acceptance testing		[ To fullfill the requirments of client/customer ]
+
+[+] Dynamic Testing:
+````````````````````
+Dynamic testing performs during the execution of the code to detect vulnerabilities.
+
+
+Testing Env:
+------------
+
+												|------(if no errors)-----> Deployment
+												|
+Developer -----------> Code --------------> Testing
+	^											|
+	|											|------(if error found)----\
+	|																  	         |
+	|___________________________________________________________|
+
+
+
+Dynamic Testing Tools:
+----------------------
+- Selenium
+- CasperJS
+- etc....
+
+
+[+] Static Testing:
+````````````````````
+Its like debugging or examine the code before run or test the code without executing it. In this testing we analyse code against a pre-set of coding rules and ensure it comfirms to the guidelines.
+
+
+
+Developer ----------------> Code ------------------> Static Testing---\
+	^															   						 |
+	|													 									 |	 
+	|____________(Inform Developer about error in code)________________|
+
+
+Static Testing Tools:
+----------------------
+- Sonarqube
+- pycharm
+- etc....
+__________________________________________________________________________________________
+
+
+SonarQube:
+``````````
+Open Source Static Code Analysis tool. Its used by developers to manage source code quality and consistency.
+
+Check:
+	- Bugs
+	- Code Defects
+	- Code Duplication
+	- Excess Complexity
+	- Code Smell
+
+It works with 25+ languages:
+	- java	
+	- .net	
+	- js		
+	- py		
+	- c++	
+	- php	
+	- etc......
+
+SonarQube also works in CI/CD:
+``````````````````````````````
+- To automate Code Analysis
+- Get access through Webhooks & API
+- Integrate GitHub
+- Analyse branch and pull requests 
+
+Installation:
+`````````````
+1. Create aws instance EC2 OR Server OR VM
+2. Access
+3. sudo apt update
+4. sudo apt install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+5. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+6. echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+7. sudo apt update
+8. sudo apt install docker-ce docker-ce-cli containerd.io
+
+9. docker image pull sonarqube:latest
+10. docker images
+11.  docker container run -d --name sonarqube -p 9000:9000 sonarqube:latest
+
+x.x.x.x:9000
+admin/admin
+
+or
+# mkdir sonarqube;cd sonarqube
+# cat > docker-compose.yaml
+
+version: "3"
+
+services:
+  sonarqube:
+    image: sonarqube:community
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:
+
+# docker-compose up
+
+Test the code:
+--------------
+x.x.x.x:9000 ---> Create project (local)
+
+Download : https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+
+# wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+_________________________________________________________________________________________________________________
+

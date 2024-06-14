@@ -1,0 +1,1004 @@
+Chapter 1 – Practice Set
+===================================
+1.Write a program to print Twinkle-Twinkle Little Star poem in python.
+#!/usr/bin/python3
+print("Twinkle, twinkle, little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky
+Twinkle, twinkle, little star
+How I wonder what you are") ------------------> It will give error. If there are mutlitple line in string Use Tripple Single Quote----> '''  '''
+
+
+#!/usr/bin/python3
+print('''Twinkle, twinkle, little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky
+Twinkle, twinkle, little star
+How I wonder what you are''')
+
+
+A REPL (say it, “REP-UL”) is an interactive way to talk to your computer in Python. To make this work, the computer does four things:
+
+Read the user input (your Python commands).
+Evaluate your code (to work out what you mean).
+Print any results (so you can see the computer’s response).
+Loop back to step 1 (to continue the conversation).
+
+2.Use REPL and print the table of 5 using it.
+[root@localhost python]# python3
+Python 3.6.8 (default, Nov 16 2020, 16:55:22) 
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 5*1
+5
+>>> 5*2
+10
+>>> 5*3
+15
+>>> 5*4
+20
+>>> 5*5
+25
+>>> 
+
+#!/usr/bin/python3
+#Arithmatic Operators
+print("The value of 3+4 is : ", 3+4)
+print("The value of 3-4 is : ", 3-4)
+print("The value of 3*4 is : ", 3*4)
+print("The value of 3/4 is : ", 3/4)
+
+
+#!/usr/bin/python3
+#Logical Operators----------->
+var1=True
+var2=False
+print("the value of var1 and var2 is: ",var1,var2)
+print("the value of var1 and var2 is: ",(var1 and var2))
+print("the value of var1 or var2 is: ",(var1 or var2))
+print("the value of not var2 is: ",(not var2))
+ 
+
+Write a Python program to find the remainder when a number is divided by Z(Integer)
+#!/usr/bin/python3
+a, b=input("Enter Two no ").split()
+print("First no  is : ",a)
+print(type(a))
+a=int(a)
+print("Second no  is : ",b)
+print(type(b))
+b=int(b)
+print("Remainder is : ", a%b)
+ when we take input from user , its data type is STRING
+ 
+ 3.Write a Python program to find the average of two numbers entered by the user.
+ #!/usr/bin/python3
+a, b=input("Enter Two no ").split()
+print("First no  is : ",a)
+print(type(a))
+a=int(a)
+print("Second no  is : ",b)
+print(type(b))
+b=int(b)
+c=(a+b)/2
+print("Average is : ", c)
+
+We can primarily declare string using three ways.
+
+1.Single Quoted strings a='BINAY DON'
+2.Double quoted string  b="BINAY DON"
+3.TrippleQuoted string  c='''BINAY DON'''
+
+STRING SLICING
+We can access each character of string by index.
+a="binay"
+print(a[0])
+print(a[1])
+print(a[2])
+print(a[3])
+print(a[0:3])
+print(a[3:4])
+print(type(a))
+
+O/P---
+b
+i
+n
+a
+bin
+a
+
+In string , if we want to skip  one index ,we can do like this-
+a="binaydubey"
+d=a[1::2] ----->Here 1 represents index 1, it will start from i (in binaydubey), in second field 
+if we did not put any value it will take last value nof index. last field
+represents skip every second character.
+OUTPUT-----
+iadby 
+
+for d=a[0::2] ------>bnyue(in this following characters are skipped i,a,d,b)
+
+Chapter 3 – Practice Set
+Write a Python program to display a user-entered name followed by Good Afternoon using input() function.
+a=input("Enter Your Name :" )
+print("Very Very Good Morning ",a)
+
+
+String Functions
+Some of the most used functions to perform operations on or manipulate strings are:
+
+1.len() function : It returns the length of the string.
+2.len(‘harry’)               #Returns 5
+3.endswith(“rry”) : This function tells whether the variable string ends with the string “rry” or not. If string is “harry”, it returns for “rry” since harry ends with rry.
+4.count(“c”) : It counts the total number of occurrences of any character.
+5.capitalize() : This function capitalizes the first character of a given string.
+6.find(word) : This function finds a word and returns the index of first occurrence of that word in the string.
+7.replace(oldword, newword) : This function replaces the old word with the new word in the entire string.
+
+#!/usr/bin/python3
+story="HI, I am Binay Kumar Dubey, Student of EDITISSS"
+print("end with EDITISS -  ",story.endswith("EDITISSS"))
+print("Find Index no of Binay - ",story.find("Binay"))
+print("Replace Binay with BinayDon -",story.replace("Binay","BinayDon"))
+print("Count no of occurance of char a -",story.count("a"))
+ OUTPUT ---------------
+ end with EDITISS -   True
+Find Index no of Binay -  9
+Replace Binay with BinayDon - HI, I am BinayDon Kumar Dubey, Student of EDITISSS
+Count no of occurance of char a - 3
+
+
+Write a program to detect double spaces in a string.
+story="HI,I am  Binay Kumar Dubey, Student of EDITISSS"
+print(story.find("  "))
+
+Replace the double spaces  with single spaces.
+story="HI,I am  Binay Kumar Dubey  , Student of EDITISSS"
+print(story.replace("  ","'''"))
+
+output=HI,I am'Binay Kumar Dubey', Student of EDITISSS
+-------------------------------------------------------------------------
+Write a program to format the following letter using escape sequence characters.
+letter = “Dear Harry, This Python course in nice. Thanks!!”
+
+
+
+Chapter 4 – Lists and Tuples
+Python Lists are containers to store a set of values of any data type.
+#!/usr/bin/python3
+#Create a list
+list=[1,2,3,4,5]
+print(list)
+# Access element of list using index like list[0],list[1]
+print(list[0])
+print(list[1])
+print(list[2])
+print(list[3])
+#we can change value of string--
+list[2]=23
+list[3]=69
+print(list)
+
+
+a=[1,2,3,4,5,6]
+print(a)
+print(a[-1])
+print(a[-2])
+print(a[-3])
+print(a[-4])
+print(a[-5])
+print(a[-6])
+print(a[1])
+print("a[0:5]",a[0:5])
+print("a[0:]",a[0:])
+print("a[4:]",a[4:])
+print("a[3:-1]",a[3:-1])
+OUTPUT ----->
+[1, 2, 3, 4, 5, 6]
+6
+5
+4
+3
+2
+1
+2
+a[0:5] [1, 2, 3, 4, 5]
+a[0:] [1, 2, 3, 4, 5, 6]
+a[4:] [5, 6]
+a[3:-1] [4, 5]
+
+
+#!/usr/bin/python3
+l1=[1,4,7,8,56,7,6]
+print(l1)
+l1.sort()
+print("After Sorting : ",l1)
+l1.reverse()
+print("Reverse of listy ",l1)
+l1.append(45)#adds 45 at the end of list
+print("Appended List",l1)
+l1.insert(2,543)#inserts 547 at index2
+print(l1)
+l1.pop(2) #removes element at index2
+print(l1)
+l1.remove(56) #remove 56 from list
+print(l1)
+
+
+TUPLE-----------------------------------
+Tuple methods:
+count(1) – It will return the number of times 1 occurs in a.
+index(1) – It will return the index of the first occurrence of 1 in a.
+
+#!/usr/bin/python3
+#Creating tuple
+t1=(1,243,44,2,1,2,3,1,23)
+print(t1)
+print("Element at index 4 in tuple is ",t1[4])
+print("Element at index 0 in tuple is ",t1[0])
+#t1[0]=34 ---Can't Update values of tuple
+t2=()
+print("empty tuple",t2)
+#t2=(1)-----> error, we can't create single ctuple like this
+t3=(1,)
+print("Single tuple ",t3)
+print(t3[0])
+print("no of occurance of is  1",t1.count(1))
+print("index no of 1 is",t1.index(1))
+print("index no of 23 is",t1.index(23))
+
+----------------------------------------------------------------------------
+Chapter 4 – Practice Set
+1.Write a program to store seven fruits in a list entered by the user.
+#!/usr/bin/python3
+f1, f2, f3, f4, f5, f6, f7=input("Enter 7 fruit name ").split()
+myfruits=(f1,f2,f3, f4, f5, f6, f7)
+print("my fruit is ",myfruits)
+
+2.Write a program to accept the marks of 6 students and display them in a sorted manner.
+[root@localhost python]# cat test.py
+#!/usr/bin/python3
+m1=int(input("Enter sub 1 marks"))
+m2=int(input("Enter sub 2 marks"))
+m3=int(input("Enter sub 3 marks"))
+m4=int(input("Enter sub 4 marks"))
+m5=int(input("Enter sub 5 marks"))
+m6=int(input("Enter sub 6 marks"))
+l1=[m1,m2,m3,m4,m5,m6]
+t1=(m1,m2,m3,m4,m5,m6)
+print("Before List Sorting :- ",l1)
+print("Before tuple Sorting :- ",t1)
+l1.sort()
+print("SORTED LIST ",l1)
+t2=sorted(t1)
+print("SORTED TUPLE :-",t2)
+
+3.Write a program to sum a list with 4 numbers
+t1=[23,3,45,54]
+print("Sum of list is  :",t1[0]+t1[1]+t1[2]+t1[3])
+print("using function sum is :", sum(t1))
+
+4.Write a program to count the number of zeros in the tuple
+#!/usr/bin/python3
+t1=[23,0,0,7,9,0,9,7,0,0,3,45,54]
+print("the no of zeros in tuple is :",t1.count(0))
+
+Chapter 5 – Dictionary and Sets
+Dictionary is a collection of key-value pairs
+Properties of Python Dictionaries
+It is unordered
+It is mutable
+It is indexed
+It cannot contain duplicate keys
+
+
+
+Consider the following dictionary,
+
+a = {“name”: “Harry”,
+	“from”: “India”,
+	“marks”: [92,98,96]}
+items() : returns a list of (key,value) tuple.
+keys() : returns a list containing dictionary’s keys.
+update({“friend”: “Sam”}) : updates the dictionary with supplied key-value pairs.
+get(“name”) : returns the value of the specified keys (and value is returned e.g., “Harry” is returned here)
+
+
+
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "marks":[100,80,69,35],10:"dus" }
+        print("Keys'TYPE",type(mydict.keys()))
+OUTPUT-----Keys'TYPE <class 'dict_keys'>
+
+
+
+#Creating Dictionary
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "marks":[100,80,69,35],10:"dus" }
+print("My dictionary :-",mydict)
+print(mydict.keys())    #it will print keys of dictionary
+print(mydict.values())  #it will print values of dictionary.
+print(mydict.items())  #it will print keys and values of dictionary.
+
+#To access single value of dictionary---
+print(mydict['fast'])
+print(mydict['marks'])
+
+
+#We can define dictionary inside a dictionary.
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "anotherdict":{ "nac":"friend", "robin":"friend", 10:"dus"},
+        "marks":[100,80,69,35],10:"dus" 
+		}
+print(mydict['anotherdict']['robin'])
+print(mydict['anotherdict']['nac'])
+
+mydict = {
+        "fast":"flash","slow":"turtle",
+        "anotherdict":{ "nac":"friend", "robin":"friend"},
+        "marks":[100,80,69,35],10:"dus",
+        1:2
+          }
+print("before update",mydict)
+updatedict={3:23,"binay":"don","banana":"kela"}
+#we will add above dict into mydict using update()method
+mydict.update(updatedict)#update the dictionary by adding key-value pairs from updatedict
+print("After update",mydict)
+
+
+get() method gives value of specifed keys.
+print(mydict['fast'])
+print(mydict.get('fast'))
+#both give same output what isfifference?
+#print(mydict['fast1'])#if keys are not present it will give error
+print(mydict.get('fast1'))#if keys are not present it will return None.
+----------------------------------------------------------------------------------------------------------
+
+Sets in Python
+Set is a collection of non-repetitive elements.
+Properties of Sets
+Sets are unordered # Elements order doesn’t matter
+Sets are unindexed # Cannot access elements by index
+There is no way to change items in sets
+Sets cannot contain duplicate values
+
+Operations on Sets
+Consider the following set:
+
+S = {1,8,2,3}
+Len(s) : Returns 4, the length of the set
+remove(8) : Updates the set S and removes 8 from S
+pop() : Removes an arbitrary element from the set and returns the element removed.
+clear() : Empties the set S
+union({8, 11}) : Returns a new set with all items from both sets. #{1,8,2,3,11}
+intersection({8, 11}) : Returns a set which contains only items in both sets. #{8}
+
+#SETS
+a={1,2,3,4,3,2,44,5,}
+print("set",a)
+b={}#this is not consider as a set, it is dictionary
+#To create an empty set
+c=set()
+print(type(b),type(c))
+
+#Adding value to empty set
+c.add(2)
+c.add(2)
+c.add(54)
+c.add(26)
+print(c)
+
+hapter 5 – Practice Set
+1.Write a program to create a dictionary of Hindi words with values as their English translation. 
+Provide the user with an option to look it up!
+#!/usr/bin/python3
+hindidict={"kela":"banana", "gend":"ball","fool":"flower"}
+print("Options are :",hindidict.keys())
+a=input("Enter hindi word from above option :")
+print("Meaning of hindi word which you entered is",hindidict.get(a))
+#With the help of get() method, if user entered word which is not present in dictionary , it will give error but using get it will return None.
+
+
+2.Write a program to input six numbers from the user and display all the unique numbers (once)
+#!/usr/bin/python3
+num1=int(input("Enter no 1\n"))
+num2=int(input("Enter no 2\n"))
+num3=int(input("Enter no 3\n"))
+num4=int(input("Enter no 4\n"))
+num5=int(input("Enter no 5\n"))
+num6=int(input("Enter no 6\n"))
+s={num1,num2,num3,num4,num5,num6}
+print("Set is :",s)
+
+
+3.Can we have a set with 18(int) and “18”(str) as a value in it?
+s={18,"18"}
+print(s)
+print(type(s))
+OUTPUT====={'18', 18}
+<class 'set'>
+
+
+What will be the length of the following set S:
+S = Set()
+
+S.add(20)
+
+S.add(20.0)
+
+S.add(“20”)
+print(len(s)) //Output 2
+
+6. Create an empty dictionary. Allow 4 friends to enter their favorite language as values
+ and use keys as their names. Assume that the names are unique.
+
+
+========================================================================================
+If else and elif in Python
+If else and elif statements are a multiway decision taken by our program due to certain conditions in our code.
+
+Syntax:
+
+'''
+if (condition1):		// if condition 1 is true
+	print(“yes”)
+elif (condition2):		// if condition 2 is true
+	print(“No”)
+else:				// otherwise
+	print(“May be”)
+'''
+
+
+
+#!/usr/bin/python3
+#Write a program to print largest no
+a=int(input("Enter a number \n"))
+b=int(input("Enter a number \n"))
+c=int(input("Enter a number \n"))
+if(a>b):
+        if(a>c):
+                print(a,"is greater than",b,"and",c)
+        else:
+                 print(c,"is greater than",a,"and",b)
+elif(b>c):
+         print(b,"is greater than",a,"and",c)
+else:
+         print(c,"is greate than",b,"and",a)
+
+
+#!/usr/bin/python3
+#in and is
+a=None
+print(a is None)#it is same like a=None, if condition is true it will return true
+l=[9,8,67,90]
+print( 8 in l)#it checks no is present or ot in list.
+print(85 in l)
+
+Chapter 6 – Practice Set
+1. Write a program to find the greatest of four numbers entered by the user.
+
+#!/usr/bin/python3
+#take 4 no from user find greatest no
+a=int(input("enter first number\n"))
+b=int(input("enter second number\n"))
+c=int(input("enter third number\n"))
+d=int(input("enter fourth number\n"))
+if(a>b):
+        f1=a
+else:
+        f1=b
+if(c>d):
+        f2=c
+else:
+        f2=d
+if(f1>f2):
+        print(f1,"is greatest")
+else:
+        print(f2,"is greatest")
+		
+		
+2.Write a program to find out whether a student is pass or fail. it requires a total of 40% 
+and at least 33% in each subject to pass.
+ Assume 3 subjects and take marks as an input from the user.
+ 
+ #!/usr/bin/python3
+sub1=int(input("Enter first submarks out of 100\n"))
+sub2=int(input("Enter second sub marks out of 100\n"))
+sub3=int(input("Enter third sub marks out of 100\n"))
+sub4=int(input("Enter fourth sub marks out of 100\n"))
+per=((sub1+sub2+sub3+sub4)/400)*100
+print("Your % is:",per)
+if(per>40.0):
+        if((sub1>=33 and sub2>=33)and(sub3>=33 and sub4>=33)):
+                print("You are passed")
+        else:
+                print("you are failed ")
+else:
+        print("you are failed")
+		
+		
+3.A spam comment is defined as a text containing the following keywords:
+“make a lot of money”, “buy now”, “subscribe this”, . Write a program to detect these spams.
+#!/usr/bin/python3
+text=input("Enter your text\n ")
+if("make a lot of money" in text):
+        spam=True
+elif("buy now" in text):
+        spam=True
+elif("subscribe this" in text):
+        spam=True
+elif("click this" in text ):
+        spam=True
+else:
+        spam=False
+
+if(spam):
+        print("This is spam")
+else:
+        print("this is not spam")
+
+
+WHILE Loop
+#!/usr/bin/python3
+i=1
+while(i<=10):
+        print(i)
+        i=i+1
+
+print("loop is ended")
+
+"for" Loop
+#!/usr/bin/python3
+list = ['banana','orange','binay',"nac"]
+for item in list:
+        print(item)
+
+Range function in Python
+The range function in python is used to generate a sequence of numbers.
+
+We can also specify the start, stop, and step-size as follows:
+
+            range(start, stop, step_size)
+
+step size is usually not used with range()
+An example demonstrating range() function
+
+for i in range(0, 7):		#range(7) can also be used
+	print(i)		#prints 0 to 6
+	
+	
+	#!/usr/bin/python3
+for i in range(1,8):
+        if i==5:
+                continue
+        print(i)
+
+
+
+Chapter 7 – Practice Set
+1.Write a program to print the multiplication table of a given number using for loop.
+#!/usr/bin/python3
+a=int(input("enter a number\n"))
+for i in range(1,11):
+        print(a*i)
+
+
+2.Write a program to greet all the person names stored in a list l1 and which starts with S.
+l1 = [“Harry”, “Sohan”, “Sachin”, “Rahul”]
+#!/usr/bin/python3
+l1 = ["Harry", "Sohan", "Sachin", "Rahul"]
+for name in l1:
+        if(name.startswith("S")):
+                print("Hii,Very Very Good morning",name)
+				
+				
+3.Write a program to print the multiplication table of a given number using while loop.
+#!/usr/bin/python3
+a=int(input("Enter a number\n"))
+i=1
+while(i<11):
+        print(a,"*",i,"=",a*i)
+        i=i+1
+4.Write a program to find the sum of first n natural numbers using a while loop.
+a=int(input("Enter a number\n"))
+sum=0
+i=1
+while(i<=a):
+        sum=sum+i
+        i=i+1
+print("Sum of first",a,"number is ",sum)
+
+
+5.Write a program to calculate the factorial of a given number using for loop.
+
+
+FUNCTION:=
+#!/usr/bin/python3
+def greet(name):
+        print("Hello",name)
+b=input("Enter your good name\n")
+greet(b)
+
+
+
+
+======================================================================
+Practice Set 10:-
+1. Create a class Programmer for storing basics information.
+class Programmer:
+    def set_info(self,name,tech,salary):
+        self.name=name
+        self.tech=tech
+        self.salary=salary 
+    def get_info(self):
+        return self.name,self.tech,self.salary
+
+p1= Programmer()
+p1.set_info('binay','Python',30)
+a,b,c=p1.get_info()
+print(a,b,c)
+
+
+2. Write a class Calculator capable of finding square, square root and cube of a number.
+class Calculator:
+    def __init__(self,num):
+        self.num=num
+        
+        
+    def square_root(self):
+        sroot= self.num ** 0.5
+        return sroot
+    def square(self):
+        return self.num ** 2
+    def cube(self):
+        return self.num ** 3
+
+num1=int(input("Enter a Number..."))
+p1=Calculator(num1)
+sroot=p1.square_root()
+print(f'Square root of {num1} is {sroot}')
+square=p1.square()
+print(f'Square of {num1} is {square}')
+cube=p1.cube()
+print(f'cube of {num1} is {cube}')
+
+
+3. Create a static method to greet good morning msg.
+class Static_method():
+    @staticmethod
+    def my_fun():
+        print("Good Morning...")
+
+p1 = Static_method()
+p1.my_fun()
+
+4. Write a class Train which has a method to book a ticket, get seat status(no of seats) and 
+get fare information of train.
+
+
+Inheritance:_
+===============================================================================
+Single Inheritance:-
+class Two_D_vector:
+    def my_fun(self):
+        print("This is Two D Class")
+
+class Three_D_vector(Two_D_vector):
+    def two_d_func(self):
+        print("This is three D function")
+
+ob1 = Three_D_vector()
+ob1.my_fun()
+ob1.two_d_func()
+
+OUTPUT:-
+This is Two D Class
+This is three D function
+
+2.Multilevel Inheritance:-
+class Animals:
+    def Animal_fun(self):
+        print("This is animalclass")
+class Pet(Animals):
+    def pet_fun(self):
+        print("This is pet class")
+class Dog(Pet):
+    def bar(self):
+        print("The dog barks")
+ob1 = Dog()
+ob1.Animal_fun()
+ob1.pet_fun()
+ob1.bar()
+
+
+OUTPUT:- This is animalclass
+This is pet class
+The dog barks
+----------------------------------
+class Person:
+    country="India"
+    def breath(self):
+        print("I am breathing")
+class Employee(Person):
+    company="Honda"
+    def myfun(self):
+        print(f"My company name is {self.company}")
+class Programmer(Employee):
+    company="Cisco"
+    def myfun(self):
+        print(f"My comapny name is {self.company}")
+p1 = Person()
+e1 = Employee()
+pr = Programmer()
+print(pr.company)
+e1.breath()
+print(e1.country)
+
+
+---------------------------------------------
+Multiple Inheritance:-
+#Multiple INHERITANCE
+class Freelancer:
+    name="BINAY"
+class Company:
+    name="Nachiket"
+class Hybrid(Freelancer,Company):
+    pass
+    #name="Raju"
+ob1=Hybrid()
+print(ob1.name)
+
+OUTPUT: BINAY
+-----------------------------------------------
+
+super method: It is used to access the method of Super class .
+
+class Person:
+    country="India"
+    def __init__(self) :
+        print("Initializing Person")
+    def breath(self):
+        print("I am breathing")
+class Employee(Person):
+    company="Honda"
+    def __init__(self):
+        print("Initializing Employee")
+
+    def myfun(self):
+        super.__init__()
+        super.breath()
+        print(f"My company name is {self.company}")
+class Programmer(Employee):
+    company="Cisco"
+    def __init__(self):
+        print("Initializing Programmer")
+    def myfun(self):
+        print(f"My comapny name is binay {self.company}")
+#p1 = Person()
+#e1 = Employee()
+pr = Programmer()
+pr.myfun()
+
+When we call a method in a class, if that class doesn't have __init__ method , it will call __init__method of parent class.
+
+
+Regular Expression:
+Meta Characters
+[] A set of characters
+\ Signals a special sequence (can also be used to escape special characters)
+. Any character (except newline character)
+^ Starts with
+$ Ends with
+* Zero or more occurrences
++ One or more occurrences
+{} Exactly the specified number of occurrences
+| Either or
+() Capture and group
+Special Sequences
+\A Returns a match if the specified characters are at the beginning of the string
+\b Returns a match where the specified characters are at the beginning or at the end of a word r"ain\b"
+\B Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word
+
+\d Returns a match where the string contains digits (numbers from 0-9)
+\D Returns a match where the string DOES NOT contain digits
+\s Returns a match where the string contains a white space character
+\S Returns a match where the string DOES NOT contain a white space character
+\w Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character)
+\W Returns a match where the string DOES NOT contain any word characters
+\Z Returns a match if the specified characters are at the end of the string
+
+Practice:-
+
+
+Youtube Link :https://www.youtube.com/watch?v=K8L6KVGG-7o
+https://github.com/CoreyMSchafer/code_snippets/tree/master/Python-Regular-Expressions
+.       - Any Character Except New Line
+\d      - Digit (0-9)
+\D      - Not a Digit (0-9)
+\w      - Word Character (a-z, A-Z, 0-9, _)
+\W      - Not a Word Character
+\s      - Whitespace (space, tab, newline)
+\S      - Not Whitespace (space, tab, newline)
+
+\b      - Word Boundary
+\B      - Not a Word Boundary
+^       - Beginning of a String
+$       - End of a String
+
+[]      - Matches Characters in brackets
+[^ ]    - Matches Characters NOT in brackets
+|       - Either Or
+( )     - Group
+
+Quantifiers:
+*       - 0 or More
++       - 1 or More
+?       - 0 or One
+{3}     - Exact Number
+{3,4}   - Range of Numbers (Minimum, Maximum)
+
+
+#### Sample Regexs ####
+
+[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+
+
+
+Let a file q.txt contains following data-
+999-999-3567
+789.456.7896
+337*784*7895
+Ha HaHaHa HaHAAHa Ha
+now we have to find pattern for above moble no.
+here we can use regex like "\d\d\d.\d\d\d.\d\d\d\d"
+3 times \d mean  continue 3 digit and .(dot) means any char .
+above expression can be written also like this "\d{3}.\d{3}.d{4}"
+Code:
+import re
+f = open("D:\Python\q.txt","r")
+var = f.read()
+pattern = re.compile(r"\d{3}.\d{3}.d{4}")
+match=pattern.finditer(var)
+for i in match:
+    print(i)
+	
+Now we want to print those no which have . or - only.
+So we use set of character --: []
+We can modify pattern:
+pattern = re.compile(r"\d{3}[.-]\d{3}[.-]d{4}")
+
+Output:-
+ d:/Python/regex.py
+<re.Match object; span=(0, 11), match='999-999-356'>
+<re.Match object; span=(12, 23), match='789.456.789'>
+
+[.-] it means . or - . So  ti will leave third mon no whic contains * .
+
+
+Example of \b  - Word Boundary
+
+Ha HaHaHa HaHAAHa Ha
+pattern = re.compile(r"\bHa")
+here it will search 
+
+d:/Python/regex.py
+<re.Match object; span=(39, 41), match='Ha'>
+<re.Match object; span=(42, 44), match='Ha'>
+<re.Match object; span=(49, 51), match='Ha'>
+<re.Match object; span=(57, 59), match='Ha'>
+Here it is matching oly those who start with 'Ha'
+
+NO Word boundary:-
+pattern = re.compile(r"\BHa")
+<re.Match object; span=(44, 46), match='Ha'>
+<re.Match object; span=(46, 48), match='Ha'>
+<re.Match object; span=(54, 56), match='Ha'>
+Hereit is matching only those who ending with 'Ha'
+
+Pat
+Bat
+Rat
+Now we want to print Pat, Bat but not Rat.
+pattern = re.compile(r"[^R]at")
+============================================================================
+Mr. Schafer
+Mr Smith
+Ms Davis
+Mrs. Robinson
+Mr. T
+pattern = re.compile(r"M(r|s|rs)\.?\s[A-Z]\w*")
+
+emails = '''
+CoreyMSchafer@gmail.com
+corey.schafer@university.edu
+corey-321-schafer@my-work.net
+'''
+pattern = re.compile(r"[a-zA-z0-9.-]+@[a-z-]+\.(com|edu|net)")
+match=pattern.finditer(emails)
+for i in match:
+    print(i)
+To match any emialid:
+pattern = re.compile(r"[a-zA-z0-9-.+]+@[a-z-]+\.[a-zA-Z0-9_+-]+")
+
+Here we want to match domain name and top level domain name.so first we matchh whole website and in expression we add domain name in one group 
+and top domain name in another group. In regex we create groups by paranthesis().And we will print this group by group method
+urls = '''
+https://www.google.com
+http://coreyms.com
+https://youtube.com
+https://www.nasa.gov
+'''
+pattern = re.compile(r"https?://(www\.)?([a-z]+)\.([a-z]+)")
+match=pattern.finditer(urls)
+print(match)
+for i in match:
+    print(i.group(0))
+
+Here group(0) will print whole link.
+group 1 will print www or none
+group 2 will print domain name
+aroup 3 will print toplevel domain name.
+
+pattern = re.compile(r"https?://(www\.)?([a-z]+)(\.[a-z]+)")
+subbed_urls=pattern.sub(r"\2\3",urls)
+print(subbed_urls)
+here \2 means 2nd group and \3 means 3rd Group.
+OUTPUT:
+google.com
+coreyms.com
+youtube.com
+nasa.gov
+
+
+
+
+
+
+--------------------------------------------------------------------------
+If you want to match any word after a certain word , you can use \K :
+
+
+
+Function	Description
+findall	Returns a list containing all matches
+search	Returns a Match object if there is a match anywhere in the string
+split	Returns a list where the string has been split at each match
+sub	Replaces one or many matches with a string
+
+
+
+
+
+
+
+
+
+1. Factorial Program:
+var1= int(input("Please Enter a number:"))
+fact=1
+for i in range(1,var1+1):
+    fact=fact*i
+print(fact)
+OUTPU:
+Please Enter a number:5
+120
+
+2. Palindrome:-
+name=input("Please enter a word: ")
+lenght=len(name)
+w=""
+for i in range(lenght-1,-1,-1):
+    w=w+name[i]
+print(w)
+if name == w :
+    print(f"{name} is palindrome")
+else:
+    print(f"{name} is not a palindrome")
+	
+OUTPUT:
+Please enter a word: radar
+radar is palindrome

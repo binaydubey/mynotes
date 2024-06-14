@@ -1,0 +1,109 @@
+Telegram Chat Bot
+`````````````````
+1. open telegram
+
+
+
+
+2. search for `@botfather` and select verified account
+
+
+
+
+3. /newbot
+
+
+
+4. choose name: BB_Hunt
+
+
+
+
+5. choose username: sec_ded_bot
+	t.me/sec_ded_bot
+	
+
+
+
+
+6. Copy HTTP API token
+
+Use this token to access the HTTP API:
+5133255711:AAFFBoQcJ6Ap5dtuyW3Z8vaug7-OPeNHsCY
+
+
+To get chat ID:
+````````````````
+https://api.telegram.org/bot5133255711:AAFFBoQcJ6Ap5dtuyW3Z8vaug7-OPeNHsCY/getUpdates
+
+"id":815331231
+
+“@myidbot”
+
+type: /getid
+
+
+"id":815331231
+
+
+
+
+
+
+
+Linux:
+``````
+
+7. notify: https://github.com/projectdiscovery/notify
+
+# go install -v github.com/projectdiscovery/notify/cmd/notify@latest
+
+
+# notify -h
+
+# cd ~/.config/
+# mkdir notify
+# cd notify
+# vim provider-config.yaml
+
+telegram:
+  - id: "tel"
+    telegram_api_key: "XXXXXXXXXXXX"
+    telegram_chat_id: "XXXXXXXX"
+    telegram_format: "{{data}}"
+
+
+
+
+
+
+
+
+
+# vim ~/.config/notify/provider-config.yaml
+
+REMOVE ALL except TELEGRAM
+
+telegram:
+  - id: "tel"
+    telegram_api_key: "5133255711:AAFFBoQcJ6Ap5dtuyW3Z8vaug7-OPeNHsCY"
+    telegram_chat_id: "815331231"
+    telegram_format: "{{data}}"
+
+# echo "LOL" | notify --silent
+
+
+# subfinder -d nike.com | notify --silent
+
+
+
+
+
+
+
+
+
+
+
+php code location
+whatsapp recover

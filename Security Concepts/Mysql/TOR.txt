@@ -1,0 +1,30 @@
+- TOR
+
+# apt install tor -y
+
+# vim /etc/tor/torrc
+Go to end of the file
+MaxCircuitDirtiness 10
+ExitNodes {UK}
+
+SOCKS : http
+SOCKS5: http(s)
+
+Port: 9050
+
+#  service tor start
+
+- Privoxy [ HTTP Tunneling ]
+
+# apt install privoxy -y
+
+# vim /etc/privoxy/config
+
+
+Uncomment:
+
+forward-socks5t ...... 127.0.0.1 9050
+
+:wq
+
+# service privoxy restart

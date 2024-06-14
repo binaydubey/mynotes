@@ -1,0 +1,285 @@
+***********************************************Nmap**************************************************************************
+
+Basics: In nmap first we scan ip , port, type of scan (like syn,ack etc.), scan timings(slow,fast,defaults etc.)
+and last is output format.
+Nmap first do Host Discovery.
+
+If we perform nmap as a root, it will do following things:
+	-ICMP Echo request 
+	-TCP SYN -443
+	-TCP ACK-80
+	-ICMP T.S Request (Time Stamp)
+If got reply of any from above scan, it means host is alive.
+
+
+If we perform nmap as a normal user, it will do only two things:
+	SYN -443
+	ACK-80
+
+How Scanning works:
+If Port is open:
+		Three Way Handshake will take place.
+If Port is closed:
+		A ---------SYN---------->B
+		A <--------RST/ACK----------_B
+
+
+
+Normal Syntax of nmap: nmap <target_ip>  
+No of ways to define Target Ip
+1. Single ip --> nmap 192.168.80.123
+2. SUbnet Range  --> nmap 192.168.80.0/24
+3. Ip range --> nmap 192.168.80.123-129
+4. specific ips --> nmap 192.168.80.123 192.168.80.125 192.168.80.124
+5. Text File -----> nmap -iL host.txt    ---------->-iL inputfilename (Input from list)
+6. Domain name -----> nmap cdac.com
+
+
+
+Port Scanning:---------------------------------------------------------------------------------------
+
+1. Single Port ----> nmap -p 22 192.168.233.134
+
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 09:45 EST
+Nmap scan report for 192.168.233.134
+Host is up (0.00097s latency).
+
+PORT   STATE  SERVICE
+22/tcp closed ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 0.19 seconds
+
+2. Range ----> nmap -p 22-30 192.168.233.134
+Host is up (0.00051s latency).
+
+PORT   STATE  SERVICE
+22/tcp closed ssh
+23/tcp closed telnet
+24/tcp closed priv-mail
+25/tcp closed smtp
+26/tcp closed rsftp
+27/tcp closed nsw-fe
+28/tcp closed unknown
+29/tcp closed msg-icp
+30/tcp closed unknown
+
+
+3.Multiple Specific Ports:--
+nmap -p 80,443,22,111,32 192.168.233.134
+Host is up (0.00089s latency).
+
+PORT    STATE  SERVICE
+22/tcp  closed ssh
+32/tcp  closed unknown
+80/tcp  closed http
+111/tcp closed rpcbind
+443/tcp closed https
+
+
+4. Service Speciifc:-
+nmap -p http 192.168.233.134
+PORT     STATE  SERVICE
+80/tcp   closed http
+8008/tcp closed http
+
+nmap -p http,https,ssh,smtp,ftp,tftp,pop3,imap 192.168.233.134
+PORT     STATE  SERVICE
+21/tcp   closed ftp
+22/tcp   closed ssh
+25/tcp   closed smtp
+69/tcp   closed tftp
+80/tcp   closed http
+110/tcp  closed pop3
+143/tcp  closed imap
+443/tcp  closed https
+8008/tcp closed http
+
+
+5.Protocol Specific:
+nmap -p T:22 192.168.233.134
+PORT   STATE  SERVICE
+22/tcp closed ssh
+
+sudo nmap -sU -p U:53 192.168.233.134
+PORT   STATE  SERVICE
+53/udp closed domain
+MAC Address: 00:0C:29:4C:C2:43 (VMware)
+
+By default it scan TCP port.
+
+6. ALL Ports:
+nmap -p- 192.168.233.134
+nmap -p- 192.168.233.134
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 11:04 EST
+Nmap scan report for 192.168.233.134
+Host is up (0.00080s latency).
+Not shown: 65522 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+5040/tcp  open  unknown
+5357/tcp  open  wsdapi
+7680/tcp  open  pando-pub
+49664/tcp open  unknown
+49665/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+49668/tcp open  unknown
+49669/tcp open  unknown
+55406/tcp open  unknown
+
+
+7. Top ports(like top 10, top 100 )
+nmap --top-ports 10 192.168.233.134
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 11:05 EST
+Nmap scan report for 192.168.233.134
+Host is up (0.0019s latency).
+
+PORT     STATE  SERVICE
+21/tcp   closed ftp
+22/tcp   closed ssh
+23/tcp   closed telnet
+25/tcp   closed smtp
+80/tcp   closed http
+110/tcp  closed pop3
+139/tcp  open   netbios-ssn
+443/tcp  closed https
+445/tcp  open   microsoft-ds
+3389/tcp closed ms-wbt-server
+
+
+
+#Scan Techniques:
+1. TCP Connection Scan -sT
+2. TCP SYN Scan -sS
+3. FIN Scan -sF
+4. XMAS Scan -sX
+5. NULL Scan -sN
+6. PING Scan -sP
+7. UDP Scan -sU
+8. ACK Scan -sA ---> to check firewall is on or not
+sudo nmap -sA 192.168.233.134
+Host is up (0.00061s latency).
+All 1000 scanned ports on 192.168.233.134 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+MAC Address: 00:0C:29:4C:C2:43 (VMware)
+
+
+sudo nmap -sA -p 22 192.168.233.134
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 11:37 EST
+Nmap scan report for 192.168.233.134
+Host is up (0.00043s latency).
+
+PORT   STATE    SERVICE
+22/tcp filtered ssh
+MAC Address: 00:0C:29:4C:C2:43 (VMware)
+
+
+Scan Status:-
+1. -open
+2. -close
+3. -FILTERED
+sudo nmap -sA -p 22 192.168.233.134
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 12:55 EST
+Nmap scan report for 192.168.233.134
+Host is up (0.00037s latency).
+
+PORT   STATE    SERVICE
+22/tcp filtered ssh
+MAC Address: 00:0C:29:4C:C2:43 (VMware)
+
+4. -OPEN| FILTERED
+ 
+ sudo nmap -sN -p 7553 scname.nmap.org
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-22 12:52 EST
+Nmap scan report for scname.nmap.org (45.33.49.119)
+Host is up (0.00044s latency).
+Other addresses for scname.nmap.org (not scanned): 2600:3c01:e000:3e6::6d4e:7061
+rDNS record for 45.33.49.119: ack.nmap.org
+
+PORT     STATE         SERVICE
+7553/tcp open|filtered unknown
+
+
+5. -CLOSE|FILTERED
+6. -UNFILTERED 
+
+ -------------------------------------------------------------------------------------------
+ 
+ 
+ Scan Timings:- 
+ T0(Paranoid)& T1(Sneaky) both are  very slow. Generally used to avoid IDS.
+ T2 -Polite scan
+ T3- Normal scan (By default)
+ T4- Aggressive (use when you have fast internet)
+ T5- Insane(It may be give false positive)
+ 
+ Host Timeout :
+ nmap  --host-timeout 500ms 192.168.233.134
+ 
+ Scan Delay:
+ nmap --scan delay 1s 192.168.233.134
+ 
+-----------------------------------------------------------------------------------
+Output Types:-
+ nmap -oN filename.txt  N is a standard default text output format
+
+nmap -oG filename.txt G is a format so you can better run grep against the file
+
+nmap -oX filename.xml X is for an XML format
+
+
+-----------------------------------------------------------------------------------
+Nmap Script Engine(NSE):- It can help in :-
+	-Firewall Bypass
+	-FTP Enumeration
+	-DNS Enumeration
+	-HTTP Enumeration and many more
+	
+
+#nmap scanme.nmap.org --script http-headers
+
+tats: 0:00:55 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 81.35% done; ETC: 23:10 (0:00:13 remaining)
+Nmap scan report for scanme.nmap.org (45.33.32.156)
+Host is up (0.24s latency).
+Other addresses for scanme.nmap.org (not scanned): 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 995 filtered tcp ports (no-response), 2 filtered tcp ports (host-unreach)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8008/tcp open  http
+| http-headers: 
+|   Location: https://scanme.nmap.org:8015/
+|   Connection: close
+|   X-Frame-Options: SAMEORIGIN
+|   X-XSS-Protection: 1; mode=block
+|   X-Content-Type-Options: nosniff
+|   Content-Security-Policy: frame-ancestors 'self'
+|   
+|_  (Request type: GET)
+
+
+To see all nmap scripts:-
+cd /nusr/share/nmap/scripts
+
+
+#Misc(Miscellaneous):
+-Service Version 
+	#nmap -sV <Target>
+-OS Detection
+	#nmap -sO <Target>
+
+-Service+OS+Scanning+trcaeroute
+	#nmap -A <Target>
+
+
+
+
+
+
+
+
+
+

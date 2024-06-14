@@ -1,0 +1,173 @@
+Content Discovery: FUZZ
+-----------------------
+
+https://data-planning.licious.in
+https://email.licious.in
+http://media.licious.in
+https://update.licious.in
+http://licious.in
+https://hotline.licious.in
+http://www.licious.in
+https://dpb.licious.in
+http://dvarapalaka-staging.licious.in
+http://metacxdu.licious.in
+http://metabaseb.licious.in
+
+- Dict
+	\_ Technology
+	\_ Public Datasets
+- Your Own [ ** Best ** ]
+
+
+1) Old:
+--------
+# cat dict.txt
+admin
+data
+secret
+
+
+https://domain.tld/{FUZZ}	200
+
+# dirb https://dvarapalaka-staging.licious.in
+
+# dirb https://dvarapalaka-staging.licious.in /usr/share/dirb/wordlists/big.txt
+_____________________________
+
+2) FFUF:
+--------
+a) FFUF Install:
+````````````````
+go install github.com/ffuf/ffuf@latest
+
+
+Dict: https://github.com/danielmiessler/SecLists.git
+
+
+Basic#1
+````````
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u https://dvarapalaka-staging.licious.in/FUZZ -H "User-Agent: Mozzila/5.0"
+
+#2
+```
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u https://dvarapalaka-staging.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -ac 
+[ -ac : Auto calibrate ]
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u https://dvarapalaka-staging.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -ac -acc anythinmsdgjkhsh
+
+[ -acc : Custom auto-calibration string ]
+
+3#
+---
+ffuf -w fine.txt -u http://metacxdu.licious.in/FUZZ -e php,db -H "User-Agent: Mozzila/5.0"
+
+
+4#
+```
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u http://metacxdu.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -recursion 
+
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u http://metacxdu.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -recursion -recursion-depth 10
+
+
+/admin/FUZZ
+/admin/auth/FUZZ
+
+5#
+```
+
+Delay between each request:
+
+
+
+[-p secind of delay and it will provide random delay]
+
+-p 0.1-0.2
+
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u http://metacxdu.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -recursion -recursion-depth 10 -p 0.1-0.5
+
+6#
+```
+Increase Threads: [ -t ]
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u http://metacxdu.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -recursion -recursion-depth 10 -p 0.1-0.2 -t 100
+
+
+7#
+```Collect
+
+# ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u http://metacxdu.licious.in/FUZZ -H "User-Agent: Mozzila/5.0" -recursion -recursion-depth 10 -p 0.1-0.5 -t 100 -od data -o data/info.json
+
+
+
+
+Cool:
+`````
+'php,jsp,asp,aspx,zip,rar,tar,bkp,bak,sql,sql.gz,html,js,csv,log,cgi,swp,txt,cfm,shtm,htm,phtm,phtml,pl,py,cfg,json,config,pdf,xls,xslx,cpp,conf,doc,docx,bin,bz2,cgi,db,sqlite,do,dump,ini,java,mdb,lst,manifest,old,ora,orig,properties,save,stackdump,swf,temp,trace,xml,cc,~bk,~1,1,0,-old,-OLD,$$$,vbproj,TMP,sav,ORIG,OLD,BACKUP'
+
+# vim ~/.bashrc
+
+fuzz() {
+        mkdir FUZZ
+        target=$1
+        data=$(echo "${target}" | sed -E 's/[\.|/|:]+/_/g')
+        ffuf -w ~/tools/dict/SecLists/Fuzzing/fuzz-Bo0oM.txt -u ${target} -e 'php,jsp,asp,aspx,zip,rar,tar,bkp,bak,sql,sql.gz,html,js,csv,log,cgi,swp,txt,cfm,shtm,htm,phtm,phtml,pl,py,cfg,json,config,pdf,xls,xslx,cpp,conf,doc,docx,bin,bz2,cgi,db,sqlite,do,dump,ini,java,mdb,lst,manifest,old,ora,orig,properties,save,stackdump,swf,temp,trace,xml,cc,~bk,~1,1,0,-old,-OLD,$$$,vbproj,TMP,sav,ORIG,OLD,BACKUP' -od FUZZ -o FUZZ/"${data}".json -maxtime-job 1200 -recursion -recursion-depth 2 -H "User-Agent: Mozilla/5.0"
+}
+status(){
+        code=$1
+        jq '.results[] | {url:.url, status:.status, length:.length} | select(.status != null and .status == '${code}')' *.json | jq -r .url
+
+}
+
+
+# source ~/.bashrc
+
+# cat alive-web.txt | while read -r line; do fuzz $line/FUZZ;done
+
+
+
+# cat /var/log/apache2/file.log | awk '{print $8}' | anew dict.txt
+
+sort -u --version-sort
+______________
+HTTP versions
+HTTP Headers
+
+Burp Suite:
+````````````
+- Burp Suite Enterprise Edition
+- Burp Suite Professional
+- Burp Suite Community Edition [ Free ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

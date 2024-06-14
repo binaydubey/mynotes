@@ -1,0 +1,28 @@
+Title
+
+Probability [info,low,med,high,critical]
+
+Criticality [info,low,med,high,critical]
+
+Weakness Type 
+
+Affected Assets [Validated In-Scope IPs & Hostnames]
+
+General Description
+e.g	[It's possible to conduct Reflected XSS attacl the System's users. The vulnerability that leads to this attack is that data 	passed by the user is incorrectly processed and then reflected in the server response. Thus, the adversary can craft a special 	link by adding crafted JavaScript code in a vulnerable parameter. The code will then be reflected in the server response and executed in the user's browser in the context of the System's domain.]
+
+Risk description
+e.g	[By exploiting the vulnerability, the adversary can attack the System's user. To do so, the adversary needs to trick the user 	into following a crafted link. After the user has followed the link, the adversary can execute any JavaScript code in the user's browser in the context of the System's domain. This may lead to theft and modification of the user's data, execution of critical action on behalf of the user as well as complete compromise of the user and taking full control over the user's account.]
+
+Technical description
+e.g	XSS Reflected
+
+Recommandation
+e.g	Sanitize all the parameters passed to the server by the user.
+
+Steps to reproduce
+	1.
+	2.
+	3.
+	n...
+Attachments

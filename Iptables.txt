@@ -1,0 +1,214 @@
+ Netfilter is firewall framework and iiptable is a utility that is used to manage and 
+ control netfilter.
+Iptables is a standard firewall included in most Linux distributions by default. 
+It is a command-line interface to the kernel-level netfilter hooks that can manipulate 
+the Linux network stack. 
+It works by matching each packet that crosses the networking interface against a set of rules 
+to decide what to do.
+
+IPTables -> Tables -> Chains -> Rules.
+
+iptables contains five tables:
+
+-raw is used only for configuring packets so that they are exempt from connection tracking.
+
+-filter is the default table, and is where all the actions typically associated with a 
+firewall take place.
+
+-nat is used for network address translation (e.g. port forwarding).
+
+-mangle is used for specialized packet alterations.
+
+-security is used for Mandatory Access Control networking rules (e.g. SELinux -- 
+see this article for more details).
+
+
+The Filter Table
+The filter table is one of the most widely used tables in iptables.
+The filter table is used to make decisions about whether to let a packet 
+continue to its intended destination
+or to deny its request. In firewall parlance, this is known as “filtering” packets. 
+This table provides the bulk of functionality that people think of when discussing firewalls.
+
+The NAT Table
+The nat table is used to implement network address translation rules. 
+As packets enter the network stack, rules in this table will determine whether and 
+how to modify the packet’s source or destination addresses in order to impact the 
+way that the packet and 
+any response traffic are routed. This is often used to route packets to networks when 
+direct access is not possible.
+
+
+The Mangle Table
+The mangle table is used to alter the IP headers of the packet in various ways. 
+For instance, you can adjust the TTL (Time to Live) value of a packet, either lengthening or 
+shortening the number of valid network hops the packet can sustain. Other IP headers can be altered in similar ways.
+This table can also place an internal kernel “mark” on the packet for further processing in other tables and 
+by other networking tools. This mark does not touch the actual packet, but adds the mark to the kernel’s representation
+of the packet.
+
+
+The Raw Table
+The iptables firewall is stateful, meaning that packets are evaluated in regards to their relation to previous packets.
+The connection tracking features built on top of the netfilter framework allow iptables to view packets as part of an 
+ongoing connection or session instead of as a stream of discrete, unrelated packets.
+The connection tracking logic is usually applied very soon after the packet hits the network interface.
+The raw table has a very narrowly defined function. Its only purpose is to provide a mechanism for marking packets in 
+order to opt-out of connection tracking.
+
+The Security Table
+The security table is used to set internal SELinux security context marks on packets, 
+which will affect how SELinux or other systems that can interpret SELinux security contexts handle the packets.
+These marks can be applied on a per-packet or per-connection basis.
+
+
+Mostly we play around with FILTER, NAT and MANGLE tables. There are five built-in chains in which 
+we can place our firewall policy rules:
+
+INPUT CHAIN: It is used for rules which are applicable to the traffic/packets coming towards 
+the server.
+OUTPUT CHAIN: It is used for rules which need to be applied on outgoing traffic/packets from 
+our server.
+FORWARD CHAIN: It is used for adding rules related to forwarding an IP packet.
+PRE-ROUTING CHAIN: It is used to add rules which define actions that need to be taken before 
+a routing decision is made by the kernel.
+POST-ROUTING CHAIN: It is used for adding rules which will define actions that need to be taken 
+after a routing decision which is taken by the kernel.
+
+
+FILTER Table: 1.INPUT CHAIN
+			  2.OUTPUT CHAIN
+			  3.FORWARD CHAIN
+
+NAT TABLE:  1. OUTPUT CHAIN
+			2. PRE-ROUTING CHAIN
+			3. POST-ROUTING CHAIN
+			
+MANGLE TABLE: 1.INPUT CHAIN
+			  2.OUTPUT CHAIN
+			  3.FORWARD CHAIN
+			  4.PRE-ROUTING CHAIN
+			  5.POST-ROUTING CHAIN			  
+			  
+			 
+Let see you want to drop all incoming packets
+
+sudo iptables --policy INPUT DROP
+
+In iptables we can add rules using -I or -A.
+-I will add rule at top and -A will append in the bottom.
+
+
+Let's we want to block trafic from a specific ip >
+
+Practical scenerio: Before running command I took ssh from 10.208.35.158
+and then apply rule
+
+$sudo iptables -I INPUT -s 10.208.35.158 -j DROP	
+ Here -I --Adds rule at top
+	-INPUT  --> For input chain (Incomping packets)
+	-s source
+	-j  ---Jump to 
+	DROP --- you know
+
+Now you want to delete a rule:
+first see line no f that rule using command-line
+$sudo iptables -L --line
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    DROP       all  --  dellneew1stfloor.pune.cdac.in  anywhere            
+2    DROP       all  --  10.208.35.0/24       anywhere            
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination  
+
+Now we want to delete ru le 2
+sudo iptables -D INPUT 2
+
+In my vm, apache2 is running , i am able to acces it from my main machine.
+Now we want to block port 80 of our vm machine. So we cant access from main machine.
+sudo iptables -I INPUT -s 10.208.35.145 -p tcp --dport 80 -j DROP
+
+Scene 2: Block all traffic from 10.208.35.145/23 network only 10.208.35.158 should able to acces port 80 of vms server.
+$sudo iptables -I INPUT -s 10.208.35.158 -p tcp --dport 80 -j ACCEPT  --------> it will accept traffic from 35.158 ip
+$sudo iptables -A INPUT -s 10.208.35.0/23 -p tcp --dport 80 -j DROP
+
+TO Save rules:-
+	$ sudo /sbin/iptables-save 
+# Generated by iptables-save v1.8.7 on Sat Feb  4 15:12:47 2023
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -s 10.208.35.158/32 -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -s 10.208.34.0/23 -p tcp -m tcp --dport 80 -j DROP
+COMMIT
+# Completed on Sat Feb  4 15:12:47 2023
+
+
+Port Forwording/Port Redirection :
+Scene: ssh is ruuning on port 22 on server. if client want to take ssh on port 2222 . this will be possible by port forwarding.
+To do above task we have to apply rules in PRE-ROUTING chain and OUTPUT chain.
+
+1.sudo iptables -t nat -I PREROUTING -p tcp --dport 2222 -j REDIRECT --to-port 22  
+above command will forword from port 2222 to port 20.
+no server will reply , so now we will create rule in OUTPUT chain.
+
+sudo iptables -t nat -I OUTPUT -p tcp --dport 2222 -j REDIRECT --to-port 22
+binay@ubuntu1:~/Desktop$ ssh localhost
+binay@localhost's password: 
+
+binay@ubuntu1:~/Desktop$ ssh localhost -p 2222
+binay@localhost's password: 
+
+binay@ubuntu1:~/Desktop$ 
+ 
+ 
+Links: https://www.youtube.com/watch?v=6Ra17Qpj68c  ---------> Basics of iptables
+		https://www.youtube.com/watch?v=NAdJojxENEU
+		https://www.youtube.com/watch?v=_jSHk1CT2D8
+		
+		
+Learn IP forwarding---->		
+
+
+
+
+-------------------------------------------------------------------------------
+Link:https://www.youtube.com/watch?v=6aEPk5QKZl8&list=PLlLpHNj8iPU8rTnzVQnOVHaJGGPXuJg1O&index=15&ab_channel=TechTrendswithVipinGupta
+
+
+
+Scenario:- We have 4 machine. 1 is iptable machine where ssh, ftp and httpd services are 
+running. and We have 3 clients. One is in host only (c2.example.com) and remaining 2s are in 
+nat mode (c11 and c12).
+IN iptablemachine, we have 2 adapter one is host-only mode and another is nat mode only.
+
+
+
+
+[root@firewall ~]# cat /etc/hosts
+192.168.20.138 c2.example.com
+192.168.80.158 c11.example.com
+192.168.80.159 c12.example.com
+
+
+
+Task 11: block all traffic from c11 client.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

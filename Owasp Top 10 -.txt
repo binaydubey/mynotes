@@ -1,0 +1,462 @@
+Owasp Top 10 :-
+1. BROCKEN ACCESS CONTROL:-
+2. Cryptographic failure:-
+3. SSRF:-
+4. Injection
+5. Security logging and monitoring failures
+6. Insecure Design:-
+7: Security misconfigurations? 
+8.Vulnerable and Outdated Components
+9. Software and Data Integrity Failures
+10. Broken Authentication:-
+
+
+
+
+
+1. BROCKEN ACCESS CONTROL:-
+
+Websites have pages that are protected from regular visitors, for example only the site's admin user should be able to access a page to manage other users. If a website visitor is able to access the protected page/pages that they are not authorised to view, the access controls are broken.
+
+A regular visitor being able to access protected pages, can lead to the following:
+Being able to view sensitive information
+Accessing unauthorized functionality
+
+CHATGPT:
+Broken Access Control refers to security vulnerabilities where an application fails to properly enforce restrictions on what authenticated users are allowed to do. Here's an example to illustrate the concept:
+
+Example: Unauthorized Access to User Profiles
+
+Consider a web application that allows users to view and edit their own profiles. The application has a URL structure like this:
+
+View Profile: https://example.com/profile/view
+Edit Profile: https://example.com/profile/edit
+In a properly configured application, a user should only be able to view and edit their own profile. However, due to a broken access control vulnerability, an attacker may manipulate the URL to access profiles of other users.
+
+Normal User Access:
+
+User "Alice" logs in and accesses her profile: https://example.com/profile/view
+User "Bob" logs in and accesses his profile: https://example.com/profile/view
+Exploiting Broken Access Control:
+
+The attacker, who is also a registered user (e.g., "Mallory"), logs in and accesses her own profile: https://example.com/profile/view
+The attacker manipulates the URL to access Bob's profile: https://example.com/profile/view?userId=bob
+In a well-secured application, Bob's profile should not be accessible to Mallory. However, due to the broken access control vulnerability, Mallory can manipulate the parameters in the URL to access profiles of other users.
+
+This could lead to unauthorized access to sensitive information, such as email addresses, personal details, or any data stored in user profiles. Broken access control vulnerabilities are serious as they can result in unauthorized access, data leakage, or even unauthorized modifications to sensitive data.
+
+To address this vulnerability, developers should implement proper access controls, ensuring that users can only access the resources and functionalities that they are authorized to use. This involves checking the user's identity and permissions at each access point and enforcing proper authorization rules.
+
+
+
+
+---MITIGATION
+Mitigating broken access control vulnerabilities involves implementing robust access control mechanisms and following security best practices. Here are some mitigation strategies:
+
+Principle of Least Privilege (PoLP): Users and systems should be granted the minimum level of access or permissions necessary to perform their tasks. Avoid giving excessive privileges that could be exploited.
+
+Authentication and Authorization:
+
+Implement strong authentication mechanisms to ensure that users are who they claim to be.
+Enforce proper authorization by checking user roles and permissions at every access point.
+Use access tokens or session management techniques to track and validate user sessions.
+Role-Based Access Control (RBAC): Implement RBAC to assign roles and permissions to users based on their responsibilities. This helps in managing access in a more structured and scalable way.
+
+Access Controls in Code:
+
+Enforce access controls directly in the application code.
+Validate user permissions before allowing access to sensitive functionalities or data.
+Session Management:
+
+Implement secure session management to prevent session hijacking.
+Use session tokens with proper expiration times.
+Ensure sessions are securely invalidated after logout or inactivity.
+URL Parameterization:
+
+Avoid using easily manipulable parameters in URLs to control access.
+Use unique identifiers that are not easily guessable.
+Monitoring and Logging:
+
+Implement logging mechanisms to track user access and actions.
+Regularly review and analyze logs for suspicious activities.
+
+
+
+===========================================================
+2. Cryptographic failure:-
+Cryptographic failures can occur when cryptographic algorithms or protocols are not implemented or used correctly, leading to vulnerabilities. 
+Here's an example of a cryptographic failure:
+
+Example: Weak Password Hashing
+Scenario:
+An application stores user passwords using a weak hashing algorithm. The application hashes passwords using a simple and fast algorithm without salting.
+
+Issue:
+
+Weak Hashing Algorithm: The application uses a weak and fast hashing algorithm (e.g., MD5 or SHA-1) to hash user passwords.
+No Salting: The passwords are hashed without the use of a unique salt for each user. Salting adds randomness to the hashing process and prevents attackers from using precomputed tables (rainbow tables) for password cracking.
+Impact:
+
+Password Cracking: Attackers can use various techniques, including brute force attacks and rainbow table attacks, to crack hashed passwords.
+Mass Credential Theft: If the database is compromised, attackers can obtain the hashed passwords and quickly crack them, leading to unauthorized access to user accounts.
+Mitigation:
+
+Strong Hashing Algorithms: Use strong and slow hashing algorithms designed for password storage, such as bcrypt, Argon2, or scrypt.
+Password Salting: Always use a unique and random salt for each user before hashing passwords. This prevents attackers from efficiently using precomputed tables.
+
+
+============================================================================
+3. SSRF:-
+One type of injection attack is called Server-side Request Forgery (SSRF). A successful SSRF attack can grant the attacker access to restricted actions, internal services, or internal files within the application or the organization. In some cases, it can even lead to Remote Code Execution (RCE).
+
+SSRF is a vulnerability that allows an attacker to make requests from a server to internal resources that it should not have access to. Here's an example:
+
+The application allows the user to input any URL, and it fetches the content of that URL without proper validation.
+
+Attack:
+An attacker could input a malicious URL pointing to an internal resource, such as http://internal-server/internal-resource. If the server is susceptible to SSRF, it might fetch and return the content of the internal resource.
+
+Mitigation:
+
+Whitelist Allowed Domains: Only allow requests to specific domains that are necessary for the application's functionality.
+Use a Proxy: Fetch remote content through a proxy server that only allows requests to external resources.
+Input Validation: Validate and sanitize user input to ensure it meets the expected format.
+
+
+===========================================================================
+4. Injection
+An injection attack occurs when an attacker exploits code that hasn’t been sanitized sufficiently. The code may not have been validated or filtered thus making it insecure and allowing attackers an open opportunity.
+an attacker can inject their own malicious code into an application in order to execute remote commands. This can lead to information disclosure (now listed as cryptographic failures by OWASP), authentication bypass, and privilege escalation resulting in data loss, corruption, and breaches. A successful injection can provide attackers with unauthorized access allowing them to view/edit critical information and gain administrator access. 
+
+the top injection attacks?
+SQL Injection
+SQL injection is a web security flaw that allows the attacker to potentially change the SQL queries that are run against the database. This may be used to extract sensitive information such as database structure, tables, and columns, as well as their data set. 
+
+ 2019 — Several vulnerabilities were found in the highly popular game, Fortnite, including one that left the system at risk of SQL injection attacks that could compromise user privacy. This vulnerability was identified and patched before any known exploitation occurred.  
+
+Cross Site Scripting (XSS)
+Cross-site scripting (XSS) is an online application vulnerability that enables a third party to run a script in the user’s browser on behalf of the web application. Malicious scripts can be delivered in the form of JavaScript code that the victim’s browser executes. Exploits can incorporate malicious executable code in many other languages, including Java, Ajax, and Hypertext Markup Language (HTML) 
+
+ Example: <script>alert(‘XSS’)</script> 
+
+XSS injection breaches & vulnerabilities
+2015-2017 — eBay had a severe XSS vulnerability which allowed attacked to gain full access to seller accounts allowing them to sell products at a discount and steal payment details. This was used by attackers to drastically reduce prices of high-value products like vehicles. The vulnerability was discovered in 2016, however, attacks continued until 2017.  
+
+OS Command Injection
+OS command injection is a vulnerability that allows an attacker to execute arbitrary commands on the server of a running application. The operating system runs the inserted arbitrary commands with the web server’s privileges. In this type of attack, an attacker might upload malicious programs or obtain passwords.  
+
+Example: & ping -c 10 127.0.0.1 & 
+
+
+
+
+How to prevent injection attacks
+Authorize users 
+
+Injection attacks are often aimed at servers and software that are accessible to anybody on the internet. To prevent these attacks, it is important to securely authorize users with methods like MFA (multifactor authentication) and audit systems on a regular basis. 
+
+ Unrestricted file uploads 
+
+Files can contain malicious software. Review the file upload functionality so that file types and extensions supported are only those that are necessary for business functionality. Do not allow for a filename and its extension directly without having an allow list filter. 
+
+ Data validation 
+
+Input validation ensures that only properly formatted input enters an information system’s process, preventing inaccurate and malicious data from remaining in the database. Developers can validate data by comparing the data value against the defined set of rules and analyze information within required parameters.   
+
+Configure parameters 
+
+Always use prepared statements for compiling a query. This method helps distinguish the code from input data. Prepared statements that are used for compiling a query will limit variables on incoming SQL commands to avoid piggybacking the malicious injection by cybercriminals. 
+
+ Review configurations 
+
+Review the software your application uses and stay on top of patching. Outdated technologies could be vulnerable to attacks. JavaScript and jQuery plugins are examples of such vulnerable technologies. 
+
+
+
+==================================================
+5. Security logging and monitoring failures
+The security logging and monitoring failures category focuses on issues with audit logs and monitoring during an attack. Security monitoring and logs are essential to detect and mitigate an active breach. Failures happen when:
+
+Logging doesn’t keep track of transactions with high value, login attempts, and failed login attempts.
+Errors and warnings generate unclear, inadequate, or no log entries.
+APIs and applications aren’t monitored for suspicious activities.
+Security logs are only available locally.
+Applications that can neither detect nor issue timely alerts for attacks in progress.
+Prevention
+Prevention focuses on enabling security logging and monitoring across applications. Developers should ensure security controls are implemented where appropriate. Security controls should include the following:
+
+Login, access control, and server-side validation failures should be logged with user context to ensure malicious and suspicious activity can be preserved long enough to allow for analysis.
+Logs should be generated in an appropriate format for log management tools to read.
+Enable monitoring and alerting for suspicious activities.
+Adopt an incident response and mitigation plan.
+===================================================================================
+
+
+
+6. Insecure Design:-
+it is a broad category related to critical design and architectural flaws in web applications that hackers can exploit. 
+
+Lack of Proper Session Management
+
+Scenario:
+Consider a web application that manages user sessions for authentication. The application uses a simple session identifier stored in a cookie to track user sessions.
+Issue:
+The application sets the session ID in a cookie without ensuring its confidentiality, integrity, and uniqueness. An attacker could exploit this lack of proper session management.
+
+
+Attack:
+
+Session Hijacking: An attacker intercepts the session ID from the cookie using techniques like packet sniffing.
+Session Fixation: An attacker sets a known session ID, forcing the user to use that session.
+Mitigation:
+
+Use Secure Session Management Libraries: Leverage well-established session management libraries that handle the complexities of secure session handling.
+Implement Secure Cookies: Ensure that session cookies are marked as secure, HTTP-only, and have an appropriate expiration time.
+Rotate Session IDs: Rotate session IDs upon login to mitigate session fixation attacks.
+Implement Session Timeout: Set a reasonable session timeout to invalidate sessions after a period of inactivity.
+
+
+Insecure Design: Scenario 1
+The application was designed to use a unique identifier within the URL to manage sessions. This makes managing sessions very easy, and from a development perspective, is very simple. However, an attacker will be able to take the URL and fuzz or increment UIDs to enumerate any valid URLs and sessions.  
+
+This could be even more of an issue if each unique identifier is not a set of random characters but is, in fact, incremented.  
+
+An example of this is if a legitimate user was logged into the website https://broken-website/my-account/?id=123. An attacker could then simply take this URL and try https://broken-website/my-account/?id=124 thus leading to a different user’s session. 
+
+Insecure Design: Scenario 2
+The application was designed to have the administrative portal accessible at https://broken-website/admin/myadmin. This is easily discoverable by any attacker and can be subsequently targeted.
+
+Even if there is an authentication page asking for a username and password on https://broken-website/admin, without adequate protections an attacker could simply circumvent this by navigating directly to https://broken-website/admin/myadmin.  
+
+This may seem unlikely for an attacker to discover, but through directory brute-forcing tools such as DIRB, an attacker can try thousands of URLs and spider the entire webpage based off the responses given by the webserver.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+========================================
+
+
+
+7:
+Security misconfigurations? 
+
+What are security misconfigurations and why should we be concerned about them?
+Security misconfigurations are anything that may unnecessarily increase the attack surface of an application or host. The commonality in these vulnerabilities is that none of them are necessary for the application to run and all enlarge the attack surface unnecessarily — usually from a human misconfiguring something. This could be because unnecessary ports are left open, software is left out of date, or error handling is too verbose.  
+
+The OWASP Top 10 lists the following in their list of what constitutes a security misconfiguration: 
+ 
+
+Missing appropriate security hardening across any part of the application stack or improperly configured permissions on cloud services. 
+Unnecessary features are enabled or installed (e.g., unnecessary ports, services, pages, accounts, or privileges). 
+Default accounts and their passwords are still enabled and unchanged. 
+Error handling reveals stack traces or other overly informative error messages to users. 
+For upgraded systems, the latest security features are disabled or not configured securely. 
+The security settings in the application servers, application frameworks (e.g., Struts, Spring, ASP.NET), libraries, databases, etc., are not set to secure values. 
+The server does not send security headers or directives, or they are not set to secure values. 
+
+
+
+Example: Insecure Default Configuration in Web Server
+
+Scenario:
+Consider a web application hosted on a server running Apache HTTP Server. The default configuration of the server allows access to sensitive files and directories, posing a security risk.
+
+Vulnerable Configuration:
+In the Apache server's configuration file (httpd.conf), the default settings for directory listing are not disabled.
+
+apache
+Copy code
+# httpd.conf
+
+<Directory "/var/www/html">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+Issue:
+The Options Indexes directive enables directory listing, allowing anyone to view the contents of directories on the web server. This could expose sensitive information such as configuration files or user data.
+
+Attack:
+
+An attacker discovers the web server's default configuration.
+The attacker accesses directories that were not intended for public view.
+Sensitive files or information is exposed, providing potential attack vectors.
+Mitigation:
+
+Disable Directory Listing: Explicitly disable directory listing to prevent unintended exposure of files.
+Implement Least Privilege: Only grant necessary permissions to directories and files. Avoid granting unnecessary access.
+Mitigated Configuration:
+
+apache
+Copy code
+# httpd.conf
+
+<Directory "/var/www/html">
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+In the mitigated configuration, the Options Indexes directive has been removed, disabling directory listing. This ensures that sensitive information is not inadvertently exposed.
+
+Preventive Measures:
+
+Regularly audit and review configurations for security weaknesses.
+Follow security best practices and guidelines provided by software vendors.
+Employ automated tools to scan for and identify misconfigurations.
+Conduct security training for administrators to ensure proper configuration practices.
+Security misconfigurations can have serious consequences, and organizations must actively address and remediate them to maintain a secure environment. Regular audits, thorough testing, and adherence to security guidelines are essential components of a robust security strategy.
+
+
+
+=================================================================
+
+
+8.Vulnerable and Outdated Components
+
+
+
+
+====================================================================
+9. Software and Data Integrity Failures
+
+
+Software and data integrity failures relate to code and infrastructure that does not protect against integrity violations. An example of this is where an application relies upon plugins, libraries, or modules from untrusted sources, repositories, and content delivery networks (CDNs). An insecure CI/CD pipeline can introduce the potential for unauthorized access, malicious code, or system compromise. Lastly, many applications now include auto-update functionality, where updates are downloaded without sufficient integrity verification and applied to the previously trusted application. Attackers could potentially upload their own updates to be distributed and run on all installations. Another example is where objects or data are encoded or serialized into a structure that an attacker can see and modify is vulnerable to insecure deserialization.
+
+
+
+
+
+============================================
+10. Broken Authentication:-
+
+
+Example of Broken Authentication:
+
+Let's consider a scenario where a web application has a vulnerability that allows attackers to bypass the authentication mechanism and gain unauthorized access to user accounts.
+
+Vulnerability Description:
+
+The application uses weak password policies, allowing users to set simple and easily guessable passwords. Additionally, it lacks proper session management, making it susceptible to session hijacking.
+
+Example Steps:
+
+Weak Passwords:
+
+Users are allowed to set passwords like "password123" or "user123."
+An attacker identifies a user with a weak password, such as "admin123."
+Session Hijacking:
+
+The application does not regenerate session IDs after successful login.
+The attacker observes that the session ID is transmitted over an unencrypted connection.
+Exploiting Weak Passwords:
+
+The attacker captures the session ID using techniques like packet sniffing or Man-in-the-Middle attacks.
+The attacker attempts to log in with the weak password and successfully gains access to the victim's account.
+Unauthorized Access:
+
+The attacker is now authenticated as the legitimate user without knowing the original password.
+They can view sensitive information, perform actions on behalf of the user, or even change account settings.
+Mitigation Strategies:
+
+Implement Strong Password Policies:
+
+Enforce the use of complex passwords with a combination of uppercase, lowercase, numbers, and special characters.
+Session Management:
+
+Regenerate session IDs after successful login to prevent session fixation.
+Use secure, random session IDs that are not easily guessable.
+Encryption:
+
+Ensure that all communication, especially login and session-related data, is encrypted using HTTPS.
+Two-Factor Authentication (2FA):
+
+Implement 2FA to add an extra layer of security even if passwords are compromised.
+Regular Audits:
+
+Conduct regular security audits to identify and address vulnerabilities in the authentication and session management mechanisms.
+By implementing these mitigation strategies, the web application can significantly reduce the risk of broken authentication vulnerabilities and enhance overall security.
+
+
+
+
+
+
+
+
+
+
+
+
+=============================================================================================================
+
+Vulnerability:
+
+A vulnerability is a weakness or flaw in a system's design, implementation, or configuration that could be exploited to compromise the system's security.
+Vulnerabilities can exist in software, hardware, processes, or even human factors, and addressing them is crucial for maintaining a secure environment.
+
+
+A threat refers to a potential danger or harm that may exploit a vulnerability in a system or organization.
+Threats can be intentional (such as cyberattacks by malicious actors) or unintentional (such as natural disasters or system failures).
+
+
+Exploit:
+
+An exploit is a technique or piece of software designed to take advantage of a specific vulnerability in a system, application, or network.
+Cybercriminals use exploits to gain unauthorized access, execute malicious code, or perform other malicious actions on a targeted system.
+
+
+Certainly! Let's use a simple example to illustrate the concepts of threat, risk, exploit, and vulnerability in the context of computer security:
+
+Example: Password-based Authentication System
+
+Vulnerability:
+
+Imagine a computer system that uses a password-based authentication system. If this system stores passwords in an unencrypted format, 
+it has a vulnerability. The lack of encryption makes it easier for an unauthorized person to access and misuse the stored passwords.
+Threat:
+
+The threat in this scenario could be a malicious hacker who attempts to gain unauthorized access to the system by exploiting the vulnerability 
+in the password storage. The threat actor may use various methods, such as password cracking tools or brute-force attacks, to compromise user passwords.
+Exploit:
+
+The exploit, in this case, is the specific method or tool used by the hacker to take advantage of the vulnerability. For instance, the hacker might 
+use a password-cracking software that systematically tries different combinations of characters until it successfully discovers a user's password.
+Risk:
+
+The risk is the combination of the likelihood of the threat exploiting the vulnerability and the potential impact of a successful exploit. In this example, the risk would be high if the system contains sensitive data or if unauthorized access could lead to significant consequences, such as data breaches, financial loss, or unauthorized system control.
+To mitigate this risk, the organization could implement measures such as encrypting stored passwords, enforcing strong password policies, and monitoring for suspicious login attempts. This helps reduce the likelihood of the threat successfully exploiting the vulnerability and minimizes the potential impact on the system.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

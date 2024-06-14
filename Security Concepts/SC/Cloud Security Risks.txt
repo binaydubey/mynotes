@@ -1,0 +1,100 @@
+OWASP Top 10 Cloud Security Risks
+---------------------------------
+1. Accountability and Data Ownership
+
+
++ cloud service providers have partial or full control over data
++ To minimize risk, organizations need to understand which authentication and encryption protocols their cloud providers use and their threat reporting and monitoring policies.
+
+
+2. User Identity Federation
+
++ User authentication and authorization in cloud computing platforms is crucial to enterprise security. 
++ cybercriminals can easily gain access to cloud platforms if this solution is not implemented correctly.
++ Organizations need to implement advanced identity and access management solutions like provisioning software, password management tools, security policy enforcement tools, identity repositories, and reporting and monitoring apps to mitigate risk.
+
+
+
+3. Regulatory Compliance
+
++ The physical location of the data center used by cloud providers to store data can lead to regulatory compliance issues.
++ Data storage privacy laws can differ between countries, including legal access by authorities, and tax law variances.
++ To avoid compliance problems, choose a cloud provider willing to share its data centers’ locations.
+
+
+4. Business Continuity and Resiliency
+
++ Cloud service providers are responsible for ensuring continuous operations in case of an incident. 
++ To ensure this, organizations must create a robust business continuity and disaster recovery plans. 
++ Organizations need to ensure that their Service Level Agreements (SLAs) cover a resilient business continuity process.
+
+
+5. User Privacy and Secondary Usage of Data
+
++ Public cloud environments use the public Internet to transfer data, making it available to anyone who wants to use or purchase it.
++ many integrated services use shared settings, and data is frequently collected to serve targeted ads, placing the user’s information privacy at risk.
++ Organizations need to verify the settings of user data usage in their cloud configuration and third-party integrations.
+
+6. Service and Data Integration
+
++ The interconnected nature of cloud services and different encryption levels can put data at risk during migration to and from the cloud.
++ To mitigate risk and protect information confidentiality, strong data encryption protocols, like SSL/TLS, should be enforced.
++ Regardless of the protocols used, organizations should regularly verify that data is being sent securely.
+
+
+
+7. Multi-Tenancy and Physical Security
+
++ In cloud computing, multi-tenancy refers to shared hosting, where server resources are separated between different users.
++ it can lead to security vulnerabilities if server resources are not logically separated.
++ To minimize the risk, cloud providers should configure the server for logical separation to isolate each user’s resources.
++ Encryption technologies like Virtual Private Cloud (VPC) can also help prevent shared infrastructure.  
+
+
+8. Incidence Analysis and Forensic Support
+
++ The incident analysis process involves investigating log files and associated data. 
++ incident analysis can be difficult because the necessary log files are not centralized and not easily accessible. 
++ Use third-party monitoring solutions and Virtual Machine (VM) images to ensure the immediate accessibility of your log files.
+
+
+9. Cloud Infrastructure Security
+
++ Cloud infrastructure includes the resources needed to build a cloud environment, i.e., storage, hardware, network, and virtualization
++ Organizations can apply traditional security measures, such as applying security patches and updates and regular vulnerability assessments.
++ They can also use advanced practices like isolating infrastructure components with network Access Control Lists (ACLs) and configuring administrative roles and privileges.
+
+
+10. Non-Production Environment Exposure
+
++ Staging environments are typically less secure than production ones to enable easier testing and development.
++ Developers often use generic credentials in staging, even though it can contain live data for testing purposes.
++ As a result, attackers can exploit the weak security in non-production setups to steal data related to product development.
++ Avoid using real or sensitive data in non-production environments. Ensure that anyone working in these environments has privileged access measures in place.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

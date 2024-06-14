@@ -1,0 +1,206 @@
+$ date "+%a"
+Thu
+binay@ubuntu1:~/Desktop/script$ date "+%A"
+Thursday
+binay@ubuntu1:~/Desktop/script$ date "+%b"
+Mar
+binay@ubuntu1:~/Desktop/script$ date "+%B"
+March
+binay@ubuntu1:~/Desktop/script$ date "+%c"
+Thursday 16 March 2023 10:04:30 PM
+binay@ubuntu1:~/Desktop/script$ date "+%C"
+20
+binay@ubuntu1:~/Desktop/script$ date "+%C"
+20
+binay@ubuntu1:~/Desktop/script$ date "+%d"
+16
+binay@ubuntu1:~/Desktop/script$ date "+%D"
+03/16/23
+binay@ubuntu1:~/Desktop/script$ date "+%F"
+2023-03-16
+binay@ubuntu1:~/Desktop/script$ date "+%T"
+22:06:37
+binay@ubuntu1:~/Desktop/script$ date "+%t"
+	
+binay@ubuntu1:~/Desktop/script$ date
+Thursday 16 March 2023 10:07:09 PM IST
+binay@ubuntu1:~/Desktop/script$  date "+%D %T "
+03/16/23 22:07:53 
+binay@ubuntu1:~/Desktop/script$ date "+%D %T"
+03/16/23 22:08:09
+binay@ubuntu1:~/Desktop/script$ date "+%D %M %T"
+03/16/23 08 22:08:16
+binay@ubuntu1:~/Desktop/script$ date "+%d %B %Y"
+16 March 2023
+binay@ubuntu1:~/Desktop/script$ date "+%d %B %Y %T"
+16 March 2023 22:09:36
+
+
+
+echo -e "\aHello World"
+The -e option allows you to change the format of the output while using echo.
+
+echo -e "This is a\bLinux server."
+The example used \b within the command, which actually lets you call backspace, 
+which gives you the same behavior as actually pressing backspace. 
+In the above example, the letter "a" will not print, because \b backspaces that.
+
+-------------------------------------------------------------------------------------------------
+To see password aging information 
+$ sudo chage -l harry
+[sudo] password for binay:
+44Last password change                                  : Jan 24, 2023
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+
+--To chnge Last PAssword change Date:-
+$ sudo chage -d 2020-03-23  harry
+binay@ubuntu1:~$ sudo chage -l harry
+Last password change                                    : Mar 23, 2020
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+--To change minimum days 
+~$ sudo chage -m 50 harry
+binay@ubuntu1:~$ sudo chage -l harry
+Last password change                                    : Mar 23, 2020
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 50
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+
+--To change maximum days 
+~$ sudo chage -M 5000 harry
+binay@ubuntu1:~$ sudo chage -l harry
+Last password change                                    : Mar 23, 2020
+Password expires                                        : Nov 30, 2033
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 50
+Maximum number of days between password change          : 5000
+Number of days of warning before password expires       : 7
+
+--To change warning days
+$ sudo chage -W 5 harry
+binay@ubuntu1:~$ sudo chage -l harry
+Last password change                                    : Mar 23, 2020
+Password expires                                        : Nov 30, 2033
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 50
+Maximum number of days between password change          : 5000
+Number of days of warning before password expires       : 5
+
+
+------------------------------------------------------------------------------
+
+#Adding user into secondary group. If a group have already a secondary group, it will replace this
+binay@ubuntu1:~/Desktop$ sudo usermod -G hpcsa harry
+binay@ubuntu1:~/Desktop$ groups harry 
+harry : harry hpcsa
+
+
+sudo groupadd group1
+binay@ubuntu1:~/Desktop$ groups harry 
+harry : harry hpcsa
+binay@ubuntu1:~/Desktop$ sudo usermod -G group1 harry 
+binay@ubuntu1:~/Desktop$ groups harry 
+harry : harry group1
+
+
+# Appending a user in Group
+binay@ubuntu1:~/Desktop$ groups harry 
+harry : harry group1
+binay@ubuntu1:~/Desktop$ sudo usermod -aG hpcsa harry 
+binay@ubuntu1:~/Desktop$ groups harry 
+harry : harry hpcsa group1 
+
+
+$groups harry 
+harry : harry hpcsa group1
+#removing user from a group
+binay@ubuntu1:~/Desktop$ sudo gpasswd -d harry group1 
+Removing user harry from group group1
+binay@ubuntu1:~/Desktop$ groups harry 
+
+---how to search through variable in awk
+var=binay
+binay@ubuntu1:~$ awk -F ":" '/$var/{print $3}' /etc/passwd 
+binay@ubuntu1:~$ v=`awk -F ":" '/$var/{print $3}' /etc/passwd `
+binay@ubuntu1:~$ echo $v
+
+binay@ubuntu1:~$ awk -F ":" '/$var/{print $3}' /etc/passwd 
+binay@ubuntu1:~$ awk -v pat="$var" -F ":" '$0~pat{print $3}' /etc/passwd 
+1000
+binay@ubuntu1:~$ cat /etc/passwd | grep "$var"
+binay:x:1000:1000:ubuntu1,,,:/home/binay:/bin/bash
+-----------------------------------------------------------------------------------------------
+How can we find the process name from its process id?
+ ps -p 1451
+    PID TTY          TIME CMD
+   1451 tty1     00:00:00 gsd-power
+   
+ stat -c "%i" one.txt # To find inode no of specific file
+1049292
+binay@ubuntu1:~$ stat -c "%g" one.txt #To find gid of a file
+1000
+binay@ubuntu1:~$ stat -c "%u" one.txt #To find uid of a file
+1000
+
+~$ stat -c "%G" one.txt #Group name
+binay
+binay@ubuntu1:~$ stat -c "%U" one.txt #Owner name
+binay
+
+$ sudo dumpe2fs -h /dev/sda3  #To see about superblock informationof a device.
+dumpe2fs 1.46.5 (30-Dec-2021)
+Filesystem volume name:   <none>
+Last mounted on:          /
+Filesystem UUID:          a2ad9c26-078c-4c7f-9d4e-4119d6dfb02e
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+
+
+
+
+$set this is sparta
+binay@ubuntu1:~/Desktop/pro1$ echo $0
+bash
+binay@ubuntu1:~/Desktop/pro1$ echo $1
+this
+binay@ubuntu1:~/Desktop/pro1$ echo $2
+is
+binay@ubuntu1:~/Desktop/pro1$ echo $3
+sparta
+
+
+
+[harry@localhost ~]$ w | awk '{print $1}'
+22:13:35
+USER
+binay
+binay
+binay
+harry
+binay
+ w | awk '{print $1}' | sed -n '3,$p'
+binay
+binay
+binay
+harry
+binay
+[harry@localhost ~]$ w | awk '{print $1}' | sed -n '3,$p' | sort -u
+binay
+harry

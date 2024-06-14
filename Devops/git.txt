@@ -1,0 +1,279 @@
+Install Git bash for windows
+
+In a folder , right click open with git bash
+
+$git init  ----------> .git directory will get created
+$git status -------------> to chekc untracked files.
+$git add  -----------> To add files in staging area.
+$git commit  ----------> To take a snapshot
+$git add -A  ------------> To add all files in staging area.
+$git checkout <filename> ----------> it will match your last commit.
+$git checkout -f ----------> to match their last commit for  multiple files
+$git log 
+$git log -p -1 -------------> To see 1 commit log
+$git diff  ------------> It compares your working directory with staging area.
+$ git diff --staged  ---------> It compares your staging area with last commit.
+$git rm ---------------> to remove file.
+$git rm --cached <filename> ----------------> It will remove file from staging area and send it back to untacked files.
+$git status -s ----------------> short status.
+$git branch --------------> It will list all branches.
+$git branch <branch_Name>-------------> To create new branch
+$git checkout -b <branch_Name> ---> It will create a branch and also it will switch into it.
+To merge a branch(feature) to master branch:-
+$git checkout master
+$git merge feature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+Lets see after commit, by mistake you erase all the data and saved.
+SO to recover we run
+$ git checkout <filename>  -----------> it will match your file with last commit file.
+
+
+$ git init
+Initialized empty Git repository in D:/Git/.git/
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ ls -lart
+total 8
+drwxr-xr-x 1 binay 197121 0 Feb  1 14:24 ../
+drwxr-xr-x 1 binay 197121 0 Feb  5 09:48 ./
+drwxr-xr-x 1 binay 197121 0 Feb  5 09:48 .git/
+
+$ touch file1.txt
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        file1.txt
+$ git add file1.txt
+
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   file1.txt
+
+$ git commit
+[master (root-commit) b104ac2] first commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file1.txt
+
+
+Now we will create multiple files 
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        file2.txt
+        file3.txt
+        file4.txt
+        file5.txt
+
+$ git add -A
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   file2.txt
+        new file:   file3.txt
+        new file:   file4.txt
+        new file:   file5.txt
+------------------------------------------------------------------------------------------
+Scene: Created a file:-	
+						$ cat welcome.txt
+						Hii welcome to git
+						git add welcome.txt
+						$ git commit -m "First commit " welcome.txt
+						
+						Bymistake modified data of file. 
+$ cat welcome.txt
+Hii welcome
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   file2.txt
+        new file:   file3.txt
+        new file:   file4.txt
+        new file:   file5.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   welcome.txt
+
+
+Now I want to restore my same data which was present at time of commit 
+$ git checkout welcome.txt  ---------------> this will match to last commit.
+Updated 1 path from the index
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ cat welcome.txt
+Hii welcome to git
+
+------------------------------------------------------------------------------------------------
+
+$ git log
+commit 1fa7a49e373354283f5047884d549327c6e007fb (HEAD -> master)
+Author: Binay <binaydubey08@gmail.com>
+Date:   Sun Feb 5 10:21:34 2023 +0530
+
+    Second commit
+
+commit 220d7b742879cec5d59586f7cfea7f48d1191342
+Author: Binay <binaydubey08@gmail.com>
+Date:   Sun Feb 5 10:13:16 2023 +0530
+
+    First commit
+
+commit b104ac27e6ea215a2f07174e034ef21797b1d71c
+Author: Binay <binaydubey08@gmail.com>
+Date:   Sun Feb 5 09:55:35 2023 +0530
+
+    first commit
+
+$ vi welcome.txt
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ git diff
+diff --git a/welcome.txt b/welcome.txt
+index 8dd8928..56b9892 100644
+--- a/welcome.txt
++++ b/welcome.txt
+@@ -1 +1,2 @@
+-Hii welcome to git
++Hii welcome to git.
++welcome to git diff
+
+
+$ git diff --staged
+diff --git a/welcome.txt b/welcome.txt
+index 8dd8928..56b9892 100644
+--- a/welcome.txt
++++ b/welcome.txt
+@@ -1 +1,2 @@
+-Hii welcome to git
++Hii welcome to git.
++welcome to git diff
+
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ git checkout -f
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$ git diff --staged    ---------------------> we restored data from last commit.
+
+binay@DESKTOP-776M5HU MINGW64 /d/Git (master)
+$
+-------------------------------------------------------------------------------
+Merg:-
+
+$ git merge feaure2
+Updating a2408b4..6065eda
+Fast-forward
+ feauture1 | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feauture1
+
+----------------------------------------------------
+
+
+when we use git reset and git revert
+ChatGPT
+Here’s a breakdown of when to use git reset and git revert:
+
+When to Use git revert
+Scenario: You need to undo changes from a commit that has already been pushed to a shared repository and others may have based their work on it.
+
+Purpose: To create a new commit that undoes the changes introduced by the specified commit without altering the existing commit history.
+Safety: Safe for shared repositories because it preserves the commit history.
+Usage: Ideal for public branches or when working in a team.
+Example:
+
+bash
+Copy code
+# Revert a specific commit
+git revert <commit-hash>
+# Push the new revert commit to the remote repository
+git push
+When to Use git reset
+Scenario: You need to completely remove a commit and its changes from the history. This is typically used in local branches or private branches where you are the only contributor, or when the changes have not yet been pushed or shared with others.
+
+Purpose: To move the current branch to a specified commit, potentially discarding or keeping the changes in the working directory.
+Safety: Not safe for shared repositories as it rewrites commit history, which can cause issues for others who have based their work on the commits you are removing.
+Usage: Ideal for local or feature branches where you need to clean up the commit history before pushing.
+Types of Reset:
+
+Soft Reset: Moves the branch pointer to the specified commit but keeps changes in the staging area.
+bash
+Copy code
+git reset --soft <commit-hash>
+Mixed Reset (default): Moves the branch pointer to the specified commit but keeps changes in the working directory.
+bash
+Copy code
+git reset --mixed <commit-hash>
+Hard Reset: Moves the branch pointer to the specified commit and discards all changes in the working directory and staging area.
+bash
+Copy code
+git reset --hard <commit-hash>
+Example:
+
+bash
+Copy code
+# Hard reset to a specific commit
+git reset --hard <commit-hash>
+# Force push the changes to the remote repository
+git push --force
+Practical Examples
+Revert a Commit:
+
+bash
+Copy code
+git revert abc123
+git push
+Soft Reset to Undo Last Commit Locally:
+
+bash
+Copy code
+git reset --soft HEAD~1
+Mixed Reset to Undo Last Commit Locally:
+
+bash
+Copy code
+git reset HEAD~1
+Hard Reset to Undo Last Commit and Discard Changes:
+
+bash
+Copy code
+git reset --hard HEAD~1
+git push --force
+Summary
+Use git revert for undoing changes in a shared repository while preserving commit history.
+Use git reset for removing commits from the history in local or private branches, especially when cleaning up before pushing to a remote repository.

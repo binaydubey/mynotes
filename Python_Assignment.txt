@@ -1,0 +1,549 @@
+1. Given a string of odd length greater than 7, return a new string made of the middle three characters of a given String
+Given:
+str1 = "RakeshzipPetabb"
+Output
+zip
+str2 = "JazzbonAyxx"
+Output
+bon
+
+
+
+
+
+2. Given two strings, s1 and s2, create a new string by appending s2 in 
+the middle of s1
+Given:
+s1 = "Ault"
+s2 = "Kelly"
+Expected Output:
+AuKellylt
+
+Program:
+s1 = "Ault"
+s2 = "Kelly"
+ml=int(len(s1)/2)
+s3=s1[:ml]+s2+s1[ml:]
+print(s3)
+
+
+
+3.two strings, s1, and s2 return a new string made of the first, middle, and last characters each input string
+Given:
+s1 = "America"
+s2 = "Japan"
+Expected Output:
+AJrpan 
+
+solution:
+s1 = "America"
+s2 = "Japan"
+fname=s1[0]+s2[0]
+mname=s1[int(len(s1)/2)]+s2[int(len(s2)/2)]
+lname=s1[-1]+s2[-1]
+result=fname+mname+lname
+print(result)
+
+
+4.Given an input string with the combination of the lower and upper 
+case arrange characters in such a way that all lowercase letters should 
+come first.
+str1 = "PytHONStudy"
+l=[]
+u=[]
+for i in str1:
+    if i.islower():
+        l.append(i)
+    else:
+        u.append(i)
+print(str(u))
+print(''.join(l)+''.join(u))
+
+
+
+
+create a third-string made of the first char of s1 then the last char of s2, Next, the second char of s1 and 
+second last char of s2, 
+and so on. Any leftover chars go at the end of the result.
+Given:
+s1 = "Abc"
+s2 = "Xyz"
+Expected Output:
+AzbycX
+
+
+
+
+rite a program to accept name of a person and their vehicle and store it in a dictionary
+
+Display following menu:
+
+1. Add new person name and a vehicle name. 
+	-Accept person name from user.
+	-Check whether person name exists in the dictionary. -If does not exist,add data.
+2. Delete a person name and vehicle name from the dictionary.
+
+-Accept person name from user.
+
+-Check whether person name exists in the dictionary. -If exists show person name and vehicle name to the user. -Confirm for deletion, if user enters y
+
+then delete otherwise no. Display appropriate message.
+
+3. Modify vehicle name for the person ---Accept a person name from user.
+
+-Check whether the person's name exists.
+
+If the name exists, show the person's name and vehicle name to user.
+
+Ask for new value and then overwrite the old value.
+
+
+4. Search list of people, who have given a vehicle
+	---Accept a vehicle name and print all persons name who have that vehicle.
+
+5. Search vehicle for the given person's name.
+	-Accept person name and print his vehicle.if person not found display msg.
+
+
+6. Display all person names. 
+
+7. Display all vehicle names.
+
+9. Display Dictionary
+
+10 Exit
+
+
+
+
+
+d1={}
+while True:
+    print('''1. Add new person name and a vehicle name.
+2. Delete a person name and vehicle name from the dictionary. 
+3. Modify vehicle name for the person ---Accept a person name from user.
+4. Search list of people, who have given a vehicle
+''')
+    ch=int(input("Enter Your Choice:"))
+    if ch == 1:
+        name=input("Enter Person Name:- ")
+        if name in d1.keys():
+            print("Person already Exists..")
+        else:
+            cname=input("Enter Car Name:- ")
+            d1[name]=cname
+            print("Person Added...")
+    elif ch == 2:
+        name=input("Enter Person Name:- ")
+        if name in d1.keys():
+            print(f"Person have {d1[name]}.")
+            ch2=input("Do You want to Delete...")
+            if 'yes' or 'Yes' or 'YES':
+                d1.pop(name)
+                print("Person Deleted.....")
+            else:
+                print("Aborted.......")
+
+        else:
+            print("Person Not Found...")
+        
+    elif ch == 3:
+        name=input("Enter Person Name:- ")
+        if name in d1.keys():
+            print(f"Person have {d1[name]}.")
+            ch2=input("Do You want to Modify...")
+            if 'yes' or 'Yes' or 'YES':
+                ncar=input("Enter new name")
+                d1.update({name:ncar})
+                print("Car updated.....")
+                print(f"Now Person have {d1[name]}.")
+
+            else:
+                print("Aborted.......")
+
+        else:
+            print("Person Not Found...")
+    elif ch == 4 :
+        carnme=input("Enter Car name")
+        for i in d1.keys():
+            if d1[i] == carnme:
+                print(i)
+
+
+
+    elif ch == 9:
+        break
+    else:
+        print("Select Right Choice")
+
+
+
+
+Q..
+In cryptography, a Caesar cipher is a very simple encryption techniques in which each letter in the
+plain text is replaced by a letter some fixed number of positions down the alphabet. For example, with a
+shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius
+Caesar, who used it to communicate with his generals. ROT-13 ("rotate by 13 places") is a widely used
+example of a Caesar cipher where the shift is 13. In Python, the key for ROT-13 may be represented by
+means of the following dictionary:key = {'a':'n', 'b':'o', 'c':'p', 'd':'q', 'e':'r', 'f':'s', 'g':'t', 'h':'u', 'i':'v', 'j':'w', 'k':'x', 'l':'y', 'm':'z', 'n':'a', 'o':'b', 'p':'c',
+'q':'d', 'r':'e', 's':'f', 't':'g', 'u':'h', 'v':'i', 'w':'j', 'x':'k', 'y':'l', 'z':'m', 'A':'N', 'B':'O', 'C':'P', 'D':'Q', 'E':'R', 'F':'S', 'G':'T',
+'H':'U', 'I':'V', 'J':'W', 'K':'X', 'L':'Y', 'M':'Z', 'N':'A', 'O':'B', 'P':'C', 'Q':'D', 'R':'E', 'S':'F', 'T':'G', 'U':'H', 'V':'I',
+'W':'J', 'X':'K', 'Y':'L', 'Z':'M'}
+Your task in this exercise is to implement an encoder/decoder of ROT-13. Once you're done, you will be
+able to read the following secret message:
+Pnrfne pvcure? V zhpu cersre Pnrfne fnynq!
+ubjnerlbhqvbgjnyb
+Note that since English has 26 characters, your ROT-13 program will be able to both encode and decode
+
+
+
+
+---------------------------------------Functions:-
+Q...........
+Write a Python function called find_primes that takes an integer n as input and returns a list of all prime numbers less than or equal to n.
+
+def is_prime(n):
+    count=0
+    for i in range(2,n+1):
+        if n%i == 0 :
+            count+=1
+
+    if count == 1:
+        return True
+    else:
+        return False
+
+prime_list=[]    
+num1=int(input("Enter A number: "))
+for i in range(1,num1+1):
+    if is_prime(i):
+        prime_list.append(i)
+
+print(prime_list)
+
+Q........................
+Write a Python function called fibonacci_sequence that takes an integer n as input and returns a list containing the first n Fibonacci numbers. 
+The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones.
+
+
+def fibonacci(a,b,n):
+    if n > 0:
+        d=a+b
+        l1.append(d)
+        fibonacci(b,d,n-1)
+    return l1
+n1=int(input("Enter Fibonacci Range:-"))
+l1=[0,1]
+p1=fibonacci(0,1,n1-2)
+print(p1)
+
+
+
+
+
+Q.......
+Write a function translate() that will translate a text into "rövarspråket" (Swedish for "robber's language").
+That is, double every consonant and place an occurrence of "o" in between. For example, translate("this
+is fun") should return the string "tothohisos isos fofunon".
+
+def translate(str1):
+    vow="aeiouAEIOU"
+    encoded=""
+    for i in str1:
+        if i not in vow:
+            encoded +=i+"o"+i
+        else:
+            encoded +=i
+    return encoded
+en=translate("This is fun")
+print(en)
+
+
+----------------------------------------------Regex
+Q.....................
+Write a python program to accept multiple strings and numbers in any sequence from user and store it in the list. 
+Ask user do you want to see strings or number.If strings then navigate through the list and display only strings from the list  
+otherwise display only numbers from the list.
+
+import re
+l1=input("Please Enter Multiple inputs").split()
+ch=input("Do you want to see strings or number")
+if ch == "string" or ch =="String":
+    for i in l1:
+        if re.match(r'^[a-z]+$',i):
+            print(i)
+else:
+    for i in l1:
+         if re.match(r'^\d+$',i):
+            print(i)    
+			
+			
+Q......................
+Write a python program to accept user name and password and validate it. username should contain only alphabets or digits and password length should be 8, 
+starts with alphabet and should contain at least one special character(#,@) .
+accept username and password from user and validate it. if it is valid then display message welcome to our application. otherwise ask to re-enter.
+
+import re    
+a,b= input("Enter username and password ").split()
+if re.match(r'^[a-zA-Z0-9]+$',a) and re.match(r'^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$',b):
+    print("Welcome to application..")
+else:
+    print("Bhag Yaha se")
+
+
+
+
+Q....................
+set1 = {10, 20, 30, 40, 50}
+set2 = {30, 40, 50, 60, 70}
+
+# Intersection
+intersection_set = set1.intersection(set2)
+# Result: {40, 50, 30}
+
+# Difference (elements in set1 but not in set2)
+difference_set1 = set1.difference(set2)
+# Result: {10, 20}
+
+# Difference (elements in set2 but not in set1)
+difference_set2 = set2.difference(set1)
+# Result: {60, 70}
+
+# Union
+union_set = set1.union(set2)
+# Result: {70, 40, 10, 50, 20, 60, 30}
+
+# Symmetric Difference (elements in either set but not in both)
+symmetric_difference_set = set1.symmetric_difference(set2)
+# Result: {70, 10, 20, 60}
+
+# symmetric_difference_update (modifies the set in-place)
+set1.symmetric_difference_update(set2)
+# set1 is now {70, 10, 20, 60}
+
+# difference_update (modifies the set in-place)
+set1.difference_update(set2)
+# set1 is now {10, 20}
+
+# Print the sets after the operations
+print("Intersection:", intersection_set)
+print("Difference (set1 - set2):", difference_set1)
+print("Difference (set2 - set1):", difference_set2)
+print("Union:", union_set)
+print("Symmetric Difference:", symmetric_difference_set)
+print("symmetric_difference_update (set1):", set1)
+
+
+
+
+-------------------------------File Handling and Regex '
+Q................
+Q................
+file "data.txt" contains following data
+999-999-3567
+789 456 7896
+CoreyMSchafer@gmail.com
+corey.schafer@university.edu
+corey-321-schafer@my-work.net
+https://www.google.com
+http://coreyms.com
+https://youtube.com
+https://www.nasa.gov
+https://www.sale.google.com
+192.168.80.163
+10.208.54.155
+172.168.24.153
+8.8.8.8
+
+a. print IPv4 addresses from above file
+import re
+pattern=r'(\d{1,3}\.){3}\d{1,3}'
+with open("file.txt",'r') as file:
+    for i in file:
+        var1=i.strip()
+        if re.match(pattern,var1):
+            print(var1)
+
+
+
+
+
+b. print email ids only
+pattern=r"[a-zA-Z0-9-.+]+@[a-z-]+\.[a-z]+"
+
+c. print websites only.
+
+
+
+
+
+Q1..
+Create a file productdata.txt, using notepad and add contents in following format using python script.
+Id:name:description:category:price
+For example
+123:lays:very crispy:chips:40
+124:Good day:very sweet:biscuits:35
+125:maggi:yummy:snacks:60
+225:chings:yummy:snacks:65
+123:nachos:very crispy:chips:120
+
+Q2.......
+Write a python program read data from file productdata.txt, copy all the lines starting with 12 and ending with 0 in file myproduct.txt
+(use regular expression ^12.*0$)
+import re
+pattern=r'^12.*0$'
+l1=[]
+with open('file.txt','r') as file:
+    for line in file:
+        var1=line.strip()
+        if re.match(pattern,var1):
+            l1.append(var1)
+    print(l1)
+with open("myproduct.txt","a+") as file:
+    for i in l1:
+        file.write(i+'\n')
+
+
+1.Write a python program to accept following details for Employee from user empid ,empname , no of certifications, Salary for e.g - 
+111,Anu,20,100000
+222,Shreyash,05,200000
+333,saidatta,10,300000
+a. store it in file emp.txt as comma separated values as shown above.  			         [08 Marks]
+b. Read the data from emp.txt file and display only names whose number of Certificates are > 10.
+c. Calculate Avg of salary.
+
+Sol:
+a..
+with open('file.txt',"a+") as file:
+    user_iput=input("Enter details in following format:empid ,empname,no of certifications,Salary")
+    file.write(user_iput+'\n')
+
+
+
+cat file.txt
+1234,vaibhav,21,23456
+1224,viraj,05,23456
+1002,raj,34,12331
+
+
+
+b...
+with open('file.txt','r')as file:
+    for line in file:
+        var1=line.strip().split(',')
+        if int(var1[2]) > 5:
+            print(var1[1])
+	
+d:/Python/File_handling.py
+vaibhav
+raj
+
+c....
+with open('file.txt','r')as file:
+    sum=0
+    count=0
+    for line in file:
+        var1=line.strip().split(',')
+        sum+=int(var1[3])
+        count+=1
+       
+    print("Avg is ",sum/int(count))
+d:/Python/File_handling.py
+Avg is  19747.666666666668
+
+
+
+
+---------------------------------------------------oops
+'''1. Write a program to maintain student information. 
+For each student store studid, name, m1, m2 and m3 
+(marks of 3 subjects ). 
+Accept information for 2 students and display it as follows.
+Student Details:
+____________
+Student Id: 1223
+Name: Divya
+M1 : 78
+M2: 86
+M3: 89'''
+
+class Student:
+    def __init__(self,id,name,m1,m2,m3):
+        self.id=id
+        self.name=name
+        self.m1=m1
+        self.m2=m2
+        self.m3=m3
+    def show_info(self):
+        print("")
+        print("Student Details")
+        print("____________________")
+        print("Student Id: ",self.id)
+        print("Name: \t",self.name)
+        print("M1:\t",self.m1)
+        print("M2:\t",self.m2)
+        print("M3:\t",self.m3)
+S1 = Student(1100,"Raj",34,45,46)
+S2 = Student(1110,"Rani",39,59,46)
+S1.show_info()
+S2.show_info()
+
+
+---------------------------------------------numpy pandas
+11,Anamika decorators,30,200000
+222,Shree designs,45,300000
+333,saidatta arts,50,400000
+112,Anu decorators,30,100000
+212,Shertree designs,35,500000
+313,datta arts,50,400000
+121,Raj decorators,30,200000
+232,Shreyas designs,45,300000
+353,sai,50,400000
+
+Save as decorators.txt.
+a.	Assign headings (id ,movie,shows,collections) to respective columns
+b.	Display first 3 lines of the file.
+c.      Display last 3 lines of the file.
+c.	Display only movie name and collection columns
+d.	Draw a bar graph using moviname and no of shows
+
+
+Solu:=
+import pandas as pd
+import matplotlib.pyplot as plt
+df=pd.read_csv("decorators.txt",names=['id' ,'movie','shows','collections'])
+#print(df)
+print(df.head(3))
+print(df.tail(3))
+print(df[['movie','collections']])
+df.plot(kind='bar',x='movie',y='shows')
+plt.xlabel("Movie Name")
+plt.ylabel("Shows")
+plt.title('Number of Shows for Each Movie')
+plt.show()
+
+
+
+Q......
+2. Write a python program to perform the below task.
+	a)Read 5 Name and Marks from user(Marks out of 100)
+	b)Draw bar graph using matplotlib on marks
+
+import matplotlib.pyplot as plt
+
+# Step a: Read 5 names and marks from user
+names = []
+marks = []
+
+for i in range(5):
+    name = input(f"Enter name {i+1}: ")
+    mark = int(input(f"Enter marks for {name}: "))
+    names.append(name)
+    marks.append(mark)
+
+# Step b: Draw bar graph using matplotlib on marks
+plt.bar(names, marks)
+plt.xlabel('Names')
+plt.ylabel('Marks')
+plt.title('Marks out of 100')
+plt.show()

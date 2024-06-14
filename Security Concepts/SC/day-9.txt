@@ -1,0 +1,406 @@
+Nessus Vulnerability Scanner:
+------------------------------
+1. signup for activation key
+2. download for your OS
+3. Install it:
+
+# dpkg -i Nessus-10.1.1-debian6_amd64.deb
+
+4.  Start Service Nessus Scanner:
+
+# /bin/systemctl start nessusd.service
+ 
+5. Then go to 
+
+https://127.0.0.1:8834
+
+Severity [ impact ]
+```````````````````
+p5 - informative
+p4 - low
+p3 - medium
+p2 - high
+p1 - critical
+
+VRT:
+````
+https://bugcrowd.com/vulnerability-rating-taxonomy
+___________
+Firewall in Linux:
+------------------
+
+firewalld & firewall-cli:
+--------------------------
+
+Configure it:
+------------
+	- RunTime [ current working env ]
+	- Permanent
+
+# firewall-cmd --get-zones
+
+block :
+```````
+All incoming connections rejected & only outgoing connection are allowed.
+
+dmz:
+````
+Used for system located in Demilitarized zone, only selected incoming connections are allowed in this zone.
+
+drop:
+`````
+All incoming connection are dropped without notify, only selected incoming connections are allowed.
+
+external:
+`````````
+used for external networks with NAT masquerading enabled when our system acts as a gateway or router, here only selected incoming connections are allowed.
+
+home:
+`````
+Other systems in network generally trusted and only selected incoming connections are allowed.
+
+internal:
+`````````
+Used in internal network when your system acts as gateway or router, selected incoming connectios are allowed.
+
+public:
+```````
+Used for the untrusted public areas, do not trust other systems on the network but you can allow selected incoming connections.
+
+trusted:
+````````
+All networks connections are allowed.
+
+work:
+`````
+All systems in network generally trusted and only selected incoming connections are allowed.
+________________________________________________
+
+Check which zone is the default zone:
+
+# firewall-cmd --get-default-zones
+
+What are the rules for the default zone:
+
+# firewall-cmd --list-all
+
+If you want to see the rule for other zones:
+
+# firewall-cmd --zone=dmz --list-all
+
+If you want to connect the interface to 'dmz' from 'public', then the interface will move from 'public' to 'dmz' and 'dmz' will activate:
+
+# firewall-cmd --zone=dmz --change-interface=ens33 [ Will only change for RunTime ]
+
+
+NOTE: If you reload the firewall and check the 'dmz', interface will set back to 'public' zone, because of 'RunTime' changes:
+
+To make it permanent:
+
+# firewall-cmd --zone=dmz --change-interface=ens33 --permanent
+
+
+To remove a service from zone:
+
+# firewall-cmd --zone=public --remove-services=dhcpv6-client
+
+To add any service to zone:
+
+# firewall-cmd --zone=public --add-service=dhcpv6-client
+
+To add port number:
+
+# firewall-cmd --zone=public --add-port=8080/tcp --permanent
+
+To remove a port:
+
+# firewall-cmd --zone=public --remove-port=8080/tcp 
+___________
+
+Attribute: Rich Rule
+--------------------
+
+We can use this attribute to allow or deny a specific system/ip to use the service we hace in current zone:
+
+# firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" sourceaddress="192.168.91.0/24" reject' --permanent
+
+_____________________
+panic Mode:
+-----------
+If the intruder or a hacker exists into your system/network:
+
+# firewall-cmd --panic-on
+
+All the computers that are connected with this system will lost the connection.
+
+# firewall-cmd --panic-off
+__________________________________________________________________
+File Based Permission:
+``````````````````````
+SELinux [ Security Enhanced Linux ]:
+````````````````````````````````````
+To check the mode of SELinux:
+``
+# getenforce
+
+Enfocing		 [1]
+Permissive	 [0]
+
+# sestatus
+
+Current Working Env:
+-----------
+# setenforce 0
+
+# setenforce 1
+
+Permanent [ config ]
+--------------------
+# vim /etc/selinux/config
+
+SELINUX=xxxxxxx
+
+:wq
+
+# reboot
+______________________________
+
+List all boolean:
+------
+# getsebool -a [ Short Description ]
+
+# semanage boolean -l [ Detailed Info ]
+______
+
+Set a Boolean for current working env:
+``````````
+# setsebool smbd_anon_write on
+
+Set a Boolean permanentally:
+````````
+# setsebool -P smbd_anon_write on
+------------------
+# semanage port -l
+# semanage port -l | grep http
+# semanage port -a -t http_port_t -p tcp 9999
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+SELinux:
+---------
+Its a file based security.
+
+6 types of files in Linux:
+`````````````````````````````
+- regular				[-]
+- dir					[d]
+- block					[b]
+- char					[c]
+- link					[l]
+- pipe  OR  socket		[p OR s]
+
+Basically used as access control mechanism :
+
+Access Control Mechanism:
+```````````````````````````
+	- MAC : Mendatory Access Control Mechanism
+	- DAC : Discretionary Access Control Mechanism
+ 
+SELinux used predefined policies so it works with MAC.
+
+----
+Default DocumentRoot for Apache: /var/www/html
+
+SELinux knows that if 'httpd' run then client can access data in '/var/www/html. But if client try to access other than '/var/ww/html' via 'httpd', SELinux wil prevent it.
+----
+[+] SELinux Contexts:
+```````````````````````` Itsa a lkind of Label in SELinux.
+
+1) Files & Dirs
+2) Processes
+3) Users
+
+
+1) Files & Dirs
+----------------
+# mkdir /sameerr
+
+# ls -ldZ /sameer
+drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 /sameer
+--------------------------
+# ls -ldZ /root
+dr-xr-x---. root root system_u:object_r:admin_home_t:s0 /root/
+--------------------------
+# ls -ldZ /home/kiosk/
+drwx------. kiosk kiosk unconfined_u:object_r:user_home_dir_t:s0 /home/kiosk/
+--------------------------
+# ls -ldZ /proc/
+dr-xr-xr-x. root root system_u:object_r:proc_t:s0      /proc/
+
+
+_u : User
+_r : Role
+_t : Target/Type
+s0 : Security Levels
+
+2) Processes
+``````````````
+# ps aux | less
+# ps auxZ | less
+
+Example:
+`````````
+[root@localhost /]# ps aux | grep httpd
+root      15142  0.5  1.2 310576 12064 ?        Ss   18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    15143  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    15144  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    15145  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    15146  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    15147  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+root      15172  0.0  0.0 112780   688 pts/2    R+   18:12   0:00 grep --color=auto httpd
+[root@localhost /]#
+[root@localhost /]# ps auxZ | grep httpd
+system_u:system_r:httpd_t:s0    root      15142  0.4  1.2 310576 12064 ?        Ss   18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache    15143  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache    15144  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache    15145  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache    15146  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache    15147  0.0  0.6 312796  6412 ?        S    18:12   0:00 /usr/sbin/httpd -DFOREGROUND
+unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 root 15181 0.0  0.0 112780 688 pts/2 R+ 18:12   0:00 grep --color=auto httpd
+[root@localhost /]#
+[root@localhost /]#
+[root@localhost /]# ls -ldZ /var/www/html/
+drwxr-xr-x. root root system_u:object_r:httpd_sys_content_t:s0 /var/www/html/
+[root@localhost /]#
+[root@localhost /]#
+[root@localhost /]# ls -ldZ /etc/httpd/
+drwxr-xr-x. root root system_u:object_r:httpd_config_t:s0 /etc/httpd/
+[root@localhost /]#
+[root@localhost /]#
+[root@localhost /]#
+[root@localhost /]# ls -ldZ /root/
+dr-xr-x---. root root system_u:object_r:admin_home_t:s0 /root/
+[root@localhost /]#
+________________
+
+
+
+[root@localhost html]# cat > index.html
+<html><body>
+<h1> SELinux based on MAC </h1>
+</body></html
+>
+[root@localhost html]# curl http://localhost
+<html><body>
+<h1> SELinux based on MAC </h1>
+</body></html
+>
+[root@localhost html]#
+
+________________________________________
+You know that SELinux contain predefined contexts.
+
+
+
+You change the context of "/webdir" to "httpd_sys_content_t" , but according to SELinux predefined policy: "/webdir" context is still "default_t" or must be "default_t"
+
+________________________________________
+A security breach uin SELinux Policy Violation:
+-----------------------------------------------
+ AVC [ Access Vector Cache ] event occure:
+
+
+ausearch [ Audit utility ]
+------
+ 149  semanage fcontext -a -t default_t /webdir/index.html
+  150  semanage fcontext -a -t default_t /webdir/
+  151  restorecon -v /webdir/
+  152  restorecon -v /webdir/index.html
+  153  restorecon -vR /webdir/index.html
+  154  ls -ldZ /webdir/
+  155  semanage fcontext -a -t default_t /webdir/
+  156  restorecon -vR /webdir
+  157  vim /etc/selinux/targeted/contexts/files/file_contexts.local
+  158  restorecon -vR /webdir
+  159  ls -ldZ /webdir/
+  160  ls -lZ /webdir/index.html
+  161  curl http://localhost/outside -L
+  162  cat /var/log/audit/audit.log | grep httpd
+  163  cat /var/log/audit/audit.log | grep sealert
+  164  cat /var/log/audit/audit.log | grep sealert\|httpd
+  165  cat /var/log/audit/audit.log | grep httpd
+  166  sealert -a /var/log/audit/audit.log
+  167  ausearch -m avc -c httpd
+  168  aureport -a
+  169  grep 1644583963.187:748 /var/log/audit/audit.log
+  170  grep 1644583963.187:748 /var/log/audit/audit.log | audit2why
+  171  history
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

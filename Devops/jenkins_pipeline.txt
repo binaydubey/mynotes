@@ -1,0 +1,139 @@
+pipeline{
+    agent any
+
+    tools {
+        maven "JENKINS_MAVEN_HOME"
+    }
+
+    stages{
+
+        stage("Checkout"){
+            steps{
+                echo "======== starting process for svn checkout ========"
+                sh "rm -rf *"
+                checkout(
+                    [$class: 'SubversionSCM', 
+                        additionalCredentials: [], 
+                        excludedCommitMessages: '', 
+                        excludedRegions: '', 
+                        excludedRevprop: '', 
+                        excludedUsers: '', 
+                        filterChangelog: false, 
+                        ignoreDirPropChanges: false, 
+                        includedRegions: '', 
+                        locations: [[credentialsId: '69', 
+                                    depthOption: 'infinity', 
+                                    ignoreExternalsOption: true, 
+                                    local: '.', 
+                                    //remote: "http://10.208.34.17/svn/ExamDataCheck/Trunk/wartest/demo23421"]],
+                                    remote: "http://10.208.34.17/svn/IAF/2.Development/Code/AFCAT-13/AFCAT_PreExam/Trunk"]],
+                        workspaceUpdater: [$class: 'UpdateUpdater']
+                    ]
+                )
+            }
+            post{
+                success{
+                    echo "========Code Checked out successfully========"
+                    sh "cp /root/pom.xml /root/.jenkins/workspace/demo-svn"
+                }
+                failure{
+                    echo "========dude checkout faild!! check creds, check repo existance ========"
+                }
+            }
+        }
+
+        stage("Build"){
+            steps{
+                script {
+                        def mavenVersion = sh('mvn --version | awk \'NR==1{print $3}\'')
+                        echo "I am using Maven version: ${mavenVersion}"
+
+                        def javaVersion = sh('java --version | awk \'NR==1{print $2}\'')
+                        echo "I am using java version: ${javaVersion}"
+
+                    }
+
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+            post{
+                success{
+                    echo "==== Build executed successfully ===="
+                    // sh "mv target/*.war target/demo.war"
+                    // junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts "target/*.war"
+                    
+                }
+                failure{
+                    echo "======== dude ! war build failed. :( check for vars above ========"
+                }
+        
+            }
+        }
+
+        stage("get Approval"){
+
+            steps {
+                script {
+                    // Define a list of users who are allowed to approve
+                    def allowedUsers = 'moderator'
+                    
+                    // Use the input step with submitter parameter
+                    input message: "Please allow me to proceed with deployment", submitter: allowedUsers
+                }
+            }
+        }
+        
+//         stage('get Approval') {
+//     steps {
+//         script {
+//             // Get the username of the current user with a null check
+//             def userIdCause = currentBuild.rawBuild.getCauses().find { cause -> cause.class.simpleName == 'UserIdCause' }
+//             echo "test output: ${userIdCause}"
+//             def currentUser = userIdCause ? userIdCause.getUserId() : 'fool'
+//             echo "Current user: ${currentUser}"
+
+//             // Define messages for specific users
+//             def userMessages = [
+//                 'developer': 'Wait!! Request sent to moderator for approval!!',
+//                 'moderator': 'New build is ready to launch. Approve it.'
+//             ]
+
+//             // Initialize the 'approved' variable
+//             def approved = false
+
+//             // If the user is a developer, request input for approval and wait until approved
+//             if (currentUser == 'developer') {
+//                 echo userMessages['developer']
+//                 input message: 'Sent for approval'
+//                 approved = true
+//             }
+
+//             // If the user is a moderator, print a message and proceed with the build
+//             if (currentUser == 'moderator') {
+//                 echo userMessages['moderator']
+//                 approved = true
+//             }
+
+//             // Wait until 'approved' is true before continuing
+//             while (!approved) {
+//                 sleep(500)
+//             }
+//         }
+//     }
+// }
+
+
+
+        stage("deployment"){
+            steps {
+                
+                sh "sshpass -p 'pass' scp -v -o StrictHostKeyChecking=no target/*.war root@x.x.x.x:/opt/tomcat8081/webapps/"
+                
+            }
+        }
+        
+    }
+
+
+}

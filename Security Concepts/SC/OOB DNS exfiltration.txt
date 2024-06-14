@@ -1,0 +1,21 @@
+OOB DNS exfiltration:
+----------------------
+Setup BIND with log monitor
+
+logging {
+	
+	channel queries_log {
+          file "/var/named/log/queries" versions 600 size 20m;
+          print-time yes;
+          print-category yes;
+          print-severity yes;
+          severity info;
+     };
+
+LAB URL:
+https://github.com/weev3/LKWA
+
+# docker run -it -p 3000:80 kminthein/lkwa:latest
+
+Access:
+http://192.168.206.129:3000/rce/blind_rce.php

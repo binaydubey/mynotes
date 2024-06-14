@@ -1,0 +1,207 @@
+***************Linux Basic Comaands****************
+
+ls -- list directory contents
+		-a, --all
+              do not ignore entries starting with .
+		-h, --human-readable
+              with -l and -s, print sizes like 1K 234M 2G etc.
+			  
+		-m     fill width with a comma separated list of entries	
+		-i, --inode
+              print the index number of each file
+		-Q, --quote-name
+              enclose entry names in double quotes
+		-s, --size
+              print the allocated size of each file, in blocks
+ls -l  ( Long List) 
+total 9332
+-rw-rw-r-- 1 binay binay 3181555 Sep  7 10:51 pexels-blaque-x-863963.jpg
+-rw-rw-r-- 1 binay binay 3184640 Sep  7 10:57 pix.tar
+-rw-rw-r-- 1 binay binay 3184640 Sep  7 10:57 pix.tar.gz
+ 
+ 
+binay@ubuntu1:~/Downloads$ ls -lh 
+total 9.2M
+-rw-rw-r-- 1 binay binay 3.1M Sep  7 10:51 pexels-blaque-x-863963.jpg
+-rw-rw-r-- 1 binay binay 3.1M Sep  7 10:57 pix.tar
+-rw-rw-r-- 1 binay binay 3.1M Sep  7 10:57 pix.tar.gz
+
+$ ls -m
+pexels-blaque-x-863963.jpg, pix.tar, pix.tar.gz
+ls -Q
+"pexels-blaque-x-863963.jpg"  "pix.tar"  "pix.tar.gz"
+
+$ ls -s
+total 9332
+   0 f1  3108 pexels-blaque-x-863963.jpg  3112 pix.tar  3112 pix.tar.gz
+binay@ubuntu1:~/Downloads$ ls -sh
+total 9.2M
+   0 f1  3.1M pexels-blaque-x-863963.jpg  3.1M pix.tar  3.1M pix.tar.gz
+
+
+--------------------
+sort - sort lines of text files
+	-n, --numeric-sort
+              compare according to string numerical value
+
+	-r, --reverse
+              reverse the result of comparisons
+	-u, --unique
+              with -c, check for strict ordering; without -c, output only the first of  an  equal
+              run
+	
+	-M, --month-sort
+              compare (unknown) < 'JAN' < ... < 'DEC'
+	-u, --unique
+              with -c, check for strict ordering; without -c, output only the first of  an  equal
+              run
+			  
+			  
+	We can sort multiple files together.
+	
+cat month.txt 
+February 
+January 
+March 
+August 
+September 
+binay@ubuntu1:~/Downloads$ sort -M month.txt 
+January 
+February 
+March 
+August 
+September 
+
+
+To sort a file by column wise:
+	sort -nk2 <filename>
+				here n-numeric k2 - column2 , it will sort column2.
+				
+To sort a file by row wise:-
+	while read line; do echo "$line" | tr ' ' '\n' | sort -n | tr '\n' ' '; echo; done < num.txt
+
+
+To save output of sort command:- 
+sort -no output.txt  num.txt 
+binay@ubuntu1:~/Downloads$ cat output.txt 
+1	23
+24	2
+34	233
+231	2323
+312	12
+334	1
+344	323
+
+
+------------------------------
+head 
+	
+	Print  the  first 10 lines of each FILE to standard output.
+
+ head -5 output.txt 
+1	23
+24	2
+34	233
+231	2323
+312	12
+
+cat -n output.txt | tail -3
+     5	312	12
+     6	334	1
+     7	344	323
+
+
+
+--------------------------------less and More
+more: You can only move forward through the file. You can press the Spacebar to go to the next page or press Enter to go to the next line.
+It has basic search functionality, usually by pressing / followed by your search term and then Enter. It will find the next occurrence of the term.
+
+less: In addition to moving forward, you can also move backward through the file. 
+You can use the Up and Down arrow keys to navigate in both directions, as well as the Page Up and Page Down keys.
+ It has more advanced search capabilities, allowing you to search both forward and backward in the file. 
+ You can use / for forward search and ? for backward search.
+
+
+---------------------------------tee
+ tee - read from standard input and write to standard output and files
+Scene: the output of ls command save to a file and provide output of ls command as input to wc command
+
+$ ls /etc/ | tee output.txt | wc 
+    233     233    2241
+	
+	
+
+------------------------------xargs
+Whatever output we are getting from first command, if you want to use this output as arguments to the second coomand, we use xargs
+~/test$ ls
+file.txt  test1  test2  test3  test4  test5
+binay@ubuntu1:~/test$ cat file.txt 
+test1
+test3
+test5
+binay@ubuntu1:~/test$ cat file.txt |xargs rm -r
+binay@ubuntu1:~/test$ ls
+file.txt  test2  test4
+
+
+Difference between xargs and -exec
+find . -name H* -exec ls -l {} \; executes the command ls -l on each individual file.
+
+find . -name H* | xargs ls -l constructs an argument list from the output of the find commend and passes it to ls.
+
+consider if the ouput of the find command produced:
+H1
+H2
+H3
+
+the first command would execute
+ls -l H1
+ls -l H2
+ls -l H3
+
+but the second would execute
+ls -l H1 H2 H3
+
+
+
+--------------- -exec command
+exec command in Linux is used to execute a command from the bash itself. 
+This command does not create a new process it just replaces the bash with the command to be executed. 
+If the exec command is successful, it does not return to the calling process.
+
+
+
+
+
+-------------------xargs command
+
+https://www.youtube.com/watch?v=Ko3VktocAQw&t=1519s&ab_channel=DurgaSoftwareSolutions 
+from 1:12:00 minutes
+
+cat file1.txt ----> this is output stream.
+cat file.txt 
+file1
+file2
+file3
+file4
+
+now i want to remove above file using pipe 
+ cat file.txt | rm 
+rm: missing operand
+Try 'rm --help' for more information. 
+
+But pipe converts output stream to input stream . and rm comm requires command line ar only.
+SO we have to convert  output stream to arguments. so we will use xargs.
+
+$ cat file.txt | xargs rm
+$ find  -type f | xargs -i cp -v {} ../ditiss
+
+
+
+
+
+
+-----------locate
+It searches through a prebuilt local database of all files on the filesystem generated by the updatedb command. 
+Note it is essential to update the database as recent files saved over a period of fewer than 24 hours are not updated into the database by 
+default and the database is updated once within 24 hours span. 

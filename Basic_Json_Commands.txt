@@ -1,0 +1,49 @@
+# cat myjson 
+{
+"Country": "India",
+"Pin": "411008",
+"Residetnial": "True",
+"myarray": ["shoes","ball","36","bat"] ,
+"myobj": {"name": "binay",
+	"state": "Mah", "pin":{"post": "bhandup"}
+}
+}
+
+
+To print in json format:
+ cat myjson | jq
+{
+  "Country": "India",
+  "Pin": "411008",
+  "Residetnial": "True",
+  "myarray": [
+    "shoes",
+    "ball",
+    "36",
+    "bat"
+  ],
+  "myobj": {
+    "name": "binay",
+    "state": "Mah",
+    "pin": {
+      "post": "bhandup"
+    }
+  }
+}
+
+ jq - Command-line JSON processor
+
+[root@localhost json]# cat myjson | jq .myarray[0]
+"shoes"
+[root@localhost json]# cat myjson | jq .myarray[3]
+"bat"
+
+# cat myjson | jq .myarray
+[
+  "shoes",
+  "ball",
+  "36",
+  "bat"
+]
+
+

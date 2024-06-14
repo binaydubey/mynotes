@@ -1,0 +1,48 @@
+---------------------------------------SQL---------------------------------------------------
+Installation:- 
+#apt install mariadb-server 
+#systemctl start mariadb 
+# systemctl enable mariadb
+
+
+
+Mysql secure installation:- 
+	Disable Remote root login
+	Remove test user and database
+	
+
+─# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 40
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.008 sec)
+
+MariaDB [(none)]>
+
+
+Creating Database:_
+'''''''''''''''''''
+> create database mydb;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.000 sec)

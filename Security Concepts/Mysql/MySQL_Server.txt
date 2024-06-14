@@ -1,0 +1,209 @@
+MySQL server on linux:
+````````````````````
+# apt install mysql-server -y
+OR 
+# apt install mariadb-server -y
+
+[+] Start the service:
+``````````````````
+# systemctl status mariadb
+# systemctl start mariadb
+
+During the installation process, set a password for the MySQL root user.
+
+# mysql_secure_installation
+
+- The first step asks for the root password
+- Which hasn’t been set so we’ll press ENTER as it recommends
+- Will prompt to set that root password
+- Type Y then ENTER to enter a password for the root database user
+- Acept all the security suggestions that follow by pressing y and then ENTER
+
+
+
+
+# mysql -u root -p
+
+MariaDB [(none)]> show databases;
+
++--------------------+
+| Database           |
++--------------------+
+| dvwa               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+
+MariaDB [(none)]> use dvwa;
+MariaDB [dvwa]> show tables;
++----------------+
+| Tables_in_dvwa |
++----------------+
+| guestbook      |
+| users          |
++----------------+
+MariaDB [dvwa]> select * from users;
+
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+| user_id | first_name | last_name | user    | password                         | avatar                           |
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | /DVWA/hackable/users/admin.jpg   |
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+
+
+Create a New MySQL User and DatabasePermalink:
+```````````````````````````````````````````
+=> "testdb" is the name of the database, "testuser" is the user, and "password" is the user’s password.
+
+mysql> create database testdb;
+mysql> create user 'testuser'@'localhost' identified by 'password';
+mysql> grant all on testdb.* to 'testuser'@'localhost';
+mysql> exit
+
+=> Log back in as testuser.
+	# mysql -u testuser -p
+	mysql> use testdb;
+	mysql> ...
+
+```````
+=> Create
+```````
+
+CREATE TABLE table_name (
+    column1_name datatype,
+    column2_name datatype
+);
+
+MySQL Data Types:
+`````````````
+CHAR(size)	:	A FIXED length string (can contain letters, numbers, and special characters). The size parameter specifies the column length in characters - can be from 0 to 255. Default is 1
+
+VARCHAR(size)	:	A VARIABLE length string (can contain letters, numbers, and special characters). The size parameter specifies the maximum column length in characters - can be from 0 to 65535
+
+BINARY(size)	:	Equal to CHAR(), but stores binary byte strings. The size parameter specifies the column length in bytes. Default is 1
+
+VARBINARY(size)	:	Equal to VARCHAR(), but stores binary byte strings. The size parameter specifies the maximum column length in bytes.
+
+INT
+TEXT
+
+
+
+mysql> CREATE TABLE employees ( Name varchar(255), Role varchar(1))
+
+``
+=> DROP
+``
+
+mysql> DROP TABLE table_name;
+
+
+``````````````
+=> TRUNCATE TABLE
+``````````````````The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself.
+
+mysql> TRUNCATE TABLE table_name;
+
+
+``````````````
+DROP COLUMN:
+``````````````
+mysql> ALTER TABLE Persons DROP COLUMN DateOfBirth;
+
+``````
+DROP DB:
+``````
+mysql> drop database testdb;
+````````
+INSERT
+``````
+mysql> insert into students (PRN, user, pass ) values (2,
+"admin", "secret");	
+``
+SELECT
+````
+mysql> select * from students;
+mysql> select PRN,user from students;
+mysql> select user,pass from students where PRN='1';
+mysql> select user,pass from students where PRN="1";
+mysql> select user,pass from students where PRN=1;
+mysql> select PRN from students where user="abhi" and
+pass="hacker_pandit";
+mysql> select PRN from students where user="abhi" or pass="rajsdaf";
+mysql> select * from students order by PRN;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~Problem Statement~~~~~~
+
+1. Create a Database "BOOKS" and use it.
+
+2. Create a table with name “AUTHORS”? with the following columns
+
+— BOOK_NAME  with string data type 
+
+— PRINTS with numerical data type 
+
+— Price with real number data type 
+
+— purchase_cost with decimal data type 
+
+— estimated_sale_price with data type float 
+
+— Publishing Year with data type int
+
+— Author Name with data type varchar
+
+
+3. Display all columns and their datatype and size in authors?
+
+4. Insert two records into AUTHORS
+
+— 1st record with values —
+
+— book_name: psychology of money
+
+— Prints: 5
+
+— price: 330
+
+— Puchase_cost: 220
+
+— estimated_sale_price: 310
+
+— Publishing Year: 2020
+
+— Author: Morgan Housel
+------------------------------------------------
+
+— Book_name: The Power of your subconscious mind 
+
+— Prints: 4
+
+— price: 200
+
+— Puchase_cost: 100
+
+— estimated_sale_price: 180
+
+— Publishing Year: 1963
+
+— Author: Joseph Murphy
+
+
+5. Add a column: Rating to the existing AUTHOR table with data type varchar and size 20
+
+6. Insert Data Into New Column Rating
+
+— Psychology of Money : (A)
+
+— The Power of your subconscious mind : (A2)
+
+7. How many characters does the  Book_name : “psychology of money” have in the AUTHOR table.
+
+8. Alter the Book_name field from CHAR to VARCHAR in AUTHOR
+
+9. Delete Psychology of Money column
+
+10. drop table & database

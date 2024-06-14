@@ -1,0 +1,648 @@
+HTTP/1.0
+
+Old PROTOCOL version: One TCP connection per HTTP response request cycle supported.
+
+HTTP/1.1
+
+Persistent TCP connection, If you dont want to use this by default then add header "connection: close"
+
+If you dont use any specific header then by default it uses "connection: keep-alive"
+
+HTTP Pipeline: FIFO [Not used in browser]
+
+Attacker ------------1 req-------------> Server
+Attacker ------------2 req-------------> Server
+Attacker ------------3 req-------------> Server
+
+Attacker <------------3 res------------- Server
+Attacker <------------2 res------------- Server
+Attacker <------------1 res------------- Server
+
+Then where HTTP pipeline used:
+
+So there are two servers, front end & backend. Just like NGROK, ngrok is front end server & apache is backend server. So basically between NGROK and APACHE server we use HTTP Pipeline.
+
+Let's break the HTTP req:
+
+
+GET / HTTP/1.1			<req line>
+Host: domain.tld		<req header>
+Content-Length: 12		<entity-header>
+Content-Type: text/plain	<entity-header>
+				<empty-line>
+Hello World!			<req body>
+
+
+What is hidden in Req : [ You cant see in Burp Suite. ]
+
+GET / HTTP/1.1	 \r\n		<req line>
+Host: domain.tld \r\n		<req header>
+Content-Length: 12 \r\n		<entity-header>
+Content-Type: text/plain \r\n	<entity-header>
+\r\n				<empty-line>
+Hello World!			<req body>
+
+This is called CRLF. \r\n [means break lines]
+
+
+Focus on things now:
+
+Content-Length: 12 \r\n		<entity-header>
+Content-Type: text/plain \r\n	<entity-header>
+\r\n				<empty-line>
+Hello World!			<req body>
+
+
+Total count of "Hello World!" is "12", so Content-Length: 12.
+
+______________________________________
+HTTP Security Headers and how they work
+Traditionally, all web application security controls had to be implemented server-side in order to be effective.
+
+Headers :
+Client Request Header
+Server Response Header
+General Header
+Entity Header
+
+a) Client Request Header:
+GET /path HTTP/3
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html, application/xml;q=1.0,/
+Referer: https://domain.tld
+X-Forwarded-For: x.x.x.x, x.x.x.x
+Connection: close
+
+GET / HTTP/1.1
+
+HTTP verbs: GET, POST, HEAD, PUT ...
+Path : /
+Protocol version 1.1 : HTTP/1.1
+
+Host: example.com
+
+Internet Hostname
+
+User-Agent: Mozilla/5.0
+
+Browser: Client Agent Software & OS
+
+Accept: text/html, application/xml;q=1.0,/
+
+Type of document expecting in the response.
+
+Connection: close
+
+HTTP/1.0
+Connection: close
+HTTP/1.1
+Connection: close
+
+Connection: keep-alive
+
+HTTP/1.1
+Connection: keep-alive
+HTTP/2
+Connection: keep-alive
+HTTP/3
+Connection: keep-alive
+
+X-Forwarded-For: x.x.x.x
+
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-For: x.x.x.x, x.x.x.x
+
+Referer: https://google.com
+Reset token URL
+
+https://domain.com/user?token=YGEYU786786GHFHF
+
+Tab#1
+https://domain.com/user?token=YGEYU786786GHFHF
+
+evil.com
+Referer: https://domain.com/user?token=YGEYU786786GHFHF
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+HTTP Response Headers:
+++++++++++++++++++++++
+
+HTTP/1.1 200 ok
+
+Cache-Control: max-age=seconds
+Cache-Control: max-fresh=seconds
+Cache-Control: no-cache
+
+Set-Cookie: cookie_name=cookie_value; Domain=example.com; Secure; HttpOnly
+Set-Cookie: sessionId=87458934957349; Domain=sub.example.com
+Set-Cookie: Expires=Thu, 11 Nov 2024 09:11:00 GMT
+
+cookie_name=cookie_value : cookie values
+
+HTTP Req: [www.sfox.com]
+Origin: https://example.com
+
+Response:
+access-control-allow-origin: https://example.com
+access-control-allow-methods: OPTIONS, GET, POST, PUT, PATCH, DELETE
+access-control-allow-credentials: true
+
+access-control-allow-origin: *
+access-control-allow-methods: OPTIONS, GET, POST, PUT, PATCH, DELETE
+access-control-allow-credentials: true
+
+Basic HTTP Req:
+curl https://example.com
+
+To ignore SSL/TLS cert exeption:
+curl -k https://example.com
+
+To forward the HTTP request based on Location Header:
+curl -k https://example.com -L
+
+To verbose:
+curl -k https://example.com -v
+
+Only response header:
+curl -k https://example.com -I
+
+Store the output/silent:
+curl -ks https://example.com -o filename
+curl -ks https://example.com -o /dev/null
+
+HTTP Req Methods: [GET, POST, PUT ...]
+curl -ks https://example.com -X OPTIONS
+curl -ks https://example.com -X GET
+
+Only Status code:
+curl -ks https://example.com -X GET -o /dev/null -w "%{http_code}\n"
+
+Only Content-Length:
+curl -ks https://example.com -X GET -o /dev/null -w "%{http_code}" "%{size_download}"
+
+Add custom header in req:
+curl -ks https://example.com -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0"
+
+Middlewares:
+HTTP Caching:
+Caching is the process of storing copies of files in a cache or temp storage location.
+
+What to cache?
+HTML Files [.html, .htm, .shtml .....]
+Javascripts [.js, .js?v=781, .js<EPOCH_TIMESTAMP>, .js.map]
+CSS/SCSS etc....
+How many methods?
+
+* Client Side Caching:
+	> Browser cache
+
+* Server Side Caching:
+	> Reverse proxy
+	> Load Balancer
+	> Web Application accelerators
+
+- Forward Proxy
+
+- CDN Caching:
+~~~~~~
+
+CDN Headers: [X-Cache:**]
+------------
+
+* Cache HIT
+* Cache MISS
+* Expires [ before HTTP/1.1, only works with browser cache ]
+* Progma: no-cache [ Prevent Cache, before HTTP/1.1
+* Cache-Control: no-cache [ used HTTP/1.1+, can be multiple values]
+	- Private : Single user, only cahed in browser.
+	- Public : Multiple users
+	- no-store : Dont cache
+	- no-cache : Cache but revalidate [ ETag : ]
+	- max-age : max-age-120 [ cached for number of seconds, for browser]
+	- Last-modified 
+
+Cloudflare:
+-----------
+cf-cache-status: DYNAMIC || HIT || MISS
+
+DYNAMIC:
+--------
+GET /api/user/token HTTP/2
+Host: abc.com
+---
+HTTP/2 200 OK
+cf-cache-status: DYNAMIC
+
+token=89327iefhy6734yhfhu3478yhoc34nuiyuf98c3j4fh74973
+
+Abuse CDN:
+----------
+--------
+GET /api/user/token/favicon.ico HTTP/2
+Host: abc.com
+auth: iuuiufe
+---
+HTTP/2 404 not found
+cf-cache-status: MISS
+
+token=786234ihrd7823huund7934h3980
+
+
+
+GET /api/user/token/favicon.ico HTTP/2
+Host: abc.com
+auth: unauth
+---
+HTTP/2 200 ok
+cf-cache-status: HIT
+
+csrf-token=786234ihrd7823huund7934h3980
+
+content-security-policy: 
+
+report-uri https://metrics.roblox.com/v1/csp/report?type=enforce; 
+script-src 'self' 'unsafe-inline' 'unsafe-eval' *.evidon.com 
+default-src 'self' '*' 
+frame-src 'seft'
+img-src 'seft' 'data' 'blob'
+media-src 'data' 
+object-src
+base-uri <base>
+
+data:base64:bsjdhkjdshlvfdjljlkfjdkslgjj==
+data:text/html:djkdfhsdkfhsjhfks==
+blob:
+
+<embed> <frame> <applet>
+nonce == ?
+hashes == ?
+
+
+
+____________________________________________________________________________________________________
+
+SNORT - Intrusion Prevention System (INLINE MODE)
+	
+Snort Modes
+		1) Packet Capture Mode
+				# snort -i eth0
+		2) IDS Mode
+		3) Inline Mode
+
+
+
+Installing SNORT:
+-----------------
+
+1)
+
+# apt update; apt install snort -y
+
+2) update shared libs
+
+# ldconfig
+
+3) Info:
+
+# id snort
+# ls /etc/snort
+# ls /var/log/snort
+
+Conf: # cat /etc/snort/snort.conf
+
+NOTE: take backup of original snort.conf file.
+
+# vim /etc/snort/snort.conf
+
+ipvar HOME_NET any [ In which network you want to work in ]
+ipvar HOME_NET 192.168.86.0/24 [ Add this new line ]
+
+
+Go to end of file and check all included rules.
+
+
+4) For now lets go with the default configuration & test snort to validate configuration:
+
+# snort -T -i eth0 -c /etc/snort/snort.conf
+
+Initializing rule chains...
+4057 Snort rules read
+    3383 detection rules
+    0 decoder rules
+    0 preprocessor rules
+3383 Option Chains linked into 949 Chain Headers
+
+
+5) Now setup custom rules for your local env:
+
+# vim /etc/snort/snort.conf
+
+include $RULE_PATH/local.rules
+
+
+*** Remove all the existing rules ***
+:wq
+
+6) Test again:
+
+# snort -T -i eth0 -c /etc/snort/snort.conf
+
+Initializing rule chains...
+0 Snort rules read
+    0 detection rules
+    0 decoder rules
+    0 preprocessor rules
+0 Option Chains linked into 0 Chain Headers
+
+
+7) Its time to configure your own rule:
+
+
+** Snort rules are divided into two logical sections, the rule header and the rule options.
+
+
+1. Rule Header: The rule header contains the rule's action, protocol, source and destination IP addresses and netmasks, and the source and destination ports information.
+
+2. Rule Options: The rule option section contains alert messages and information on which parts of the packet should be inspected to determine if the rule action should be taken.
+
+
+Rule Syntax:
+------------
+alert <proto> <src_ip> <dst_ip> -> <netmask> <port> (msg:"<msg>"; sid:"<signature>"; rev:1;)
+
+
+For custom rule, signatureID starts from 1000001. Before 100000 reserved for snort.
+
+
+Rule Actions:
+--------------------
+alert	:	Alert and then log the packet
+log		:	log the packet
+pass		:	ignore the packet
+drop		:	block and log the packet
+reject	:	block the packet, log it and send TCP reset
+sdrop	:	block the packer and do not log it
+
+Rule Options:
+-------------
+
+________________________
+a) ANY packet detection:
+````````````````````````
+alert ip any any -> any any (msg: "IP Packet detected"; sid: 10000; rev:1;) 
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf
+
+02/13-12:39:48.921203  [**] [1:10000:1] IP Packet detected [**] [Priority: 0] {UDP} 143.244.134.227:123 -> 192.168.86.128:48971
+
+______________________
+b) PING Detection rule:
+```````````````````````
+
+# vim /etc/snort/rules/local.rules
+
+alert icmp any any -> $HOME_NET any (msg: "LOL ICMP"; sid: 1000001; rev: 1;)
+
+# snort -T -i eth0 -c /etc/snort/snort.conf	[ TEST ]
+
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf [ Debug ]
+
+02/13-12:27:06.070450  [**] [1:1000001:1] LOL ICMP [**] [Priority: 0] {ICMP} 192.168.86.1 -> 192.168.86.128
+02/13-12:27:06.070470  [**] [1:1000001:1] LOL ICMP [**] [Priority: 0] {ICMP} 192.168.86.128 -> 192.168.86.1
+
+________________________________
+c) FTP Connection Detection rule:
+`````````````````````````````````
+
+# vim /etc/snort/rules/local.rules
+
+alert tcp any any -> $HOME_NET 21 (msg: "FTP Connection"; sid: 1000002; rev: 1;)
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf
+
+02/13-12:32:43.635836  [**] [1:1000002:1] FTP Connection [**] [Priority: 0] {TCP} 192.168.86.1:37519 -> 192.168.86.128:21
+02/13-12:32:43.636304  [**] [1:1000002:1] FTP Connection [**] [Priority: 0] {TCP} 192.168.86.1:37519 -> 192.168.86.128:21
+02/13-12:32:43.692072  [**] [1:1000002:1] FTP Connection [**] [Priority: 0] {TCP} 192.168.86.1:37519 -> 192.168.86.128:21
+02/13-12:32:45.712857  [**] [1:1000002:1] FTP Connection [**] [Priority: 0] {TCP} 192.168.86.1:37519 -> 192.168.86.128:21
+02/13-12:32:45.714615  [**] [1:1000002:1] FTP Connection [**] [Priority: 0] {TCP} 192.168.86.1:37519 -> 192.168.86.128:21
+
+______________________
+d) FLAG detection rule:
+```````````````````````
+F - FIN (LSB in TCP Flags byte)
+S - SYN
+R - RST
+P - PSH
+A - ACK
+U - URG
+
+There are also logical operators:
+`````````````````````````````````
++ - ALL flag, match on all specified flags plus any others
+* - ANY flag, match on any of the specified flags
+! - NOT flag, match if the specified flags aren't set in the packet
+
+
+# vim /etc/snort/rules/local.rules
+
+alert tcp any any -> $HOME_NET any (flags: S; msg: "SYN Packet"; sid: 1000003; rev: 1;)
+alert any any -> 192.168.1.0/24 any (flags: SF; msg: "Possible SYN FIN scan";)
+
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf
+
+_________________________
+e) Content Matching rule:
+`````````````````````````
+# vim /etc/snort/rules/local.rules
+
+alert tcp any any -> $HOME_NET 22 (msg: "SSH Attempt"; content: "SSH"; sid: 1000003; rev: 1;)
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf
+
+02/13-12:56:02.128231  [**] [1:1000003:1] SSH Attempt [**] [Priority: 0] {TCP} 192.168.86.1:38256 -> 192.168.86.128:22
+
+
+____________________________
+f) logging and storing ASCII:
+`````````````````````````````
+
+# vim /etc/snort/rules/local.rules
+
+alert tcp any any -> $HOME_NET 22 (content: "SSH"; msg: "SSH Attempt"; sid: 1000003; rev: 1;)
+
+# snort -A console -q -i eth0 -c /etc/snort/snort.conf -K ascii
+
+02/13-12:56:02.128231  [**] [1:1000003:1] SSH Attempt [**] [Priority: 0] {TCP} 192.168.86.1:38256 -> 192.168.86.128:22
+
+# cd /var/log/snort/
+
+=> One log file which is common:
+
+# ls -l snort.log*
+
+You can also open this file in wireshark.
+
+=> If '-K ascii' used, then it will start logging for individual host:
+
+# cd x.x.x.x;ls
+TCP:38256-22
+
+_____________
+g) Variables:
+````````````````You can also create new `var` for rules:
+
+Syntax: var: <name> <value>
+
+var MY_NET [192.168.1.0/24,10.1.1.0/24]
+alert tcp any any -> $MY_NET any (flags: S; msg: "SYN packet";)
+
+_____________
+h) Classtype:
+`````````````
+The classtype keyword is used to categorize a rule as detecting an attack. Snort provides a default set of attack classes that are used by the default set of rules it provides.
+
+Syntax: classtype:<class name>;
+
+Attack classifications defined by Snort reside in the `classification.config` file. 
+
+____________
+i) priority:
+````````````
+The priority tag assigns a severity level to rules. A classtype rule assigns a default priority in `classification.config` file. A priority of 1 (high) is the most severe and 4 (very low) is the least severe.
+
+Syntax: priority:<priority integer>;
+
+alert tcp any any -> any 80 (msg:"EXPLOIT"; classtype:attempted-admin; priority:10 );
+
+____________________________________________________________________________________
+3) Inline Mode [IPS]
+
+Step 1
+``````
+Download and Install DAQ (Data Acquisition):
+
+# cd /etc/snort
+# wget https://www.snort.org/downloads/snort/daq-2.0.7.tar.gz
+# tar xvzf daq-2.0.7.tar.gz
+                      
+# cd daq-2.0.7
+# ./configure && make && make install
+
+# snort --daq-list
+	Available DAQ modules:
+		pcap(v3): the default mode, used for sniffer and IDS modes
+		nfq(v7): inline on Linux netfilter
+		ipfw(v3): used divert sockets with the pf & ipfw firewalls
+		dump(v3): allow testing of online 
+		afpacket(v5): On linux using two bridged interface
+
+Step 2
+``````
+# vim /etc/snort/snort.conf
+
+Uncomment DAQ config
+
+# config daq: <type>
+# config daq_dir: <dir>
+# config daq_mode: <mode>
+# config daq_var: <var>
+
+to --->
+
+ config daq: afpacket
+ config daq_dir: /etc/snort/daq-2.0.7
+ config daq_mode: inline
+ config daq_var: buffer_size_mb=512
+
+
+
+:wq
+
+Step 3
+``````
+# vim /etc/snort/rules/local.rules
+
+drop icmp $HOME_NET any -> any any (msg:"ICMP detect and drop"; sid:1000001; rev:1; classtype:icmp-event;)
+
+:wq
+
+
+# snort -T -i eth0:eth1 -Q -q -c /etc/snort/snort.conf	[ TEST ]
+
+# snort -A console -q -Q -i eth0:eth1 -c /etc/snort/snort.conf 
+
+-Q : not run in inline mode.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

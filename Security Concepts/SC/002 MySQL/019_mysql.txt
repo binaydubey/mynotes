@@ -1,0 +1,102 @@
+MySQL server on linux:
+```````````````````````
+# apt install mysql-server -y
+OR 
+# apt install mariadb-server -y
+
+
+# service mysql start
+OR
+# service mariadb start
+
+During the installation process, set a password for the MySQL root user. if not, the default password is 'tiger' for user root.
+
+# mysql -u root -p
+
+MariaDB [(none)]> show databases;
+
++--------------------+
+| Database           |
++--------------------+
+| dvwa               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+
+MariaDB [(none)]> use dvwa;
+MariaDB [dvwa]> show tables;
++----------------+
+| Tables_in_dvwa |
++----------------+
+| guestbook      |
+| users          |
++----------------+
+MariaDB [dvwa]> select * from users;
+
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+| user_id | first_name | last_name | user    | password                         | avatar                           |
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | /DVWA/hackable/users/admin.jpg   |
++---------+------------+-----------+---------+----------------------------------+----------------------------------+
+
+
+Create a New MySQL User and DatabasePermalink:
+``````````````````````````````````````````````
+=> "testdb" is the name of the database, "testuser" is the user, and "password" is the user’s password.
+
+mysql> create database testdb;
+mysql> create user 'testuser'@'localhost' identified by 'password';
+mysql> grant all on testdb.* to 'testuser'@'localhost';
+mysql> exit
+
+=> Log back in as testuser.
+	# mysql -u testuser -p
+	mysql> use testdb;
+	mysql> ...
+
+``````````
+=> Create
+``````````
+
+CREATE TABLE table_name (
+    column1_name datatype,
+    column2_name datatype
+);
+
+MySQL Data Types:
+````````````````
+CHAR(size)	:	A FIXED length string (can contain letters, numbers, and special characters). The size parameter specifies the column length in characters - can be from 0 to 255. Default is 1
+
+VARCHAR(size)	:	A VARIABLE length string (can contain letters, numbers, and special characters). The size parameter specifies the maximum column length in characters - can be from 0 to 65535
+
+BINARY(size)	:	Equal to CHAR(), but stores binary byte strings. The size parameter specifies the column length in bytes. Default is 1
+
+VARBINARY(size)	:	Equal to VARCHAR(), but stores binary byte strings. The size parameter specifies the maximum column length in bytes.
+
+mysql> CREATE TABLE employees ( Name varchar(255), Role varchar(1))
+
+````````
+=> DROP
+````````
+
+mysql> DROP TABLE table_name;
+
+
+`````````````````
+=> TRUNCATE TABLE
+``````````````````The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself.
+
+mysql> TRUNCATE TABLE table_name;
+
+
+``````````````
+DROP COLUMN:
+``````````````
+mysql> ALTER TABLE Persons DROP COLUMN DateOfBirth;
+
+`````````
+DROP DB:
+`````````
+mysql> drop database testdb;

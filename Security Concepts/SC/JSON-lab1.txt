@@ -1,0 +1,244 @@
+1. Develop a JSON path query to extract the expected output from the Source Data.
+
+Source Data:
+````````````
+
+{
+  "property1": "value1",
+  "property2": "value2"
+}
+
+Expected Output:
+  "value1"
+]
+
+Solution: $.property1
+
+
+2. Develop a JSON path query to extract the bus details from the Source Data.
+
+Source Data:
+
+{
+  "car": {
+    "color": "blue",
+    "price": "$20,000"
+  },
+  "bus": {
+    "color": "white",
+    "price": "$120,000"
+  }
+}
+
+Expected Output:
+
+[
+  {
+    "color": "white",
+    "price": "$120,000"
+  }
+]
+
+Solution:
+
+$.bus
+
+
+3. Develop a JSON path query to extract the price of the bus.
+
+Source Data:
+
+{
+  "car": {
+    "color": "blue",
+    "price": "$20,000"
+  },
+  "bus": {
+    "color": "white",
+    "price": "$120,000"
+  }
+}
+
+Expected Output:
+
+[
+  "$120,000"
+]
+
+Solution:
+
+$.bus.price
+
+4. Develop a JSON path query to extract the price of the car.
+
+Source Data:
+
+{
+  "vehicles": {
+    "car": {
+      "color": "blue",
+      "price": "$20,000"
+    },
+    "bus": {
+      "color": "white",
+      "price": "$120,000"
+    }
+  }
+}
+
+Expected Output:
+
+[
+  "$20,000"
+]
+
+Solution:
+
+$.vehicles.car.price
+
+5. Develop a JSON path query to extract data about the wheels of the car.
+
+Source Data:
+
+{
+  "car": {
+    "color": "blue",
+    "price": "$20,000",
+    "wheels": [
+      {
+        "model": "KDJ39848T",
+        "location": "front-right"
+      },
+      {
+        "model": "MDJ39485DK",
+        "location": "front-left"
+      },
+      {
+        "model": "KCMDD3435K",
+        "location": "rear-right"
+      },
+      {
+        "model": "JJDH34234KK",
+        "location": "rear-left"
+      }
+    ]
+  }
+}
+
+Expected Output:
+
+[
+  [
+    {
+      "model": "KDJ39848T",
+      "location": "front-right"
+    },
+    {
+      "model": "MDJ39485DK",
+      "location": "front-left"
+    },
+    {
+      "model": "KCMDD3435K",
+      "location": "rear-right"
+    },
+    {
+      "model": "JJDH34234KK",
+      "location": "rear-left"
+    }
+  ]
+]
+
+Solution:
+
+$.car.wheels
+
+6. Develop a JSON path query to extract data about the third wheel of the car.
+
+Source Data:
+{
+  "car": {
+    "color": "blue",
+    "price": "$20,000",
+    "wheels": [
+      {
+        "model": "KDJ39848T",
+        "location": "front-right"
+      },
+      {
+        "model": "MDJ39485DK",
+        "location": "front-left"
+      },
+      {
+        "model": "KCMDD3435K",
+        "location": "rear-right"
+      },
+      {
+        "model": "JJDH34234KK",
+        "location": "rear-left"
+      }
+    ]
+  }
+}
+
+
+  }
+}
+
+
+Expected Output:
+
+[
+  {
+    "model": "KCMDD3435K",
+    "location": "rear-right"
+  }
+]
+
+Solution:
+
+$.car.wheels[2]
+
+7. Develop a JSON path query to extract the model of the third wheel of the car.
+
+Source Data:
+
+{
+  "car": {
+    "color": "blue",
+    "price": "$20,000",
+    "wheels": [
+      {
+        "model": "KDJ39848T",
+        "location": "front-right"
+      },
+      {
+        "model": "MDJ39485DK",
+        "location": "front-left"
+      },
+      {
+        "model": "KCMDD3435K",
+        "location": "rear-right"
+      },
+      {
+        "model": "JJDH3434KK",
+        "location": "rear-left"
+      }
+    ]
+  }
+}
+
+Expected Output:
+[
+  "KCMDD3435K"
+]
+
+solution:
+
+$.car.wheels[2].model
+
+
+
+https://kodekloudhub.github.io/yaml-quiz/index.html [YML]
+https://mmumshad.github.io/json-path-quiz/index.html [Dict]
+https://mmumshad.github.io/json-path-quiz/index.html#!/?questions=questions2 [Wildcard-Dict]
+https://mmumshad.github.io/json-path-quiz/index.html#!/?questions=questions3 [List]

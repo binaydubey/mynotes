@@ -1,0 +1,234 @@
+Monitoring:
+-----------
+- System monitoring and alert system enables you to take preventive measures before any issue affects the system.
+- rid of periodic testing
+- reduce maintenance cost without sacrificing performance
+- timely notification to manage control or breakdown
+- detect any network or server problems 
+- determines the root cause of any issues
+- maintains the security and availability of the service 
+
+Nagios:
+------
+- it monitor DB servers
+- active development
+- many OS supported
+- host reachability
+- gives application level information (Apache, LDAP etc...)
+
+NOTE:
+
+- Its allows you to detect and repair problems and mitigate future issues before they affect end-user
+- it provide centralized view of your entire IT infra
+
+System Requirements
+--------------------
+
+Minimum system specs:
+`````````````````````
+Single Core Processor
+2 GB RAM
+40 GB HD
+
+Recommended system specs:
+`````````````````````````
+Quad Core Processor
+8+ GB RAM
+1+ TB HD
+
+Architecture:
+-------------
+1. Install nagios plugins
+2. plugins checks the status and get results
+3. plugins sends results to Nagios to process
+4. Notifies the admin about the status 
+
+NagiosXI core [Manual]:
+-----------------------
+1. yum install epel-release
+2. yum repolist
+3. yum install nagios httpd php -y
+4. htpasswd -c /etc/nagios/passwd nagiosadmin
+5. http://localhost/nagios
+
+	username: nagiosadmin
+	password: redhat
+
+-> Nagios stat on OS
+`````````````````````
+# nagiostats
+
+-> Reading configuration data
+```````````
+# nagios -v /etc/nagios/nagios.cfg
+___________________
+
+NagiosXI core [VM]: ****MOST PREFERABLE***
+-------------------
+1. signup & downlo (.ova)
+2. Access URL & setup
+3. Setup agent by usign RPM repo [ nagios.org/ncpa ]
+4. Run fork bomb to test stress
+5. also 'birdseye'
+6. also 'event log'
+___________________
+
+NCPA [Nagios Cross-Platform Agent]:
+-----------------------------------
+Monitoring agent for Windows, Linux, and Mac
+ 
+CentOS / RHEL / Oracle Agent:
+```````````````````````````````
+- Install From Nagios RPM Repository 
+# rpm -Uvh https://repo.nagios.com/nagios/7/nagios-repo-7-4.el7.noarch.rpm  [ ver: 7 ]
+# yum repolist
+# yum install ncpa -y
+
+Debian:
+```````
+# echo "deb https://repo.nagios.com/deb/buster /" > /etc/apt/sources.list.d/nagios.list
+# wget -qO - https://repo.nagios.com/GPG-KEY-NAGIOS-V2 | apt-key add -
+# apt update
+# apt install apt-transport-https [ may be not needed ]
+# apt install ncpa -y
+
+NCPA [Nagios Cross-Platform Agent]: DOCKER
+------------------------------------------------NCPA must installed
+
+1)
+
+# cat docker-compose.yaml
+
+version: "3"
+services:
+        webapp1:
+                image: httpd:latest
+                ports:
+                        - 1001:80
+                volumes:
+                        - webapp1:/usr/local/apache2/htdocs
+
+        webapp2:
+                image: httpd:latest
+                ports:
+                        - 1002:80
+                volumes:
+                        - webapp2:/usr/local/apache2/htdocs
+
+        webapp3:
+                image: httpd:latest
+                ports:
+                        - 1003:80
+                volumes:
+                        - webapp3:/usr/local/apache2/htdocs
+
+        webapp4:
+                image: nginx:latest
+                ports:
+                        - 1004:80
+                volumes:
+                        - webapp4:/usr/share/nginx/html
+
+        webapp5:
+                image: nginx:latest
+                ports:
+                        - 1005:80
+                volumes:
+                        - webapp5:/usr/share/nginx/html
+
+volumes:
+        webapp1: {}
+        webapp2: {}
+        webapp3: {}
+        webapp4: {}
+        webapp5: {}
+
+
+	# docker-compose up --detach
+
+2)
+
+Go to "Configuration Wizard: Docker" 
+
+3) 
+
+Download & Place Docker plugin:
+	# cd /usr/local/ncpa/plugin
+	# wget http://192.168.86.138/nagiosxi/includes/configwizards/docker/plugins/check_docker.py
+
+4)
+
+Docker Server Information required:
+````````
+Access Docker via			:  	Remote Agent NCPA
+IP Address					: 	The IP address or FQDN of the server you would like to monitor.
+NCPA Listener Port 		:	5693 [Default]
+NCPA Token 				:	mytoken [default]
+Docker Socket	 			:	/var/run/docker.sock
+Docker API Base URL		: 	The full URL to your Docker API. Ex: "http:/v1.30/" or "http://x.x.x.x:2375/"
+
+
+5) To setup above Docker API URL config: Enable Docker API
+
+- open docker.service file
+	# vim /lib/systemd/system/docker.service
+	edit the line:
+	ExecStart=/usr/bin/dockerd -H=fd:// -H=tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+	:wq
+
+- Reload the docker daemon
+	# systemctl daemon-reload
+
+- Restart the container
+	# systemctl restart docker.service
+
+- Test if it is working by using this command:
+	# curl http://localhost:2375/images/json
+
+
+
+
+
+_________________________________________________________________________
+
+
+
+
+
+
+
+
+NagiosLogServer:
+-----------------
+Automated [VM]: ******* MOST RECOMMANDED *******
+---------------
+1. signup & download (.ova)
+2. Access URL & setup
+3. setup server as agent
+4. setup service [ apache etc... ] as agent
+
+Manual:
+-------
+# curl https://assets.nagios.com/downloads/nagios-log-server/install.sh | sh
+
+Access: http://x.x.x.x/nagioslogserver
+
+
+Check while installing...
+
+# tail -f /usr/local/nagioslogserver/var/poller.log
+# tail -f /var/log/httpd/{access_log,error_log}
+
+_______________________________________________________
+NagiosLogServer Configure Agents: [ CentOS + Apache ]
+-------------------------------------------------------
+NOTE: It require syslogs to send to Log Server.
+
+
+curl -sS -O http://192.168.86.136/nagioslogserver/scripts/setup-linux.sh
+sudo bash setup-linux.sh -s 192.168.86.136 -p 5544 -f "/var/log/httpd/error_log" -t apache_error
+sudo bash setup-linux.sh -s 192.168.86.136 -p 5544 -f "/var/log/httpd/access_log" -t apache_access
+
+
+++++====++++====++++====++++====++++====++++====++++====++++====++++====++++====++++====++++====++++====++++

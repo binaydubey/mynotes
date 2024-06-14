@@ -1,0 +1,258 @@
+Windows 
+
+# msfconsole -r file.rc
+
+-> Exploit
+-> Payloads
+-> meterpreter
+-> persistance [maintaning access]
+-> covering tracks [ clear logs, clear timestamps ]
+______________________
+HTTP Security Headers and how they work
+---------------------------------------
+Traditionally, all web application security controls had to be implemented server-side in order to be effective.
+
+Headers :
+-------------
+-Client Request Header
+-Server Response Header
+-General Header
+-Entity Header
+
+a) Client Request Header:
+-------------------------
+GET /path HTTP/3
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html, application/xml;q=1.0,/
+Referer: https://domain.tld
+X-Forwarded-For: x.x.x.x, x.x.x.x
+Connection: close
+
+GET / HTTP/1.1
+```````````````
+HTTP verbs: GET, POST, HEAD, PUT ...
+Path : /
+Protocol version 1.1 : HTTP/1.1
+
+Host: example.com
+```````````````````
+Internet Hostname
+
+User-Agent: Mozilla/5.0
+````````````````````````
+Browser: Client Agent Software & OS
+
+Accept: text/html, application/xml;q=1.0,/
+``````````````````````````````````````````
+Type of document expecting in the response.
+
+Connection: close
+``````````````````
+-HTTP/1.0
+Connection: close
+-HTTP/1.1
+Connection: close
+
+Connection: keep-alive
+
+-HTTP/1.1
+Connection: keep-alive
+-HTTP/2
+Connection: keep-alive
+-HTTP/3
+Connection: keep-alive
+
+X-Forwarded-For: x.x.x.x
+-------------------------
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-For: x.x.x.x, x.x.x.x
+
+Referer: https://google.com
+---------------------------
+Reset token URL
+
+https://domain.com/user?token=YGEYU786786GHFHF
+
+Tab#1
+https://domain.com/user?token=YGEYU786786GHFHF
+
+evil.com
+Referer: https://domain.com/user?token=YGEYU786786GHFHF
+
+
+
+HTTP Response Headers:
+++++++++++++++++++++++
+
+HTTP/1.1 200 ok
+
+Cache-Control: max-age=seconds
+Cache-Control: max-fresh=seconds
+Cache-Control: no-cache
+
+Set-Cookie: cookie_name=cookie_value; Domain=example.com; Secure; HttpOnly
+Set-Cookie: sessionId=87458934957349; Domain=sub.example.com
+Set-Cookie: Expires=Thu, 11 Nov 2024 09:11:00 GMT
+
+cookie_name=cookie_value : cookie values
+
+HTTP Req: [www.sfox.com]
+Origin: https://example.com
+
+Response:
+---------
+access-control-allow-origin: https://example.com
+access-control-allow-methods: OPTIONS, GET, POST, PUT, PATCH, DELETE
+access-control-allow-credentials: true
+
+access-control-allow-origin: *
+access-control-allow-methods: OPTIONS, GET, POST, PUT, PATCH, DELETE
+access-control-allow-credentials: true
+
+Basic HTTP Req:
+----------------
+curl https://example.com
+
+To ignore SSL/TLS cert exeption:
+--------------------------------
+curl -k https://example.com
+
+To forward the HTTP request based on Location Header:
+-----------------------------------------------------
+curl -k https://example.com -L
+
+To verbose:
+-----------
+curl -k https://example.com -v
+
+Only response header:
+---------------------
+curl -k https://example.com -I
+
+Store the output/silent:
+------------------------
+curl -ks https://example.com -o filename
+curl -ks https://example.com -o /dev/null
+
+HTTP Req Methods: [GET, POST, PUT ...]
+--------------------------------------
+curl -ks https://example.com -X OPTIONS
+curl -ks https://example.com -X GET
+
+Only Status code:
+-----------------
+curl -ks https://example.com -X GET -o /dev/null -w "%{http_code}\n"
+
+Only Content-Length:
+--------------------
+curl -ks https://example.com -X GET -o /dev/null -w "%{http_code}" "%{size_download}"
+
+Add custom header in req:
+-------------------------
+curl -ks https://example.com -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0"
+
+Middlewares:
+-------------
+HTTP Caching:
+--------------
+Caching is the process of storing copies of files in a cache or temp storage location.
+
+What to cache?
+-----------------
+HTML Files [.html, .htm, .shtml .....]
+Javascripts [.js, .js?v=781, .js<EPOCH_TIMESTAMP>, .js.map]
+CSS/SCSS etc....
+
+How many methods?
+-----------------
+* Client Side Caching:
+	> Browser cache
+
+* Server Side Caching:
+	> Reverse proxy
+	> Load Balancer
+	> Web Application accelerators
+
+- Forward Proxy
+
+- CDN Caching:
+
+
+CDN Headers: [X-Cache:**]
+------------
+
+* Cache HIT
+* Cache MISS
+* Expires [ before HTTP/1.1, only works with browser cache ]
+* Progma: no-cache [ Prevent Cache, before HTTP/1.1
+* Cache-Control: no-cache [ used HTTP/1.1+, can be multiple values]
+	- Private 	: Single user, only cahed in browser.
+	- Public 	: Multiple users
+	- no-store 	: Dont cache
+	- no-cache 	: Cache but revalidate [ ETag : ]
+	- max-age 	: max-age-120 [ cached for number of seconds, for browser]
+	- Last-modified 
+
+Cloudflare:
+-----------
+cf-cache-status: DYNAMIC || HIT || MISS
+
+DYNAMIC:
+--------
+GET /api/user/token HTTP/2
+Host: abc.com
+---
+HTTP/2 200 OK
+cf-cache-status: DYNAMIC
+
+token=89327iefhy6734yhfhu3478yhoc34nuiyuf98c3j4fh74973
+
+Abuse CDN:
+----------
+
+GET /api/user/token/favicon.ico HTTP/2
+Host: abc.com
+auth: iuuiufe
+---
+HTTP/2 404 not found
+cf-cache-status: MISS
+
+token=786234ihrd7823huund7934h3980
+
+
+
+GET /api/user/token/favicon.ico HTTP/2
+Host: abc.com
+auth: unauth
+---
+HTTP/2 200 ok
+cf-cache-status: HIT
+
+csrf-token=786234ihrd7823huund7934h3980
+
+content-security-policy: 
+
+report-uri https://metrics.roblox.com/v1/csp/report?type=enforce; 
+script-src 'self' 'unsafe-inline' 'unsafe-eval' *.evidon.com 
+default-src 'self' '*' 
+frame-src 'seft'
+img-src 'seft' 'data' 'blob'
+media-src 'data' 
+object-src
+base-uri <base>
+
+data:base64:bsjdhkjdshlvfdjljlkfjdkslgjj==
+data:text/html:djkdfhsdkfhsjhfks==
+blob:
+
+<embed> <frame> <applet>
+nonce == ?
+hashes == ?
+
+
+
+
+
+______________________
+

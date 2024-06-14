@@ -1,0 +1,924 @@
+
+--------------------------TCM PYTHON 101 FOR HACKERS---------------------------------
+
+
+>>> name=b"binay"
+>>> type(name)
+<class 'bytes'>
+
+We can assign hex number also.
+>> t1=0xa
+>>> print(t1)
+10
+>>> type(t1)
+<class 'int'>
+
+>>> t2=0o10    ------------------> here <zero o-octel 10>
+>>> print(t2)
+8
+>>> t2=0o11
+>>> print(t2)
+9
+>>> 
+
+>> t3=0b1000
+>>> print(t3)
+8
+-------------------------------------------------------------------------------------------------------------
+String formating:
+
+
+Absolute Function:
+>>> print(abs(4))
+4
+>>> print(abs(-4))
+4
+>>> print(abs(-4.8))
+4.8
+
+split() Method:  split a string into a list of strings after breaking the given string by the specified separator.
+str1="binay,raj,nac,ashu"
+>>> l1=str1.split(",")
+ print(l1)
+['binay', 'raj', 'nac', 'ashu']
+
+Python String join() Method:
+To join elements of the sequence separated by a string separator. This function joins elements of a 
+sequence and makes it a string. 
+ print(s1)
+['binay', 'raj', 'nac', 'ashu']
+>>> print("|".join(s1))
+binay|raj|nac|ashu
+
+Strip Method():  returns a copy of the string with both leading and trailing characters removed 
+(based on the string argument passed).
+>>> string="AAAAAAAAAAAAABBBBBBB Hii, I am binay AAAAAAAAAAAAAAAAAAAABBBBBBBBBB"
+>>> print(string.strip("AB ")
+... )
+Hii, I am binay
+>>> print(string.lstrip("AB ")
+... )
+Hii, I am binay AAAAAAAAAAAAAAAAAAAABBBBBBBBBB
+>>> print(string.rstrip("AB "))
+AAAAAAAAAAAAABBBBBBB Hii, I am binay
+
+>>> string = " the King has the largest army in the entire world the"
+>>> print(string.strip(" the"))
+King has the largest army in the entire world
+
+
+replace() Method:
+
+>>> rep="this is replacable this one this too this many"
+>>> print(rep.replace("this","that"))  --------------> This will replace all occurances
+ print(rep.replace("this","that",-1)) -------------->This will also replace all occurances
+that is replacable that one that too that many  
+>>> print(rep.replace("this","that",2))
+that is replacable that one this too this many
+
+
+
+for ...else loop: We can use else with for loop. if for loop has break, then we use else condition. if break does not
+get executed then it else block will be executed:
+Example:-
+num1=int(input("Enter a number"))
+for i in range(2,num1):
+    if num1%i==0:
+        print("not a prime")
+        break
+else:
+    print("prime")
+
+OUTPUT:-
+D:\TCM\Python_Programs>python prime.py
+Enter a number5
+prime
+
+D:\TCM\Python_Programs>python prime.py
+Enter a number9
+not a prime
+
+
+
+
+Escaping Character:
+
+>>> str1="\\ \x41"
+>>> print(str1)
+\ A
+>>> str1="\\ \x41\x42"
+>>> print(str1)
+\ AB
+>>> 
+
+To represent a unicode string as a string of bytes is known as encoding. 
+To convert a string of bytes to a unicode string is known as decoding.
+
+> print(str1.encode())
+b'I am string'
+>>> print(str1.encode("utf-8")) ------> by default uses utf-8 
+
+
+b'I am string'
+>>> print(str1.encode("utf-16"))
+b'\xff\xfeI\x00 \x00a\x00m\x00 \x00s\x00t\x00r\x00i\x00n\x00g\x00'
+>>> str2=str1.encode("utf-16")
+>>> print(str2.decode("utf-16"))
+I am string
+-----------------------------------------------------------------------------------------------------------
+
+ljust(), rjust(), center()
+These functions respectively left-justify, right-justify and center a string in a field of given width.
+
+>>> str1="I am string"
+>>> print(str1.rjust(25))
+              I am string
+>> print(str1.rjust(25,"X"))
+XXXXXXXXXXXXXXI am string
+
+>>> print(str1.rjust(25,"X"))
+XXXXXXXXXXXXXXI am string
+>>> print(str1.ljust(25,"X"))
+I am stringXXXXXXXXXXXXXX
+>>> print(str1.center(25,"X"))
+XXXXXXXI am stringXXXXXXX
+>>> 
+
+name="Binay"
+>>> middle="Kumar"
+>>> surname="Dubey"
+>>> print("{} {} {}".format(name,middle,surname))
+Binay Kumar Dubey
+>>> print("{surname} {name} {middle}".format(name,middle,surname))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'surname'
+>>> print("{2} {0} {1}".format(name,middle,surname))
+Dubey Binay Kumar
+>>> print("{1} {0} {2}".format(name,middle,surname))
+Kumar Binay Dubey
+>>> print("{2} {0} {2}".format(name,middle,surname))
+Dubey Binay Dubey
+
+
+print("String is {} character".format(len))
+String is 14 character
+>> print("String is {:.2f} character".format(len))
+String is 14.00 character
+>>> print("String is {:.3f} character".format(len))
+String is 14.000 character
+>>> print("String is {:.4f} character".format(len))
+String is 14.0000 character
+
+
+print("String is %d character" %len)  ---------------------------->int
+String is 14 character 
+>>> print("String is %f character" %len)  --------------->float
+String is 14.000000 character
+>>> print("String is %x character" %len)  ----------------------> Hexadecimal
+String is e character
+
+
+
+----------------------------------------------------------------------------------
+Boolean
+>>> print((not 10 > 1000)==True)  ------------------> Not greater than
+True
+>>> print((not 10 < 1000)==True)
+False
+>>> print(10>9)
+True
+>>> print(10>=9)
+True
+>>> print(10<=9)
+False
+>>> print(10!=9)
+True
+>>> print(10==9)
+False
+
+
+>>> print(5>9 and 10<100)
+False
+>>> print(5>9 and 10!=100)
+False
+>>> print(5<9 or 10!=100)
+True
+
+
+>>> print(bool(1))
+True
+>>> print(bool(0))
+False
+>>> print(bool("binay"))
+True
+>>> print(bool(""))
+False
+>>>
+
+
+>>> x=14
+>>> print(bin(x))
+0b1110
+>>> print(bin(x)[2:])
+1110
+
+
+
+>>> x=13
+>>> print(bin(x))
+0b1101
+>>> print(bin(x)[2:])
+1101
+>>> y=5
+>>> print(bin(y
+... )[2:])
+101
+>>> print(bin(y)[2:].rjust(4,"0"))
+0101
+>>> print(bin(x|y)[2:].rjust(4,
+... "0"))
+1101
+>>> print(x|y
+... )
+13
+>>> print(bin(x&y)[2:].rjust(4,
+... )
+... )
+ 101
+>>> print(bin(x&y)[2:].rjust(4,"0"))
+0101
+>>>
+
+
+-------------------------------------------------------------------------------
+Set is uunordered.
+ubuntu1@ubuntu1:~$ python3 set.py
+ubuntu1@ubuntu1:~$ vim set.py
+ubuntu1@ubuntu1:~$ python3 set.py
+{'a', 'c', 'b'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'a', 'c'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'a', 'c'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'c', 'b', 'a'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+ubuntu1@ubuntu1:~$ python3 set.py
+
+
+set1={"a","c","b"}
+print(set1)
+set2={2,3,2,4,5,5,6,7,}
+print(set1)
+set1.update(set2)
+print(set1)
+set1.remove(5) -------------------> it will remove 5. if item is not present it will give error.
+print(set1)
+set1.discard(5) it will remove 5. if item is not present it will  not give error.
+print(set1)
+set1.pop() -------> if you want to delete any elmnt, it will delelte it.because set is uonordered
+print(set1)
+~
+    print("The file does not exist")
+try:
+    f=open("erseror.py")
+#except FileNotFoundError:
+#   print("the file does not exist!")
+except Exception as e:
+    print(e)
+n="affa"
+if n==0:
+    raise Exception("n cant be 0!")
+if type(n) is not int:
+    raise Exception("n must be an int!")
+-----------------------------------------------------------------------------------------------
+ubuntu1@10.208.35.180's password:
+    ┌──────────────────────────────────────────────────────────────────────┐
+    │                 • MobaXterm Personal Edition v22.3 •                 │
+    │               (SSH client, X server and network tools)               │
+    │                                                                      │
+    │ ⮞ SSH session to ubuntu1@10.208.35.180                               │
+    │   • Direct SSH      :  ✓                                             │
+    │   • SSH compression :  ✓                                             │
+    │   • SSH-browser     :  ✓                                             │
+    │   • X11-forwarding  :  ✓  (remote display is forwarded through SSH)  │
+    │                                                                      │
+    │ ⮞ For more info, ctrl+click on help or visit our website.            │
+    └──────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-56-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+11 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your In
+
+*** System restart required ***
+Last login: Sat Jan  7 13:12:21 2023 from 10.208.34.83
+ubuntu1@ubuntu1:~$ ls
+cdac     Documents  Music     Public  snap       Videos
+Desktop  Downloads  Pictures  set.py  Templates
+ubuntu1@ubuntu1:~$ python3 set.py
+{'c', 'b', 'a'}
+{'c', 'b', 'a'}
+{2, 3, 4, 5, 6, 7, 'c', 'a', 'b'}
+{2, 3, 4, 5, 6, 7, 'c', 'a', 'b'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'a', 'b', 'c'}
+{'a', 'b', 'c'}
+{'a', 2, 3, 4, 5, 6, 7, 'b', 'c'}
+{'a', 2, 3, 4, 5, 6, 7, 'b', 'c'}
+ubuntu1@ubuntu1:~$ bash s
+set.py  snap/
+ubuntu1@ubuntu1:~$ bash set.py
+set.py: line 2: syntax error near unexpected token `set1'
+set.py: line 2: `print(set1)'
+ubuntu1@ubuntu1:~$ bash set.py
+ubuntu1@ubuntu1:~$ python3 set.py
+{'a', 'c', 'b'}
+{'a', 'c', 'b'}
+{2, 'a', 3, 4, 5, 6, 7, 'c', 'b'}
+{2, 'a', 3, 4, 6, 7, 'c', 'b'}
+Traceback (most recent call last):
+  File "/home/ubuntu1/set.py", line 10, in <module>
+    set1.pop(5)
+TypeError: set.pop() takes no arguments (1 given)
+ubuntu1@ubuntu1:~$ python3 set.py
+{'a', 'b', 'c'}
+{'a', 'b', 'c'}
+{'a', 2, 3, 4, 5, 6, 7, 'b', 'c'}
+{'a', 2, 3, 4, 6, 7, 'b', 'c'}
+Traceback (most recent call last):
+  File "/home/ubuntu1/set.py", line 10, in <module>
+    set1.pop(5)
+TypeError: set.pop() takes no arguments (1 given)
+ubuntu1@ubuntu1:~$ python3 set.py
+{'c', 'a', 'b'}
+{'c', 'a', 'b'}
+{2, 3, 4, 5, 6, 7, 'a', 'c', 'b'}
+{2, 3, 4, 6, 7, 'a', 'c', 'b'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+{'b', 'c', 'a'}
+{2, 3, 'a', 4, 5, 6, 7, 'b', 'c'}
+{2, 3, 'a', 4, 6, 7, 'b', 'c'}
+{2, 3, 'a', 4, 6, 7, 'b', 'c'}
+{3, 'a', 4, 6, 7, 'b', 'c'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'a', 'c', 'b'}
+{'a', 'c', 'b'}
+{2, 3, 4, 5, 6, 7, 'a', 'b', 'c'}
+{2, 3, 4, 6, 7, 'a', 'b', 'c'}
+{2, 3, 4, 6, 7, 'a', 'b', 'c'}
+{3, 4, 6, 7, 'a', 'b', 'c'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+{'b', 'c', 'a'}
+{2, 3, 'c', 4, 5, 'a', 6, 7, 'b'}
+{2, 3, 'c', 4, 'a', 6, 7, 'b'}
+{2, 3, 'c', 4, 'a', 6, 7, 'b'}
+{3, 'c', 4, 'a', 6, 7, 'b'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+{'b', 'c', 'a'}
+{'b', 2, 3, 4, 5, 6, 7, 'c', 'a'}
+{'b', 2, 3, 4, 6, 7, 'c', 'a'}
+{'b', 2, 3, 4, 6, 7, 'c', 'a'}
+{2, 3, 4, 6, 7, 'c', 'a'}
+ubuntu1@ubuntu1:~$ python3 set.py
+{'b', 'c', 'a'}
+{'b', 'c', 'a'}
+{2, 3, 4, 5, 6, 7, 'c', 'a', 'b'}
+{2, 3, 4, 6, 7, 'c', 'a', 'b'}
+{2, 3, 4, 6, 7, 'c', 'a', 'b'}
+{3, 4, 6, 7, 'c', 'a', 'b'}
+ubuntu1@ubuntu1:~$
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+  File "/home/ubuntu1/error.py", line 4
+    print()
+IndentationError: unexpected indent
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+hi
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+hi
+The file does not exist
+ubuntu1@ubuntu1:~$ python3 error.py
+hi
+The file does not exist
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+  File "/home/ubuntu1/error.py", line 4
+    print("hii")
+IndentationError: unexpected indent
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+hii
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+  File "/home/ubuntu1/error.py", line 4
+    print("H")
+IndentationError: unexpected indent
+ubuntu1@ubuntu1:~$ python3 error.py
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+the file does not exist!
+ubuntu1@ubuntu1:~$ ls
+1     Desktop    Downloads  Music     Public  snap       Videos
+cdac  Documents  error.py   Pictures  set.py  Templates
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+the file does not exist!
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+the file does not exist!
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+Traceback (most recent call last):
+  File "/home/ubuntu1/error.py", line 14, in <module>
+    raise Exception("n cant be 0!")
+Exception: n cant be 0!
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+Traceback (most recent call last):
+  File "/home/ubuntu1/error.py", line 14, in <module>
+    raise Exception("n cant be 0!")
+Exception: n cant be 0!
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+Traceback (most recent call last):
+  File "/home/ubuntu1/error.py", line 14, in <module>
+    raise Exception("n cant be 0!")
+Exception: n cant be 0!
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+Traceback (most recent call last):
+  File "/home/ubuntu1/error.py", line 12, in <module>
+    n=affa
+NameError: name 'affa' is not defined
+ubuntu1@ubuntu1:~$ vim error.py
+ubuntu1@ubuntu1:~$ python3 error.py
+The file does not exist
+[Errno 2] No such file or directory: 'erseror.py'
+Traceback (most recent call last):
+  File "/home/ubuntu1/error.py", line 16, in <module>
+    raise Exception("n must be an int!")
+Exception: n must be an int!
+ubuntu1@ubuntu1:~$ cat error.py
+#!/usr/bin/python3
+try:
+    afdaf
+except:
+    print("The file does not exist")
+try:
+    f=open("erseror.py")
+#except FileNotFoundError:
+#   print("the file does not exist!")
+except Exception as e:
+    print(e)
+n="affa"
+if n==0:
+    raise Exception("n cant be 0!")
+if type(n) is not int:
+    raise Exception("n must be an int!")
+ubuntu1@ubuntu1:~$ ^C
+ubuntu1@ubuntu1:~$
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+  File "/home/ubuntu1/list_comprehensions.py", line 2
+    list1=['a','b,'c']
+                    ^
+SyntaxError: unterminated string literal (detected at line 2)
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+  File "/home/ubuntu1/list_comprehensions.py", line 6
+    list3=[x for x in range(1 20 2)]
+                            ^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+ubuntu1@ubuntu1:~$
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0, 4]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0, 4]
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[[1, 2, 3], [1, 2, 3], [1, 2, 3], [4, 5, 6], [4, 5, 6], [4, 5, 6], [7, 8, 9], [7, 8, 9], [7, 8, 9]]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0, 4]
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[[1, 2, 3], [1, 2, 3], [1, 2, 3], [4, 5, 6], [4, 5, 6], [4, 5, 6], [7, 8, 9], [7, 8, 9], [7, 8, 9]]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+ubuntu1@ubuntu1:~$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0, 4]
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+ubuntu1@ubuntu1:~$ vim list_comprehensions.py
+#!/usr/bin/python3
+list1=['a','b','c']
+print(list1)
+list2=[x for x in list1]
+print(list2)
+list3=[x for x in range(1,20,2)]
+print(list3)
+list4=[x*x for x in range(1,20,2)]
+print(list4)
+list5=[hex(x) for x in range(10,20)]
+print(list5)
+list6=[hex(x) if x>0 else "X" for x in range(5)]
+print(list6)
+list8=[x for x in range(5) if x==0 or x==4]
+print(list8)
+list8=[[1,2,3],[4,5,6],[7,8,9]]
+list9=[y for x in list8 for y in x]
+print(list8)
+print(list9)
+
+$ python3 list_comprehensions.py
+['a', 'b', 'c']
+['a', 'b', 'c']
+[1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+[1, 9, 25, 49, 81, 121, 169, 225, 289, 361]
+['0xa', '0xb', '0xc', '0xd', '0xe', '0xf', '0x10', '0x11', '0x12', '0x13']
+['X', '0x1', '0x2', '0x3', '0x4']
+[0, 4]
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+ubuntu1@ubuntu1:~$
+
+
+Why we use list comprehension 
+
+list12=[]
+for c in "binay":
+    list12.append(c)
+
+Same thing we can do in one line
+list12=[c for c in "binay"]
+
+A lambda function is a small anonymous function.
+A lambda function can take any number of arguments, but can only have one expression.
+
+
+-----------------------------------------------------------------------------------------------------
+Python Package Manager:--
+
+apt install python3-pip ---->To install pip 
+pip list  ----------->List installed packages.
+ pip list
+Package                Version
+---------------------- ---------------
+apturl                 0.5.2
+argcomplete            1.8.1
+bcrypt                 3.2.0
+blinker                1.4
+
+
+pip freeze ------------------> Output installed packages in requirements format.
+apturl==0.5.2
+argcomplete==1.8.1
+bcrypt==3.2.0
+blinker==1.4
+
+
+pip uninstall pwntools ---------->
+pip install pwntools==4.9.0 -------------> To install specific version
+
+If you want to install multiple modules. make a list and install it through pip.
+
+------------------------------------------------------------------
+Python Virtual Environment:_
+
+A virtual environment is a tool that helps to keep dependencies required by different projects 
+separate by creating isolated python virtual environments for them. 
+This is one of the most important tools that most Python developers use.
+
+Why do we need a virtual environment?
+
+Imagine a scenario where you are working on two web-based python projects one of them uses Django 4.0 
+and the other uses Django 4.1 (check for the latest Django versions and so on. 
+
+In such situations virtual environment can be really useful to maintain the dependencies of both projects.
+
+
+How to create virtual environment:--
+First install virtual environment through pip
+
+$ pip install virtualenv
+
+Now we will create a directory and inside that directorywe will create virtual environment
+
+$ mkdir virtual-demo
+ubuntu1@ubuntu1:~/Desktop$ cd virtual-demo/
+
+sudo apt install python3.10-venv
+sudo python3 -m venv env
+
+ubuntu1@ubuntu1:~/Desktop/virtual-demo$ source env/bin/activate  ---------------> To activate env environment
+(env) ubuntu1@ubuntu1:~/Desktop/virtual-demo$ 
+ls -la
+ls -laR
+
+/Desktop/virtual-demo$ which python3
+/home/ubuntu1/Desktop/virtual-demo/env/bin/python3
+
+
+---------------------------------------------------------------------------------
+To check all function of a library:- dir(function_name)
+ dir(math)
+['__doc__', '__loader__', '__name__', '__package__', '__spec__', 'acos', 'acosh', 'asin', 'asinh', 'atan', 
+'atan2', 'atanh', 'cbrt', 'ceil', 'comb', 'copysign', 'cos', 'cosh', 'degrees', 'dist', 'e', 'erf', 'erfc',
+ 'exp', 'exp2', 'expm1', 'fabs', 'factorial', 'floor', 'fmod', 'frexp', 'fsum', 'gamma', 'gcd', 'hypot', 
+ 'inf', 'isclose', 'isfinite', 'isinf', 'isnan', 'isqrt', 'lcm', 'ldexp', 'lgamma', 'log', 'log10', 'log1p',
+ 'log2', 'modf', 'nan', 'nextafter', 
+'perm', 'pi', 'pow', 'prod', 'radians', 'remainder', 'sin', 'sinh', 'sqrt', 'tan', 'tanh', 'tau', 'trunc', 'ulp']
+
+To check what any library's function do : help(function_name) 
+help(math.fabs)
+Help on built-in function fabs in module math:
+
+fabs(x, /)
+    Return the absolute value of the float x.
+	
+Any funcion in a library starting with dunder like: 
+'__doc__', '__loader__', '__name__', '__package__'   are private functions
+and remainigs are public function.
+
+
+To clear windows teriminal in python shell
+import os
+os.system(‘CLS’)
+
+
+a=10,20,30
+type(a)
+<class 'tuple'>
+
+
+t1=(10,23,43)  --------> Packing of tuple
+x,yz
+
+------------------------------------------
+Swapping two nos in Python:
+a=34
+>>> b=23
+>>> a,b=b,a
+>>> print(a,b)
+23 34
+
+x=(1,2,3,'aa','a',12,12,23,23,12)
+>>> print(x.count(12))
+3
+>>> print(x.index(12))
+5
+print(x[2:5])
+(3, 'aa', 'a')
+
+---------------------------------------------------------------------------------------------------------
+zip() Function:
+The zip() function returns a zip object, which is an iterator of tuples where the first item in each passed 
+iterator is paired together, and then the second item in each passed iterator are paired together etc.
+If the passed iterators have different lengths, the iterator with the least items decides the length of the 
+new iterator.
+
+lst1=['binay','nachiket','raj']
+>>> lst2=['dueby','maid','wedhikar']
+>> for i in zip(lst1,lst2):
+...     print(i)
+... 
+('binay', 'dueby')
+('nachiket', 'maid')
+('raj', 'wedhikar')
+
+for i,z in zip(lst1,lst2):
+...     print(i,z,sep="------>") #By default it is seprated by space
+... 
+binay------>dueby
+nachiket------>maid
+raj------>wedhikar
+
+
+enumerate():--Lets see we are traversing a list and searching for a no and at same time we need index no of 
+that no. So instead of creating a extra
+count variable we can use enumerate funcion.
+
+print(lst1)
+['binay', 'nachiket', 'raj']
+>>> for i in enumerate(lst1):
+...     print(i)
+... 
+(0, 'binay') #Here index is starting from o, we can define starting point too. Like enumerate(lst1,101)
+(1, 'nachiket')
+(2, 'raj')
+
+
+for a,b in enumerate(lst1,101):
+...     print(a,b,sep="------>")
+... 
+101------>binay
+102------>nachiket
+103------>raj
+
+----------------------------------------------------------------------------------------------------------
+sort() Function: The sort() method sorts the list ascending by default.And It changes original list too.
+But if you want to display a list in sorted order without changing original list, we use sorted() fun.
+ for i in sorted(lst1):
+...     print(i)
+... 
+1
+3
+22
+23
+2222
+>>> for i in sorted(lst1,reverse=True):
+...     print(i)
+... 
+2222
+23
+22
+3
+1
+
+
+Similarly reversed() function works.
+for i in reversed(lst1):
+...     print(i)
+... 
+2222
+23
+3
+22
+1
+
+
+print(lst1[::-1])
+[2222, 23, 3, 22, 1]
+
+Python frozenset() Method creates an immutable Set object from an iterable.
+It is a built-in Python function. As it is a set object therefore we cannot have duplicate values in the frozenset.
+
+>>> dir(frozenset())
+['__and__', '__class__', '__class_getitem__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__',
+ '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__or__', '__rand__', '__reduce__',
+ '__reduce_ex__', '__repr__', '__ror__', '__rsub__', '__rxor__', '__setattr__', '__sizeof__', '__str__', '__sub__', '__subclasshook__', '__xor__', 'copy',
+ 'difference', 'intersection', 'isdisjoint', 'issubset', 'issuperset', 'symmetric_difference', 'union']
+>>>
+
+
+
+ dict1={"dac":120,"DITISS":60,"DAI":30}
+>>> print(dict1)
+{'dac': 120, 'DITISS': 60, 'DAI': 30}
+ dict1={"dac":120,"DITISS":60,"DAI":30}
+ print(dict1.get("dac")) ----------------> get method will give value if key is present.It will return none if key is not present.
+120
+>>> print(dict1)
+{'dac': 120, 'DITISS': 60, 'DAI': 30}
+
+>>> print(dict1.get("dac",-1)) -----------> if key is not exist, it will return -1.
+120
+>>> print(dict1.get("dac1",-1))
+-1
+
+
+ v=dict1.setdefault("dac",100)
+>>> print(v)
+120
+>>> print(dict1)
+{'dac': 120, 'DITISS': 60, 'DAI': 30}
+>>> v=dict1.setdefault("edac",100) ------------> this funcion is check that key is present or not. if present,it will return value. If not, it will add key 
+													value pair in dictionary.
+>>> print(v)
+100
+>>> print(dict1)
+{'dac': 120, 'DITISS': 60, 'DAI': 30, 'edac': 100}
+
+
+
+
+
+
+
+
+

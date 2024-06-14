@@ -1,0 +1,412 @@
+ 
+
+------------------------Powershell---------------------------------------------
+Youtube link : https://www.youtube.com/watch?v=KOAmlhDkjBw
+				https://www.guru99.com/powershell-tutorial.html
+
+
+
+PS C:\Users\Administrator> Get-Process
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    253      15     4388      17992       0.14   5764   1 backgroundTaskHost
+    255      14     4280      18152       0.20   6252   1 conhost
+    536      20     2248       5484       0.30    368   0 csrss
+    297      16     2116       5128       0.36    480   1 csrss
+    375      16     3712      15040       0.39   5792   1 ctfmon
+    390      32    15464      21596       0.55   3456   0 dfsrs
+
+
+
+PS C:\Users\Administrator> cd .\Desktop\
+PS C:\Users\Administrator\Desktop> mkdir folder1
+
+
+    Directory: C:\Users\Administrator\Desktop
+	
+
+PS C:\Users\Administrator\Desktop> rmdir .\folder1\ #TO delete
+
+
+md folder1 #means mkdir folder1
+rd folder1 #means rmdir folder1
+
+
+PS C:\> date  #Date command
+
+Saturday, March 25, 2023 8:53:11 PM
+
+
+PS C:\> get-date #Date command
+
+Saturday, March 25, 2023 8:53:18 PM
+
+To list directories and files
+ Get-ChildItem
+    Directory: C:\
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        3/18/2023   6:16 AM                inetpub
+d-----        9/15/2018  12:19 AM                PerfLogs
+d-r---        3/18/2023  12:20 AM                Program Files
+d-----        9/15/2018   2:08 AM                Program Files (x86)
+d-r---        3/17/2023  10:43 PM                Users
+d-----        3/18/2023   6:16 AM                Windows
+
+Aliases of Get-ChildItem are ls and gci
+
+> attrib +h dir1 #To hide directories
+> attrib -h dir1 #To unhide
+
+p> tasklist
+
+Image Name                     PID Session Name        Session#    Mem Usage
+========================= ======== ================ =========== ============
+System Idle Process              0 Services                   0          8 K
+System                           4 Services                   0        160 K
+Registry                        88 Services                   0     36,276 K
+smss.exe                       264 Services                   0      1,232 K
+
+
+\Desktop> taskkill /pid 6768
+SUCCESS: Sent termination signal to the process with PID 6768.
+
+op> wmic
+wmic:root\cli>cpu
+
+wmic:root\cli>cpu list brief
+Caption                               DeviceID  Manufacturer  MaxClockSpeed  Name                                    SocketDesignation
+AMD64 Family 23 Model 104 Stepping 1  CPU0      AuthenticAMD  1797           AMD Ryzen 7 5700U with Radeon Graphics  CPU #000
+AMD64 Family 23 Model 104 Stepping 1  CPU1      AuthenticAMD  1797           AMD Ryzen 7 5700U with Radeon Graphics  CPU #001
+
+
+wmic:root\cli>exit
+PS C:\Users\Administrator\Desktop>
+
+>msinfo32 #it will give system info in GUI Form
+
+Desktop> diskpart
+
+Microsoft DiskPart version 10.0.17763.1
+
+Copyright (C) Microsoft Corporation.
+On computer: BINAY1
+
+DISKPART> list disk
+
+  Disk ###  Status         Size     Free     Dyn  Gpt
+  --------  -------------  -------  -------  ---  ---
+  Disk 0    Online           40 GB      0
+ 
+
+?
+
+Microsoft DiskPart version 10.0.17763.1
+
+ACTIVE      - Mark the selected partition as active.
+ADD         - Add a mirror to a simple volume.
+ASSIGN      - Assign a drive letter or mount point to the selected volume.
+ATTRIBUTES  - Manipulate volume or disk attributes.
+ATTACH      - Attaches a virtual disk file.
+AUTOMOUNT   - Enable and disable automatic mounting of basic volumes.
+BREAK       - Break a mirror set.
+CLEAN       - Clear th
+
+
+p> chkdsk # To check disk 
+The type of the file system is NTFS.
+
+WARNING!  /F parameter not specified.
+Running CHKDSK in read-only mode.
+
+Stage 1: Examining basic file system structure ...
+  98048 file records processed.
+File verification completed.
+  3639 large file records processed.
+  0 bad file records processed.
+
+Stage 2: Examining file name linkage ...
+  78 reparse records processed.
+  143552 index entries processed.
+Index verification completed.
+  0 unindexed files scanned.
+  0 unindexed files recovered to lost and found.
+  78 reparse records processed.
+
+Stage 3: Examining security descriptors ...
+Security descriptor verification completed.
+  22753 data files processed.
+CHKDSK is verifying Usn Journal...
+  14245792 USN bytes processed.
+Usn Journal verification completed.
+
+Windows has scanned the file system and found no problems.
+No further action is required.
+
+  41378815 KB total disk space.
+  12139184 KB in 70855 files.
+     59664 KB in 22754 indexes.
+         0 KB in bad sectors.
+    169607 KB in use by the system.
+     55312 KB occupied by the log file
+	 
+
+> systeminfo # To check info
+
+Host Name:                 BINAY1
+OS Name:                   Microsoft Windows Server 2019 Standard Evaluation
+OS Version:                10.0.17763 N/A Build 17763
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Primary Domain Controller
+OS Build Type:             Multiprocessor Free
+Registered Owner:          Windows User
+Registered Organization:
+Product ID:                00431-10000-00000-AA047
+Original Install Date:     3/17/2023, 10:42:54 PM
+System Boot Time:          3/25/2023, 12:15:23 PM
+System Manufacturer:       VMware, Inc.
+System Model:              VMware Virtual Platform
+System Type:               x64-based PC
+Processor(s):              2 Processor(s) Installed.
+                           [01]: AMD64 Family 23 Model 104 Stepping 1 AuthenticAMD ~1797 Mhz
+                           [02]: AMD64 Family 23 Model 104 Stepping 1 AuthenticAMD ~1797 Mhz
+BIOS Version:              Phoenix Technologies LTD 6.00, 11/12/2020
+Windows Directory:         C:\Windows
+System Directory:          C:\Windows\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     4,095 MB
+Available Physical Memory: 2,582 MB
+Virtual Memory: Max Size:  5,503 MB
+Virtual Memory: Available: 3,997 MB
+Virtual Memory: In Use:    1,506 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    cdac.com
+Logon Server:              \\BINAY1
+Hotfix(s):                 3 Hotfix(s) Installed.
+                           [01]: KB4470502
+                           [02]: KB4470788
+                           [03]: KB4480116
+Network Card(s):           1 NIC(s) Installed.
+                           [01]: Intel(R) PRO/1000 MT Network Connection
+                                 Connection Name: Ethernet0
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     192.168.20.254
+                                 IP address(es)
+                                 [01]: 192.168.20.132
+                                 [02]: fe80::1982:2175:9755:c6e2
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+
+
+
+
+PS C:\Users\Administrator> hostname
+WindowsServer1
+PS C:\Users\Administrator> Rename-Computer -NewName "binay"
+
+> shutdown -r -t 0
+
+
+
+r> ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet0:
+
+   Connection-specific DNS Suffix  . : localdomain
+   Link-local IPv6 Address . . . . . : fe80::1982:2175:9755:c6e2%15
+   IPv4 Address. . . . . . . . . . . : 192.168.20.132
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . :
+   
+   THorugh both above an dbelow command we can see ip information
+PS C:\Users\Administrator> Get-NetIPAddress
+
+
+IPAddress         : fe80::1982:2175:9755:c6e2%15
+InterfaceIndex    : 15
+InterfaceAlias    : Ethernet0
+AddressFamily     : IPv6
+Type              : Unicast
+
+> Get-NetAdapter
+  InterfaceDescription                    ifIndex Status       MacAddress          LinkSpeed
+----                      --------------------                    ------- ------       ----------          ---------
+Ethernet0                 Intel(R) PRO/1000 MT Network Connection      15 Up           00-0C-29-DC-FA-8F      1 Gbps
+
+
+
+Assigning ip
+ New-NetIPAddress -InterfaceIndex 15 -IPAddress 192.168.20.122 -PrefixLength 27 -DefaultGateway 192.168.20.1
+
+#interface index 15 comes from ifIndex status in 
+IPAddress         : 192.168.20.122
+InterfaceIndex    : 15
+InterfaceAlias    : Ethernet0
+AddressFamily     : IPv4
+Type              : Unicast
+PrefixLength      : 27
+PrefixOrigin      : Manual
+SuffixOrigin      : Manual
+AddressState      : Tentative
+ValidLifetime     : Infinite ([TimeSpan]::MaxValue)
+PreferredLifetime : Infinite ([TimeSpan]::MaxValue)
+SkipAsSource      : False
+PolicyStore       : ActiveStore
+
+IPAddress         : 192.168.20.122
+InterfaceIndex    : 15
+InterfaceAlias    : Ethernet0
+AddressFamily     : IPv4
+Type              : Unicast
+PrefixLength      : 27
+PrefixOrigin      : Manual
+SuffixOrigin      : Manual
+AddressState      : Invalid
+ValidLifetime     : Infinite ([TimeSpan]::MaxValue)
+PreferredLifetime : Infinite ([TimeSpan]::MaxValue)
+SkipAsSource      : False
+PolicyStore       : PersistentStore
+
+
+ Rename-NetAdapter -name ethernet0 -NewName eth0
+PS C:\Users\Administrator>
+
+r> Disable-NetAdapter -ifAlias eth0
+
+Confirm
+Are you sure you want to perform this action?
+Disable-NetAdapter 'eth0'
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"): yes
+PS C:\Users\Administrator>
+PS C:\Users\Administrator> enable-NetAdapter -ifAlias eth0
+PS C:\Users\Administrator>
+
+
+r> Get-LocalUser #TO list user
+
+Name            Enabled Description
+----            ------- -----------
+Administrator   True    Built-in account for administering the computer/domain
+Guest           False   Built-in account for guest access to the computer/domain
+krbtgt          False   Key Distribution Center Service Account
+binay           True
+client          True
+WINDOWSSERVER1$ True
+CLIENT$         True
+ #False means disable or not active.
+ 
+ 
+Administrator> Set-ADAccountPassword -Identity user1
+Please enter the current password for 'CN=user1,CN=Users,DC=cdac,DC=com'
+Password: #Just enter because no password is set. blank password.
+Please enter the desired password for 'CN=user1,CN=Users,DC=cdac,DC=com'
+Password: ************
+Repeat Password: ************
+
+
+dministrator> Enable-ADAccount -Identity user1  #To enable user1
+PS C:\Users\Administrator> Get-LocalUser
+
+Name            Enabled Description
+----            ------- -----------
+Administrator   True    Built-in account for administering the computer/domain
+Guest           False   Built-in account for guest access to the computer/domain
+krbtgt          False   Key Distribution Center Service Account
+binay           True
+client          True
+user1           True
+WINDOWSSERVER1$ True
+CLIENT$         True
+
+
+-------------------------------------------------------------------------------------------------------
+To add local user with password 
+
+$Password = Read-Host -AsSecureString                                         
+****************                                                 
+The first command prompts you for a password by using the Read-Host cmdlet. 
+The command stores the password as a secure string in the $Password variable.
+
+The second command creates a local user account by using the password stored in $Password. 
+The command specifies a user name, full name, and description for the user account.
+
+ New-LocalUser -name "user01" -Password $Password -FullName "second user"
+
+Name   Enabled Description
+----   ------- -----------
+user01 True
+
+
+
+ New-LocalUser -name "user01" -Password $Password -FullName "second user"
+
+Name   Enabled Description
+----   ------- -----------
+user01 True
+
+# Creating user without password
+PS C:\Users\Administrator> New-LocalUser -Name "harry" -Description "harry user" -NoPassword
+
+Name  Enabled Description
+----  ------- -----------
+harry True    harry user
+
+To set Password
+$Password = Read-Host -AsSecureString                                         
+**************** 
+PS C:\Users\Administrator> $user = Get-LocalUser -Name "harry"
+PS C:\Users\Administrator> $user | Set-LocalUser -Password $Password
+PS C:\Users\Administrator>
+
+--------------------------------------------------CIS BENCHMARK----------------------------------------
+Configure password policies: Use strong password policies that require users to create complex and unique passwords.
+
+Disable guest account: Disable the built-in guest account to prevent unauthorized access.
+
+Enable auditing: Enable auditing of key security events, such as logon and logoff attempts, to detect and respond to potential security breaches.
+
+Disable unused services: Disable any unused services to reduce the attack surface of the server.
+
+Restrict user access: Limit user access to only the resources they need to perform their job functions, and remove unnecessary permissions.
+
+Enable firewall: Enable the Windows Firewall and configure it to block all incoming traffic except for specific ports and protocols.
+
+Secure DNS: Configure DNS settings to reduce the risk of DNS-based attacks, such as DNS poisoning.
+
+Restrict remote access: Limit remote access to only authorized users, and use secure protocols like SSH or VPN to access the server.
+
+Update software: Keep all software up-to-date with the latest security patches and updates to address known vulnerabilities.
+
+Implement backups: Implement regular backups of critical data to ensure availability and integrity in case of system failure or data loss.
+
+
+
+
+Regenerate response
+ ............................................................................................................................
+1.1.1 Ensure 'Enforce password history' is set to '24 or more password(s)' (Automated)
+1.1.2 Ensure 'Maximum password age' is set to '365 or fewer days, but not 0'
+1.1.5 Ensure 'Minimum password length' is set to '14 or more character(s)' (Automated)
+
+1.1.6 Ensure 'Password must meet complexity requirements' is set to 'Enabled' (Automated)
+1.2.1 Ensure 'Account lockout duration' is set to '15 or more minute(s)' (Automated)
+1.2.2 Ensure 'Account lockout threshold' is set to '5 or fewer invalid logon attempt(s), but not 0' (Automated)
+
+2.3.2.2 Ensure 'Audit: Shut down system immediately if unable to log security audits' is set to 'Disabled'.
+2.3.1.6 Configure 'Accounts: Rename administrator account'
+2.3.1.4 Ensure 'Accounts: Guest account status' is set to 'Disabled' (STIG DC only) (Automated)
+9.1.1 Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On (recommended)' (Automated) ....................................................................................... 411
+9.1.2 Ensure 'Windows Firewall: Domain: Inbound connections' is set to 'Block (default)' (Automated) .........................................................................................
+
+---------------------------------------------------Scripting-------------------------------------------------------------
+TO Declare varaible always use $
+PS D:\> $a=10
+PS D:\> Write-Output $a
+10

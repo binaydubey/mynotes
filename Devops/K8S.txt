@@ -1,0 +1,259 @@
+Exposing Deployments:
+
+# kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21h
+[root@master1 .kube]# kubectl expose deployment myapp1  
+service/my-service1 exposed
+[root@master1 .kube]# kubectl get services
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        21h
+my-service1   NodePort    10.103.113.73   <none>        80:32314/TCP   3s
+
+
+# curl 192.168.142.134:32314
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+
+
+
+# kubectl get services
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes    ClusterIP      10.96.0.1        <none>        443/TCP        21h
+my-service1   NodePort       10.103.157.55    <none>        80:31458/TCP   30m
+my-service2   LoadBalancer   10.105.209.241   <pending>     80:31566/TCP   11m
+my-service3   ClusterIP      10.106.66.246    <none>        80/TCP         6m
+[root@master1 .kube]# kubectl delete service my-service1
+service "my-service1" deleted
+[root@master1 .kube]# kubectl delete service my-service2
+service "my-service2" deleted
+[root@master1 .kube]# kubectl delete service my-service3
+service "my-service3" deleted
+[root@master1 .kube]# kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE 
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21h
+------------------------------------------------
+
+Created a deployment with 2 replicaset:
+# kubectl create deployment web1 --image=nginx --replicas=2
+deployment.apps/web1 created
+
+1 assigned to one node and one replica assigned to another node.
+# kubectl get pods -o wide
+NAME                  READY   STATUS              RESTARTS   AGE   IP       NODE               NOMINATED NODE   READINESS GATES
+web1-9c9f5cdb-dhq47   0/1     ContainerCreating   0          23s   <none>   node1.ditiss.lab   <none>           <none>
+web1-9c9f5cdb-lqw9t   0/1     ContainerCreating   0          23s   <none>   node2.ditiss.lab   <none>           <none>
+
+
+# kubectl get pods -o wide
+NAME                  READY   STATUS    RESTARTS   AGE   IP              NODE               NOMINATED NODE   READINESS GATES
+web1-9c9f5cdb-dhq47   1/1     Running   0          20h   172.16.48.1     node1.ditiss.lab   <none>           <none>
+web1-9c9f5cdb-lqw9t   1/1     Running   0          20h   172.16.61.130   node2.ditiss.lab   <none>           <none>
+
+
+Now we will expose pod1:-
+~]# kubectl expose pods web1-9c9f5cdb-dhq47 --port=80 --type=NodePort --name=my-service1
+service/my-service1 exposed
+
+
+
+# kubectl get services
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        20h
+my-service1   NodePort    10.105.73.141   <none>        80:31655/TCP   16s
+
+
+
+# curl 192.168.142.129:31655
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+
+
+
+
+
+# kubectl expose pods web1-9c9f5cdb-lqw9t --port=80 --type=NodePort --name=my-service2
+service/my-service2 exposed
+[root@master1 ~]# kubectl get services -o wide
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        21h   <none>
+my-service1   NodePort    10.105.73.141   <none>        80:31655/TCP   52m   app=web1,pod-template-hash=9c9f5cdb
+my-service2   NodePort    10.102.54.145   <none>        80:30845/TCP   14s   app=web1,pod-template-hash=9c9f5cdb
+[root@master1 ~]# curl  192.168.142.129:30845
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+
+
+Now we will drain node1. So all pods of node1 will transfer to node2.
+# kubectl get deployments -o wide
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES   SELECTOR
+myapp1   2/2     2            2           3h54m   nginx        nginx    app=myapp1
+[root@master1 ~]# kubectl get pods -o wide
+NAME                    READY   STATUS    RESTARTS   AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+myapp1-9d54cd57-2vhrx   1/1     Running   0          3h54m   172.16.61.131   node2.ditiss.lab   <none>           <none>
+myapp1-9d54cd57-tcfq2   1/1     Running   0          3h28m   172.16.61.132   node2.ditiss.lab   <none>           <none>
+
+
+# kubectl get nodes
+NAME                 STATUS                     ROLES           AGE   VERSION
+master1.ditiss.lab   Ready                      control-plane   26h   v1.28.2
+node1.ditiss.lab     Ready,SchedulingDisabled   <none>          26h   v1.28.2
+node2.ditiss.lab     Ready                      <none>          26h   v1.28.2
+
+Now we will do uncordon to node1.
+# kubectl uncordon node1.ditiss.lab
+node/node1.ditiss.lab uncordoned
+[root@master1 ~]# kubectl get nodes
+NAME                 STATUS   ROLES           AGE   VERSION
+master1.ditiss.lab   Ready    control-plane   26h   v1.28.2
+node1.ditiss.lab     Ready    <none>          26h   v1.28.2
+node2.ditiss.lab     Ready    <none>          26h   v1.28.2
+=======================================
+
+Now we will scale Deployments............
+# kubectl scale deployment myapp1 --replicas=4
+deployment.apps/myapp1 scaled
+
+# kubectl get deployments -o wide
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES   SELECTOR
+myapp1   2/4     4            2           4h2m   nginx        nginx    app=myapp1
+[root@master1 ~]# kubectl get pods -o wide
+NAME                    READY   STATUS    RESTARTS   AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+myapp1-9d54cd57-2vhrx   1/1     Running   0          4h2m    172.16.61.131   node2.ditiss.lab   <none>           <none>
+myapp1-9d54cd57-gpgwc   1/1     Running   0          61s     172.16.48.4     node1.ditiss.lab   <none>           <none>
+myapp1-9d54cd57-tcfq2   1/1     Running   0          3h35m   172.16.61.132   node2.ditiss.lab   <none>           <none>
+myapp1-9d54cd57-zh5bz   1/1     Running   0          62s     172.16.48.3     node1.ditiss.lab   <none>           <none>
+
+
+# kubectl scale deployment myapp1 --replicas=1
+deployment.apps/myapp1 scaled
+# kubectl get pods -o wide
+.NAME                    READY   STATUS    RESTARTS   AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+myapp1-9d54cd57-tcfq2   1/1     Running   0          3h44m   172.16.61.132   node2.ditiss.lab   <none>           <none>
+
+
+
+
+
+
+
+
+
+
+To Delete Deployment, pod and Service:
+# kubectl delete deployment web1
+deployment.apps "web1" deleted
+[root@master1 ~]# kubectl delete web1
+error: the server doesn't have a resource type "web1"
+[root@master1 ~]# kubectl get deployment -o wide
+No resources found in default namespace.
+[root@master1 ~]# kubectl get pods -o wide
+NAME                  READY   STATUS    RESTARTS   AGE   IP              NODE               NOMINATED NODE   READINESS GATES
+web1-9c9f5cdb-lqw9t   1/1     Running   0          22h   172.16.61.130   node2.ditiss.lab   <none>           <none>
+web1-9c9f5cdb-wq94s   0/1     Pending   0          19m   <none>          <none>             <none>           <none>
+[root@master1 ~]# kubectl delete pod web1-9c9f5cdb-lqw9t
+pod "web1-9c9f5cdb-lqw9t" deleted
+^[[root@master1 ~]# kubectl delete pod web1-9c9f5cdb-wq94s
+pod "web1-9c9f5cdb-wq94s" deleted
+[root@master1 ~]# kubectl get pods -o wide
+No resources found in default namespace.
+[root@master1 ~]# kubectl get services -o wide
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE    SELECTOR
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        22h    <none>
+my-service1   NodePort    10.105.73.141   <none>        80:31655/TCP   100m   app=web1,pod-template-hash=9c9f5cdb
+my-service2   NodePort    10.102.54.145   <none>        80:30845/TCP   48m    app=web1,pod-template-hash=9c9f5cdb
+[root@master1 ~]# kubectl delete service my-service1
+service "my-service1" deleted
+
+
+
+
+
+]# kubectl drain node1.ditiss.lab
+node/node1.ditiss.lab cordoned
+error: unable to drain node "node1.ditiss.lab" due to error:cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore): kube-system/calico-node-j88x8, kube-system/kube-proxy-jbcmx, continuing command...
+There are pending nodes to be drained:
+ node1.ditiss.lab
+cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore): kube-system/calico-node-j88x8, kube-system/kube-proxy-jbcmx
+
+
+# kubectl drain node1.ditiss.lab --ignore-daemonsets
+node/node1.ditiss.lab already cordoned
+Warning: ignoring DaemonSet-managed Pods: kube-system/calico-node-j88x8, kube-system/kube-proxy-jbcmx
+evicting pod default/web1-9c9f5cdb-dhq47
+pod/web1-9c9f5cdb-dhq47 evicted
+node/node1.ditiss.lab drained
+[root@master1 ~]# kubectl get pods -o wide
+NAME                  READY   STATUS    RESTARTS   AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+web1-9c9f5cdb-lqw9t   1/1     Running   0          21h     172.16.61.130   node2.ditiss.lab   <none>           <none>
+web1-9c9f5cdb-wq94s   0/1     Pending   0          2m28s   <none>          <none>             <none>           <none>
+
+
+To execute commands inside a pod-------------
+# kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+myapp1-9d54cd57-tcfq2   1/1     Running   0          3h51m
+[root@master1 ~]# kubectl exec myapp1-9d54cd57-tcfq2 -- ls
+bin
+boot
+dev
+docker-entrypoint.d
+docker-entrypoint.sh
+etc
+home
+
+# kubectl exec deploy/myapp1  -- date (it will execute
+Wed Dec 13 09:03:51 UTC 2023
+
+To connect a pod:--
+]# kubectl exec myapp1-9d54cd57-tcfq2 -- /bin/bash
+[root@master1 ~]# kubectl exec -ti myapp1-9d54cd57-tcfq2 -- /bin/bash (because /bin/bash requires interaction.......)
+root@myapp1-9d54cd57-tcfq2:/# ls
+bin  boot  dev  docker-entrypoint.d  docker-entrypoint.sh  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@myapp1-9d54cd57-tcfq2:/#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

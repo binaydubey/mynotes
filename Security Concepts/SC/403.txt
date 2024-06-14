@@ -1,0 +1,21 @@
+id: HTTP Status - 403
+info:
+  name: .htaccess 403 Found
+  author: twitter.com/Dheerajmadhukar
+  severity: low
+  description: .htaccess 403 endpoints
+requests:
+
+   - raw:
+      - |
+        GET /.htaccess HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/plain, */*
+        Accept-Language: en-US,en;q=0.5
+        Referer: {{BaseURL}}
+        User-Agent: Mozilla/5.0
+
+    matchers:
+      - type: status
+        status:
+          - 403
