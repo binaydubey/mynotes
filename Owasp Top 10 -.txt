@@ -84,7 +84,7 @@ Regularly review and analyze logs for suspicious activities.
 
 ===========================================================
 2. Cryptographic failure:-
-Cryptographic failures can occur when cryptographic algorithms or protocols are not implemented or used correctly, leading to vulnerabilities. 
+Cryptographic failures can occur when cryptographic algorithms or protocols are not implemented or used incorrectly, leading to vulnerabilities. 
 Here's an example of a cryptographic failure:
 
 Example: Weak Password Hashing
@@ -177,7 +177,7 @@ Review the software your application uses and stay on top of patching. Outdated 
 5. Security logging and monitoring failures
 The security logging and monitoring failures category focuses on issues with audit logs and monitoring during an attack. Security monitoring and logs are essential to detect and mitigate an active breach. Failures happen when:
 
-Logging doesn’t keep track of transactions with high value, login attempts, and failed login attempts.
+Logging keep track of transactions with high value, login attempts, and failed login attempts.
 Errors and warnings generate unclear, inadequate, or no log entries.
 APIs and applications aren’t monitored for suspicious activities.
 Security logs are only available locally.
@@ -430,8 +430,8 @@ Exploit:
 
 The exploit, in this case, is the specific method or tool used by the hacker to take advantage of the vulnerability. For instance, the hacker might 
 use a password-cracking software that systematically tries different combinations of characters until it successfully discovers a user's password.
-Risk:
 
+Risk:
 The risk is the combination of the likelihood of the threat exploiting the vulnerability and the potential impact of a successful exploit. In this example, the risk would be high if the system contains sensitive data or if unauthorized access could lead to significant consequences, such as data breaches, financial loss, or unauthorized system control.
 To mitigate this risk, the organization could implement measures such as encrypting stored passwords, enforcing strong password policies, and monitoring for suspicious login attempts. This helps reduce the likelihood of the threat successfully exploiting the vulnerability and minimizes the potential impact on the system.
 
